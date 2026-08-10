@@ -1,0 +1,205 @@
+@use "../breakpoints" as bp;
+
+// Contacts stack to the right, page links sit under them on the left.
+.site-footer {
+  display: grid;
+  // The wordmark below is sized to fill the measure, so it needs the content box
+  // to size against rather than the viewport — the gutter clamps at the extremes
+  // and a `vw` figure would drift out of the column there.
+  container-type: inline-size;
+  justify-items: center;
+  padding: 0 var(--gutter) 1.25rem;
+
+  @include bp.from("nav") {
+    --u: 0.0520833vw;
+
+    justify-items: end;
+    padding: calc(50 * var(--u)) var(--gutter) calc(34 * var(--u));
+  }
+
+  &__tel,
+  &__email {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 0.99;
+    letter-spacing: 0.02em;
+    text-transform: lowercase;
+
+    @include bp.from("nav") {
+      font-size: calc(64 * var(--u));
+    }
+  }
+
+  &__email {
+    margin-bottom: 1.5rem;
+
+    @include bp.from("nav") {
+      margin-bottom: 0;
+    }
+  }
+
+  &__social {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 1.25rem;
+
+    @include bp.from("nav") {
+      flex-direction: row;
+      column-gap: calc(105 * var(--u));
+      margin-top: calc(40 * var(--u));
+      margin-right: calc(105 * var(--u));
+    }
+
+    a {
+      position: relative;
+      // Flexed rather than left inline, so the arrow centres on the label
+      // instead of hanging off its baseline.
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5em;
+      font-family: var(--font-mono);
+      font-size: 1.125rem;
+      font-weight: var(--weight-regular);
+      line-height: 0.99;
+      letter-spacing: var(--tracking-mono);
+      text-transform: uppercase;
+      // A border rather than an underline: the arrow is a flex item, so a text
+      // decoration would stop short of it instead of running the full width.
+      padding-bottom: 0.3em;
+      border-bottom: 1px solid currentColor;
+      transition: color var(--arrow-duration) var(--ease-main);
+
+      @include bp.from("nav") {
+        font-size: calc(26 * var(--u));
+      }
+
+      &:hover,
+      &:focus-visible {
+        color: var(--color-muted);
+      }
+    }
+  }
+
+  &__arrow {
+    flex: none;
+    width: 0.6em;
+    height: 0.6em;
+    transform: rotate(-45deg);
+    transition: transform var(--arrow-duration) var(--ease-main);
+  }
+
+  &__social a:hover &__arrow,
+  &__social a:focus-visible &__arrow {
+    transform: rotate(0deg);
+  }
+
+  &__pages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 0.625rem;
+    margin-top: 2.5rem;
+
+    @include bp.from("nav") {
+      align-items: flex-start;
+      justify-self: start;
+      row-gap: calc(24 * var(--u));
+      margin-top: calc(45 * var(--u));
+    }
+
+    a {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: var(--weight-regular);
+      line-height: 0.99;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      transition: color var(--arrow-duration) var(--ease-main);
+
+      &:hover,
+      &:focus-visible {
+        color: var(--color-muted);
+      }
+
+      @include bp.from("nav") {
+        font-size: calc(28 * var(--u));
+      }
+    }
+  }
+
+  // The name as a sign-off, set to fill the column rather than to a size of its
+  // own — so the figure is a share of the measure and holds at any width.
+  &__wordmark {
+    justify-self: stretch;
+    margin-top: 2.5rem;
+    font-size: 26.2cqw;
+    font-weight: 700;
+    line-height: 0.8;
+    letter-spacing: -0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    @include bp.from("nav") {
+      margin-top: calc(70 * var(--u));
+    }
+  }
+
+  &__meta {
+    justify-self: stretch;
+    display: grid;
+    row-gap: 1rem;
+    margin-top: 1.5rem;
+
+    // Three blocks left-aligned where the reference places them, rather than
+    // spread evenly across the measure.
+    @include bp.from("nav") {
+      grid-template-columns: calc(1010 * var(--u)) calc(462 * var(--u)) 1fr;
+      align-items: start;
+      row-gap: 0;
+      margin-top: calc(76 * var(--u));
+    }
+  }
+
+  &__time,
+  &__credit {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: var(--weight-light);
+    line-height: 1.2;
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      font-size: calc(24 * var(--u));
+    }
+  }
+
+  // Holds its width while the minute changes, so the line either side of it
+  // can't shuffle along as the digits do.
+  &__clock {
+    font-variant-numeric: tabular-nums;
+  }
+
+  // Small print. Sized so the column it sits in takes it in three lines, as the
+  // reference sets it.
+  &__legal {
+    max-width: 26em;
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    font-weight: var(--weight-light);
+    line-height: 1.35;
+    color: var(--color-muted);
+
+    @include bp.from("nav") {
+      max-width: none;
+      font-size: calc(11 * var(--u));
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-footer__arrow {
+    transition: none;
+  }
+}

@@ -1,0 +1,130 @@
+// Text wrapped around a cylinder: every glyph is its own upright plane, turned
+// to face out of the barrel and pushed to the rim. Nearly all of the depth
+// comes from the perspective rather than the tilt — at 2.75 radii the front of
+// the barrel reads a little over twice the size of the back — and the far
+// letters are left to show their backs.
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-preloader);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(3rem, 9vw, 8rem);
+  background: var(--color-bg);
+  transition: opacity var(--menu-duration) var(--ease-main);
+
+  &--leaving {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  // The two barrels are stacked on one another rather than nested, so both
+  // turn about the same centre.
+  &__stage {
+    --ring-size: clamp(18rem, 50vw, 46rem);
+    // Negative, so the near side of the barrel dips below the far side and the
+    // band is read from slightly above. Shared by both barrels, so they lean
+    // together as one object rather than each being a level ring.
+    --tilt: -20deg;
+
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: var(--ring-size);
+    height: var(--ring-size);
+    perspective: calc(var(--ring-size) * 1.375);
+    // The swell belongs here rather than on the barrels themselves: it fades in
+    // from nothing, and an opacity below 1 is a grouping property, which would
+    // force the barrels' `preserve-3d` to compute as flat and collapse every
+    // letter onto a single plane. The stage is already flat, so it can carry it.
+    animation: preloader-swell 1.9s var(--ease-main) both;
+  }
+
+  &__ring {
+    --radius: calc(var(--ring-size) / 2);
+
+    grid-area: 1 / 1;
+    position: relative;
+    width: var(--ring-size);
+    height: var(--ring-size);
+    transform-style: preserve-3d;
+    // Seen a shade from above, so the far rim rides higher than the near one.
+    transform: rotateX(var(--tilt));
+    animation: preloader-spin var(--spin-duration) linear infinite;
+
+    &--lead {
+      --spin-duration: 9s;
+      --char-size: 0.105;
+    }
+
+    // Set well inside the rim and turning slower, which reads as depth.
+    &--trail {
+      --spin-duration: 14s;
+      --char-size: 0.045;
+      --radius: calc(var(--ring-size) * 0.3);
+
+      color: var(--color-muted);
+    }
+  }
+
+  // Sat at the centre of the barrel, turned to its own angle, then pushed out
+  // to the wall. The glyph stays upright because it is only ever rotated about
+  // the vertical axis.
+  &__char {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1em;
+    height: 1em;
+    margin: -0.5em 0 0 -0.5em;
+    font-family: var(--font-sans);
+    font-size: calc(var(--ring-size) * var(--char-size));
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    text-transform: uppercase;
+    transform: rotateY(var(--a)) translateZ(var(--radius));
+  }
+
+  &__count {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: var(--weight-light);
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@keyframes preloader-spin {
+  from {
+    transform: rotateX(var(--tilt)) rotateY(0deg);
+  }
+  to {
+    transform: rotateX(var(--tilt)) rotateY(360deg);
+  }
+}
+
+// The intro is already cut to nothing in script under reduced motion; this
+// stops the barrel turning for the frame or two it is still on screen.
+@media (prefers-reduced-motion: reduce) {
+  .preloader__ring,
+  .preloader__stage {
+    animation: none;
+  }
+}
+
+// A slow swell, so the ring settles rather than simply appearing.
+@keyframes preloader-swell {
+  from {
+    scale: 0.82;
+    opacity: 0;
+  }
+  to {
+    scale: 1;
+    opacity: 1;
+  }
+}

@@ -1,0 +1,43 @@
+// Per-character vertical roll. Each character stacks two identical copies in a
+// clipped box; hovering slides the stack up so the second copy takes its place.
+// `--i` is set per character in reverse, so the stagger runs right to left.
+
+.roll {
+  display: inline-block;
+  white-space: pre;
+
+  &__char {
+    display: inline-block;
+    overflow: hidden;
+    height: var(--roll-line);
+    vertical-align: bottom;
+  }
+
+  &__inner {
+    display: block;
+    transition: transform var(--roll-duration) var(--ease-main);
+    transition-delay: calc(var(--i) * var(--roll-stagger));
+  }
+
+  &__face {
+    display: block;
+    height: var(--roll-line);
+    line-height: var(--roll-line);
+  }
+}
+
+a:hover .roll__inner,
+a:focus-visible .roll__inner {
+  transform: translateY(-50%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roll__inner {
+    transition: none;
+  }
+
+  a:hover .roll__inner,
+  a:focus-visible .roll__inner {
+    transform: none;
+  }
+}

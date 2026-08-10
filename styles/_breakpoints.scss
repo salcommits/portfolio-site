@@ -1,0 +1,26 @@
+@use "sass:map";
+
+// `nav` and `wide` sit 1px above the reference site's `max-width: 768px` and
+// `max-width: 1100px` queries, so the two systems can't both match on the
+// boundary itself. `nav` is where the burger gives way to the horizontal nav;
+// `wide` is where the layout starts scaling with the viewport.
+$breakpoints: (
+  "sm": 40rem,
+  "md": 48rem,
+  "nav": 48.0625rem,
+  "lg": 64rem,
+  "wide": 68.8125rem,
+  "xl": 80rem,
+);
+
+@mixin from($name) {
+  $size: map.get($breakpoints, $name);
+
+  @if $size == null {
+    @error "Unknown breakpoint `#{$name}`. Expected one of: #{map.keys($breakpoints)}.";
+  }
+
+  @media (min-width: $size) {
+    @content;
+  }
+}

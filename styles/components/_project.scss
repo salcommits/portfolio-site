@@ -1,0 +1,231 @@
+@use "../breakpoints" as bp;
+
+// A centred column throughout, closing on a full-bleed dark band.
+.project {
+  padding-top: 2.5rem;
+  text-align: center;
+
+  @include bp.from("nav") {
+    --u: 0.0520833vw;
+
+    padding-top: calc(60 * var(--u));
+  }
+
+  // Placeholders until real imagery lands.
+  &__cover {
+    width: calc(100% - var(--gutter) * 2);
+    aspect-ratio: 16 / 10;
+    margin: 0 auto;
+    background: var(--color-placeholder);
+
+    @include bp.from("nav") {
+      width: calc(1050 * var(--u));
+    }
+  }
+
+  &__title {
+    margin-top: 1.75rem;
+    font-size: 13vw;
+    font-weight: 700;
+    line-height: 0.74;
+    letter-spacing: -0.073em;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      margin-top: calc(60 * var(--u));
+      font-size: calc(120 * var(--u));
+    }
+  }
+
+  &__meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem 1rem;
+    width: calc(100% - var(--gutter) * 2);
+    margin: 2rem auto 0;
+
+    @include bp.from("nav") {
+      grid-template-columns: repeat(4, 1fr);
+      width: calc(1050 * var(--u));
+      margin-top: calc(80 * var(--u));
+    }
+
+    dt {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      font-weight: var(--weight-light);
+      line-height: 0.99;
+      letter-spacing: var(--tracking-mono);
+      text-transform: uppercase;
+      color: var(--color-muted);
+
+      @include bp.from("nav") {
+        font-size: calc(14 * var(--u));
+      }
+    }
+
+    dd {
+      margin-top: 0.625rem;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      font-weight: var(--weight-light);
+      line-height: 0.99;
+      text-transform: uppercase;
+
+      @include bp.from("nav") {
+        margin-top: calc(16 * var(--u));
+        font-size: calc(18 * var(--u));
+      }
+    }
+  }
+
+  &__barcode {
+    display: block;
+    width: calc(100% - var(--gutter) * 2);
+    height: 2.5rem;
+    margin: 3rem auto 0;
+
+    @include bp.from("nav") {
+      width: calc(700 * var(--u));
+      height: calc(60 * var(--u));
+      margin-top: calc(140 * var(--u));
+    }
+  }
+
+  &__block {
+    width: calc(100% - var(--gutter) * 2);
+    margin: 2.5rem auto 0;
+
+    @include bp.from("nav") {
+      width: calc(430 * var(--u));
+      margin-top: calc(90 * var(--u));
+    }
+  }
+
+  &__label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: var(--weight-light);
+    line-height: 0.99;
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+    color: var(--color-muted);
+
+    @include bp.from("nav") {
+      font-size: calc(16 * var(--u));
+    }
+  }
+
+  &__note {
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-light);
+    line-height: 1.5;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      margin-top: calc(24 * var(--u));
+      font-size: calc(16 * var(--u));
+    }
+
+    + .project__note {
+      margin-top: 1.5rem;
+
+      @include bp.from("nav") {
+        margin-top: calc(36 * var(--u));
+      }
+    }
+  }
+
+  &__visit {
+    position: relative;
+    display: inline-block;
+    margin-top: 3rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: var(--weight-regular);
+    line-height: 0.99;
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      margin-top: calc(90 * var(--u));
+      font-size: calc(20 * var(--u));
+    }
+
+    // Same underline redraw as the other calls to action.
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 -0.3125rem 0;
+      height: 1px;
+      background: currentColor;
+      transition: transform var(--line-in-duration) var(--ease-main);
+    }
+
+    &::before {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    &::after {
+      transform: scaleX(0);
+      transform-origin: right;
+    }
+
+    &:hover::before,
+    &:focus-visible::before {
+      transform: scaleX(0);
+      transform-origin: right;
+      transition-duration: var(--line-out-duration);
+    }
+
+    &:hover::after,
+    &:focus-visible::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+  }
+
+  &__detail {
+    margin-top: 4rem;
+    padding: 3rem var(--gutter);
+    background: var(--color-fg);
+    color: var(--color-muted-soft);
+
+    @include bp.from("nav") {
+      display: flex;
+      align-items: center;
+      gap: calc(120 * var(--u));
+      margin-top: calc(140 * var(--u));
+      padding: calc(90 * var(--u)) var(--gutter);
+    }
+  }
+
+  &__detail-text {
+    @include bp.from("nav") {
+      width: calc(430 * var(--u));
+      margin-left: calc(60 * var(--u));
+    }
+  }
+
+  &__detail-media {
+    aspect-ratio: 4 / 3;
+    margin-top: 2.5rem;
+    background: var(--color-placeholder);
+
+    @include bp.from("nav") {
+      flex: 1 1 auto;
+      margin-top: 0;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project__visit::before,
+  .project__visit::after {
+    transition: none;
+  }
+}

@@ -1,0 +1,248 @@
+@use "../breakpoints" as bp;
+
+// A rule-separated row per award, with the certificates waiting in a panel to
+// the right of the list. Every panel is pinned to the same spot at the top of
+// the list, so hovering down the rows swaps the artwork in place rather than
+// walking it down the page. Same `--u` frame as the neighbouring sections.
+
+.awards {
+  padding: 3.5rem 0 4rem;
+
+  @include bp.from("nav") {
+    --u: 0.0520833vw;
+
+    padding: calc(200 * var(--u)) 0 calc(220 * var(--u));
+  }
+
+  &__head {
+    padding: 0 var(--gutter);
+
+    // The first column is empty below the wordmark; its width is what puts the
+    // intro and the list that follows it on the same line.
+    @include bp.from("nav") {
+      display: grid;
+      grid-template-columns: calc(635 * var(--u)) 1fr;
+    }
+  }
+
+  &__title {
+    font-size: 22vw;
+    font-weight: 700;
+    line-height: 0.74;
+    letter-spacing: -0.08em;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      font-size: calc(217 * var(--u));
+    }
+  }
+
+  // Mono, with the phrase that carries the sentence set in the display face.
+  &__intro {
+    margin-top: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-light);
+    line-height: 1.4;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      // Drops the first line to the wordmark's baseline.
+      width: calc(389 * var(--u));
+      margin-top: calc(156 * var(--u));
+      font-size: calc(18 * var(--u));
+    }
+
+    strong {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+  }
+
+  &__note {
+    margin: 2rem 0 0;
+    padding: 0 var(--gutter);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-light);
+    line-height: 1.4;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      width: calc(450 * var(--u));
+      margin: calc(25 * var(--u)) 0 0 calc(1392 * var(--u));
+      padding: 0;
+      font-size: calc(18 * var(--u));
+    }
+
+    strong,
+    span {
+      display: block;
+    }
+
+    strong {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+  }
+
+  &__list {
+    position: relative;
+    margin-top: 2.5rem;
+    padding: 0 var(--gutter);
+
+    @include bp.from("nav") {
+      width: calc(549 * var(--u));
+      margin: calc(64 * var(--u)) 0 0 calc(710 * var(--u));
+      padding: 0;
+    }
+  }
+
+  &__row {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--color-fg);
+
+    @include bp.from("nav") {
+      padding: calc(37 * var(--u)) 0 calc(12 * var(--u));
+    }
+  }
+
+  &__line {
+    display: flex;
+    align-items: center;
+  }
+
+  // Stands in for the awarding body's logo, in the award's own colour so the
+  // row and its blocks read as a pair.
+  &__mark {
+    flex: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    margin-right: 1rem;
+
+    @include bp.from("nav") {
+      width: calc(30 * var(--u));
+      height: calc(30 * var(--u));
+      margin-right: calc(36 * var(--u));
+    }
+  }
+
+  &__name {
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      font-size: calc(34 * var(--u));
+    }
+  }
+
+  &__count {
+    margin-left: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: var(--weight-light);
+    // Level with the cap line of the name beside it.
+    vertical-align: super;
+    align-self: flex-start;
+
+    @include bp.from("nav") {
+      margin-left: calc(17 * var(--u));
+      font-size: calc(18 * var(--u));
+    }
+  }
+
+  &__arrow {
+    flex: none;
+    width: 0.625rem;
+    height: 0.625rem;
+    margin-left: auto;
+    transform: rotate(-45deg);
+    transition: transform var(--arrow-duration) var(--ease-main);
+
+    @include bp.from("nav") {
+      width: calc(15 * var(--u));
+      height: calc(15 * var(--u));
+    }
+  }
+
+  &__row:hover &__arrow,
+  &__row:focus-within &__arrow {
+    transform: rotate(0deg);
+  }
+
+  // Below the breakpoint there is no hover to reveal them, so the blocks simply
+  // sit under the row they belong to.
+  &__thumbs {
+    display: flex;
+    gap: 0.375rem;
+    margin-top: 0.75rem;
+    margin-left: 2.125rem;
+
+    span {
+      width: 1.75rem;
+      aspect-ratio: 152 / 200;
+    }
+
+    @include bp.from("nav") {
+      position: absolute;
+      // Set down from the top of the list so the artwork sits just above the
+      // first row's cap line rather than riding over it.
+      top: calc(32 * var(--u));
+      left: calc(594 * var(--u));
+      display: grid;
+      grid-template-columns: repeat(3, calc(152 * var(--u)));
+      gap: calc(10 * var(--u));
+      margin: 0;
+      opacity: 0;
+      // Stacked one on top of another in the same spot, so the panels that are
+      // out of view must not sit in front of the artwork that is.
+      pointer-events: none;
+
+      span {
+        width: auto;
+        opacity: 0;
+        transform: translateY(calc(20 * var(--u)));
+        transition: opacity var(--line-out-duration) var(--ease-main),
+          transform var(--line-out-duration) var(--ease-main);
+      }
+    }
+  }
+
+  @include bp.from("nav") {
+    &__row:hover &__thumbs,
+    &__row:focus-within &__thumbs {
+      opacity: 1;
+
+      span {
+        opacity: 1;
+        transform: translateY(0);
+        transition-duration: var(--line-in-duration);
+      }
+
+      // Dealt out left to right rather than all at once.
+      span:nth-child(2) {
+        transition-delay: 80ms;
+      }
+
+      span:nth-child(3) {
+        transition-delay: 160ms;
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .awards__arrow,
+  .awards__thumbs span {
+    transition: none;
+  }
+
+  .awards__thumbs span {
+    transform: none;
+  }
+}

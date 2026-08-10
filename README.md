@@ -18,7 +18,9 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to self-host [Sofia Sans Condensed](https://fonts.google.com/specimen/Sofia+Sans+Condensed) and [Spline Sans Mono](https://fonts.google.com/specimen/Spline+Sans+Mono).
+
+Styles are written in Sass. `styles/main.scss` is the single entry point and compiles to one stylesheet.
 
 ## Learn More
 

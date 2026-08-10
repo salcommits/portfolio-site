@@ -1,0 +1,45 @@
+// Letters rise out of a clipped word box. The word box is the mask, so the
+// clip follows wrapping instead of cutting the line in half.
+
+.reveal {
+  &__word {
+    display: inline-flex;
+    overflow: hidden;
+    // Extra room around the cap so `overflow: hidden` doesn't shave the tops
+    // off headings set on a tight line-height.
+    padding: 0.14em 0 0.08em;
+    vertical-align: bottom;
+  }
+
+  &__letter {
+    display: inline-block;
+  }
+
+  // Only hidden once the observer is live, so the heading still reads if the
+  // script never runs.
+  &.is-armed &__letter {
+    transform: translateY(130%);
+  }
+
+  &.is-in-view &__letter {
+    animation: reveal-rise var(--enter-duration) var(--ease-main) both;
+    animation-delay: calc(var(--i) * var(--enter-stagger));
+  }
+}
+
+@keyframes reveal-rise {
+  from {
+    transform: translateY(130%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal.is-armed .reveal__letter,
+  .reveal.is-in-view .reveal__letter {
+    animation: none;
+    transform: none;
+  }
+}

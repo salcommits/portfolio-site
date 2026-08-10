@@ -1,0 +1,73 @@
+// Design tokens, exposed as custom properties so they are readable at runtime
+// and from devtools. Only what the current UI needs — grow this per section.
+
+:root {
+  // Colour
+  --color-bg: #f7f7f7;
+  --color-fg: #101010;
+  --color-muted: #908c8c;
+  --color-muted-soft: #aaaaaa;
+  --color-white: #ffffff;
+  --color-panel: #f1f1f1;
+  // Stands in for project imagery that hasn't been shot yet.
+  --color-placeholder: #f3e4fb;
+  // Not quite white, so the header's difference blend lands just short of pure
+  // black over the light sections.
+  --color-blend-ink: #efefef;
+
+  // Typography
+  // Fallbacks belong inside var(); a family list after it would never be
+  // reached, since an undefined var invalidates the whole declaration.
+  --font-sans: var(--font-condensed, "Arial Narrow", Arial, sans-serif);
+  --font-mono: var(--font-mono-face, ui-monospace, "SF Mono", monospace);
+
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-black: 900;
+
+  --tracking-wide: 0.15em;
+  --tracking-tight: -0.01em;
+  // 1px against a 24px mono size in the reference, expressed proportionally.
+  --tracking-mono: 0.042em;
+
+  // Type scale. Fluid between small screens and the 1440 design frame, so
+  // headings never need a breakpoint of their own.
+  --text-display: clamp(3rem, 9.5vw, 8.75rem);
+  --text-xl: clamp(2.5rem, 6.5vw, 5.5rem);
+  --text-lg: clamp(1.875rem, 4vw, 3.25rem);
+  --text-md: clamp(1.5rem, 2.5vw, 2rem);
+  --text-sm: 1.125rem;
+  --text-xs: 0.875rem;
+
+  --leading-display: 0.85;
+  --leading-heading: 1.05;
+  --leading-body: 1.6;
+
+  // Layout
+  // The reference jumps from 15px to 43px at its 1100px breakpoint, which
+  // leaves desktop-ish windows looking cramped. Same 3.90625vw at the top end,
+  // but eased across the range and floored so it never crowds the edge.
+  --gutter: clamp(1.25rem, 3.90625vw, 5rem);
+  --z-header: 50;
+  --z-preloader: 100;
+
+  // Motion
+  --ease-main: cubic-bezier(0.11, 0.82, 0.39, 0.92);
+  --roll-duration: 200ms;
+  --roll-stagger: 18ms;
+  --roll-line: 1.15em;
+  // The out/in mismatch is deliberate: the old line clears faster than the new
+  // one arrives, leaving a pale gap that sweeps across.
+  --line-out-duration: 300ms;
+  --line-in-duration: 800ms;
+  --arrow-duration: 500ms;
+  --bracket-duration: 500ms;
+  --bracket-inset: 0.5625rem;
+  --menu-duration: 800ms;
+
+  // Hero entrance. The letters lead, everything else settles in behind them.
+  --enter-duration: 1000ms;
+  --enter-stagger: 45ms;
+  --reveal-duration: 1200ms;
+}

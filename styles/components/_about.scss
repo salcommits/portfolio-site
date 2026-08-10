@@ -1,0 +1,444 @@
+@use "../breakpoints" as bp;
+
+// Same `--u` scale as the hero: one pixel of the reference's 1920 frame, so the
+// section holds its proportions at any width.
+
+.about {
+  position: relative;
+
+  @include bp.from("nav") {
+    --u: 0.0520833vw;
+  }
+
+  &__intro {
+    padding: 3rem var(--gutter) 4rem;
+
+    @include bp.from("nav") {
+      padding: calc(90 * var(--u)) var(--gutter) calc(120 * var(--u));
+    }
+  }
+
+  &__contact {
+    display: inline-block;
+  }
+
+  &__contact-label {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: var(--weight-light);
+    line-height: 0.99;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      font-size: calc(20 * var(--u));
+    }
+  }
+
+  // Points down-right at rest and swings level on hover, as elsewhere.
+  &__contact-icon {
+    width: 0.625rem;
+    height: 0.625rem;
+    margin-left: 0.5rem;
+    transform: rotate(45deg);
+    transition: transform var(--arrow-duration) var(--ease-main);
+
+    @include bp.from("nav") {
+      width: calc(14 * var(--u));
+      height: calc(14 * var(--u));
+      margin-left: calc(14 * var(--u));
+    }
+  }
+
+  &__contact:hover &__contact-icon,
+  &__contact:focus-visible &__contact-icon {
+    transform: rotate(0deg);
+  }
+
+  &__contact-email {
+    display: block;
+    margin-top: 0.5rem;
+    margin-left: 2.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.9375rem;
+    font-weight: var(--weight-light);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+
+    @include bp.from("nav") {
+      margin-top: calc(12 * var(--u));
+      margin-left: calc(50 * var(--u));
+      font-size: calc(22 * var(--u));
+    }
+  }
+
+  &__title {
+    margin-top: 2.5rem;
+    font-size: 19vw;
+    font-weight: 700;
+    line-height: 0.99;
+    letter-spacing: -0.0833em;
+    text-align: center;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      margin-top: calc(80 * var(--u));
+      font-size: calc(224 * var(--u));
+    }
+  }
+
+  // The dark half of the section.
+  &__body {
+    padding: 3rem var(--gutter) 4rem;
+    background: var(--color-fg);
+    color: var(--color-muted-soft);
+
+    @include bp.from("nav") {
+      padding: calc(70 * var(--u)) var(--gutter) calc(120 * var(--u));
+    }
+  }
+
+  &__label {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-light);
+    line-height: 0.99;
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      font-size: calc(24 * var(--u));
+    }
+
+    // The marked labels head a block and sit well clear of it, with the arrow
+    // pointing down into the text.
+    &--marked {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+
+      @include bp.from("nav") {
+        margin-bottom: calc(62 * var(--u));
+      }
+    }
+
+    &--statement {
+      @include bp.from("nav") {
+        margin-left: calc(410 * var(--u));
+      }
+    }
+  }
+
+  // Sized against the label's capitals rather than its font size: turned through
+  // 45 degrees the arrow only draws across part of its box, so it has to be set
+  // larger than the text to read at the same weight beside it.
+  &__arrow {
+    width: 0.9rem;
+    height: 0.9rem;
+    margin-left: 0.875rem;
+    transform: rotate(45deg);
+
+    @include bp.from("nav") {
+      width: calc(26 * var(--u));
+      height: calc(26 * var(--u));
+      margin-left: calc(26 * var(--u));
+    }
+  }
+
+  &__statement {
+    margin-top: 1.25rem;
+    color: var(--color-white);
+
+    @include bp.from("nav") {
+      margin-top: calc(30 * var(--u));
+      margin-left: calc(410 * var(--u));
+    }
+  }
+
+  &__portrait {
+    margin: 3.5rem auto 0;
+    width: 12rem;
+
+    @include bp.from("nav") {
+      margin-top: calc(150 * var(--u));
+      width: calc(440 * var(--u));
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  &__greeting {
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: var(--weight-light);
+    line-height: 1.4;
+    text-align: center;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      margin-top: calc(40 * var(--u));
+      font-size: calc(18 * var(--u));
+    }
+  }
+
+  &__block {
+    @include bp.from("nav") {
+      width: calc(560 * var(--u));
+    }
+
+    &--experience {
+      margin: 3rem auto 0;
+      text-align: center;
+
+      @include bp.from("nav") {
+        margin-top: calc(90 * var(--u));
+      }
+    }
+
+    &--philosophy {
+      margin: 3rem 0 0 auto;
+      text-align: center;
+
+      @include bp.from("nav") {
+        margin-top: calc(120 * var(--u));
+        margin-right: calc(200 * var(--u));
+      }
+    }
+
+    &--lifestyle {
+      margin-top: 2.5rem;
+      text-align: center;
+
+      @include bp.from("nav") {
+        margin-top: calc(180 * var(--u));
+        margin-left: auto;
+        margin-right: calc(120 * var(--u));
+      }
+    }
+  }
+
+  // Body copy in the dark half is set white and a good deal larger than the
+  // labels around it — it is the read, not the caption.
+  &__note {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: var(--weight-light);
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--color-white);
+
+    @include bp.from("nav") {
+      font-size: calc(26 * var(--u));
+    }
+
+    + .about__note {
+      margin-top: 1.5rem;
+
+      @include bp.from("nav") {
+        margin-top: calc(40 * var(--u));
+      }
+    }
+
+    &--wide {
+      margin: 1.5rem auto 0;
+      text-align: center;
+
+      @include bp.from("nav") {
+        margin-top: calc(30 * var(--u));
+        width: calc(560 * var(--u));
+      }
+    }
+  }
+
+  &__rule {
+    margin: 3rem 0 2.5rem;
+    border: 0;
+    border-top: 1px solid var(--color-muted);
+
+    @include bp.from("nav") {
+      margin: calc(120 * var(--u)) 0 calc(70 * var(--u));
+    }
+  }
+
+  // The largest mono setting on the site; it carries the section.
+  &__manifesto {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: var(--weight-light);
+    line-height: 0.99;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+    color: var(--color-muted-soft);
+
+    // Too narrow to hold the longest hand-set line, and a hand break that then
+    // re-wraps reads as a mistake rather than a rag. So the statement runs on as
+    // one paragraph and wraps to the column, the spans only marking the words.
+    span:not(:last-child)::after {
+      content: " ";
+    }
+
+    // Wide enough for the longest line, so from here up the breaks in the copy
+    // are the breaks you see.
+    @include bp.from("nav") {
+      display: flex;
+      flex-direction: column;
+      font-size: calc(80 * var(--u));
+    }
+  }
+
+  &__lifestyle {
+    @include bp.from("nav") {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+  }
+
+  // Placeholder blocks standing in for the lifestyle imagery.
+  &__gallery {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-top: 2.5rem;
+
+    @include bp.from("nav") {
+      gap: calc(64 * var(--u));
+      margin-top: calc(120 * var(--u));
+      margin-left: calc(310 * var(--u));
+    }
+  }
+
+  &__frame {
+    display: block;
+    background: var(--color-muted-soft);
+
+    &--one {
+      width: 8rem;
+      height: 9rem;
+
+      @include bp.from("nav") {
+        width: calc(253 * var(--u));
+        height: calc(283 * var(--u));
+      }
+    }
+
+    &--two {
+      width: 7rem;
+      height: 11rem;
+
+      @include bp.from("nav") {
+        width: calc(206 * var(--u));
+        height: calc(354 * var(--u));
+      }
+    }
+  }
+
+  &__connect {
+    display: block;
+    margin-top: 3.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 0.99;
+    letter-spacing: -0.0555em;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--color-white);
+    transition: color var(--arrow-duration) var(--ease-main);
+
+    @include bp.from("nav") {
+      margin-top: calc(140 * var(--u));
+      font-size: calc(40 * var(--u));
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: var(--color-muted);
+    }
+  }
+}
+
+// Falling text. The block holds still against a tall run of scroll, and that
+// scroll drives every letter's drift, drop and spin. `--p` is the only thing
+// script touches; the rest is arithmetic the compositor can do on its own.
+
+// Must match SPAN in components/motion/falling-text.tsx, which spaces the
+// letters' start points to suit it.
+$falling-span: 0.55;
+
+.falling {
+  // The run the break plays out over. The pin holds the statement in place for
+  // all of it, so this is empty scroll by design — the same pause the reference
+  // leaves after the letters have gone.
+  height: 190vh;
+
+  @include bp.from("nav") {
+    height: 240vh;
+  }
+
+  &__pin {
+    position: sticky;
+    // Clear of the header, and high enough that the letters have most of the
+    // viewport to fall down through.
+    top: 16vh;
+  }
+
+  &__line {
+    display: block;
+
+    &--muted {
+      color: var(--color-muted-soft);
+    }
+  }
+
+  &__letter {
+    // Where this letter is in its own fall: nothing until the block reaches its
+    // start, then 0 to 1 over the next stretch.
+    --t: clamp(0, calc((var(--p, 0) - var(--d)) / #{$falling-span}), 1);
+    // Sideways is linear but the drop is squared, which is what reads as weight
+    // rather than the letters being slid down the screen.
+    --drift: calc(var(--dx) * 22vw * var(--t));
+    --drop: calc(var(--dy) * 78vh * var(--t) * var(--t));
+
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.0555em;
+    text-transform: uppercase;
+    // Gone by the end, so the run finishes on an empty section rather than a
+    // heap of letters parked at the bottom of the pin.
+    opacity: clamp(0, calc((1 - var(--t)) * 4), 1);
+    transform: translate(var(--drift), var(--drop))
+      rotate(calc(var(--dr) * 100deg * var(--t)));
+    will-change: transform;
+
+    @include bp.from("nav") {
+      font-size: calc(110 * var(--u));
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  // No run and no scatter — the statement simply sits in the section and reads.
+  .falling {
+    height: auto;
+  }
+
+  .falling__pin {
+    position: static;
+  }
+
+  .falling__letter {
+    opacity: 1;
+    transform: none;
+  }
+}

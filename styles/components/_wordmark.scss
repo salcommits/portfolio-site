@@ -1,0 +1,22 @@
+@use "../breakpoints" as bp;
+
+.wordmark {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  font-weight: 700;
+  // -1px against a 24px size in the reference, expressed proportionally.
+  letter-spacing: -0.0417em;
+  line-height: 0.7;
+  text-transform: uppercase;
+
+  @include bp.from("wide") {
+    font-size: 1.875rem;
+    // The reference loosens to -3px against 40px at this size.
+    letter-spacing: -0.075em;
+  }
+
+  &__line {
+    display: block;
+  }
+}

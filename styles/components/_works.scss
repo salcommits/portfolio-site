@@ -1,0 +1,329 @@
+@use "../breakpoints" as bp;
+
+// Horizontal accordion. Panels hold a fixed width and widen on hover, with the
+// contents staged in behind the width transition — the reference's approach.
+
+.works {
+  padding: 3.5rem 0 0;
+
+  @include bp.from("nav") {
+    --u: 0.0520833vw;
+
+    padding-top: calc(200 * var(--u));
+  }
+
+  &__head {
+    padding: 0 var(--gutter);
+
+    @include bp.from("nav") {
+      display: flex;
+      align-items: flex-end;
+      gap: calc(60 * var(--u));
+    }
+  }
+
+  &__title {
+    font-size: 22vw;
+    font-weight: 700;
+    line-height: 0.74;
+    letter-spacing: -0.08em;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      font-size: calc(163 * var(--u));
+    }
+  }
+
+  &__intro {
+    margin-top: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-light);
+    line-height: 1.4;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      width: calc(430 * var(--u));
+      margin-bottom: calc(20 * var(--u));
+      font-size: calc(18 * var(--u));
+    }
+  }
+
+  &__wrapper {
+    margin-top: 2.5rem;
+
+    @include bp.from("nav") {
+      display: flex;
+      margin: calc(115 * var(--u)) var(--gutter) 0;
+      border-top: 2px solid var(--color-fg);
+    }
+  }
+
+  &__block {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    padding: 1rem var(--gutter) 2rem;
+    border-bottom: 1px solid #dedede;
+    transition: background-color var(--menu-duration) var(--ease-main);
+
+    // Panels share the row rather than taking fixed widths, so the accordion
+    // always spans the section. 1.9 is the reference's 730/384 expansion.
+    @include bp.from("nav") {
+      flex: 1 1 0;
+      min-width: 0;
+      height: calc(636 * var(--u));
+      padding: calc(47 * var(--u)) calc(25 * var(--u)) 0;
+      border-bottom: 0;
+      border-right: 2px solid var(--color-fg);
+      transition: flex-grow var(--menu-duration) var(--ease-main),
+        background-color var(--menu-duration) var(--ease-main);
+    }
+
+    // The outer two panels drop their side padding so the row's text lines up
+    // with the section heading above it.
+    &:first-child {
+      @include bp.from("nav") {
+        padding-left: 0;
+      }
+    }
+
+    &:last-child {
+      border-bottom: 0;
+
+      @include bp.from("nav") {
+        padding-right: 0;
+        border-right: 0;
+      }
+    }
+
+    // Short rules that grow in from the bottom corners on hover.
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: var(--color-fg);
+      transition: width var(--menu-duration) var(--ease-main);
+    }
+
+    &::after {
+      left: 0;
+    }
+
+    &::before {
+      right: 0;
+    }
+
+    // `focus-within` rather than `focus-visible`: the panel is a category, not
+    // a link, so it is the project links inside it that take focus — and they
+    // start clipped out of sight, so the panel has to open to reach them.
+    @include bp.from("nav") {
+      &:hover,
+      &:focus-within {
+        flex-grow: 1.9;
+        background: var(--color-white);
+
+        &::before,
+        &::after {
+          width: calc(15 * var(--u));
+        }
+      }
+    }
+  }
+
+  &__number {
+    display: inline-block;
+    margin-right: 1.5rem;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 0.74;
+    letter-spacing: -0.1em;
+    color: #dedede;
+    transition: font-size var(--line-in-duration) var(--ease-main),
+      opacity var(--line-in-duration) var(--ease-main);
+
+    @include bp.from("nav") {
+      display: block;
+      margin-right: 0;
+      margin-bottom: calc(50 * var(--u));
+      font-size: calc(20 * var(--u));
+      color: inherit;
+    }
+  }
+
+  // The resting title rolls up out of its clip box as the panel opens. The
+  // line boxes here run looser than elsewhere on the site because `overflow:
+  // hidden` would otherwise shave the tops off the capitals.
+  &__title-line {
+    // Inline, so the index and the title share a line on the stacked layout.
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+
+    // Only the accordion rolls the title away, and it travels by its own
+    // height — so from here up the clip box has to be exactly that tall. An
+    // inline box adds the strut's leading on top, which would leave a sliver of
+    // the letters showing at the bottom of the window.
+    @include bp.from("nav") {
+      display: flex;
+    }
+  }
+
+  &__title-text {
+    display: inline-block;
+    font-size: 1.875rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.066em;
+    text-transform: uppercase;
+    transition: transform var(--roll-duration) var(--ease-main);
+
+    @include bp.from("nav") {
+      font-size: calc(40 * var(--u));
+    }
+  }
+
+  &__aside {
+    display: none;
+
+    @include bp.from("nav") {
+      position: absolute;
+      top: calc(35 * var(--u));
+      right: calc(37 * var(--u));
+      display: block;
+      overflow: hidden;
+
+      span {
+        display: inline-block;
+        font-size: calc(50 * var(--u));
+        font-weight: 700;
+        line-height: 1.1;
+        letter-spacing: -0.06em;
+        text-transform: uppercase;
+        transform: translateY(-100%);
+        transition: transform var(--line-in-duration) var(--ease-main);
+      }
+    }
+  }
+
+  // One link per project in the category.
+  &__projects {
+    margin-top: 1rem;
+
+    @include bp.from("nav") {
+      margin-top: calc(40 * var(--u));
+    }
+
+    li {
+      overflow: hidden;
+
+      @include bp.from("nav") {
+        margin-bottom: calc(10 * var(--u));
+      }
+    }
+
+    a {
+      display: inline-block;
+      font-size: 0.875rem;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.0625em;
+      text-transform: uppercase;
+      text-decoration-color: transparent;
+      text-decoration-line: underline;
+      text-underline-offset: 0.12em;
+      transition: text-decoration-color var(--arrow-duration) var(--ease-main);
+
+      &:hover,
+      &:focus-visible {
+        text-decoration-color: currentColor;
+      }
+
+      @include bp.from("nav") {
+        font-size: calc(32 * var(--u));
+        transform: translateY(-100%);
+        transition: transform 0s,
+          text-decoration-color var(--arrow-duration) var(--ease-main);
+      }
+    }
+  }
+
+  &__summary {
+    display: none;
+
+    @include bp.from("nav") {
+      display: block;
+      margin-top: calc(60 * var(--u));
+      font-family: var(--font-mono);
+      font-size: calc(20 * var(--u));
+      font-weight: var(--weight-light);
+      line-height: 1.3;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 100ms var(--ease-main);
+    }
+  }
+
+  // Staged reveal: title rolls away, the large mark drops in, then the project
+  // links run in from the bottom before the summary fades up.
+  @include bp.from("nav") {
+    &__block:hover,
+    &__block:focus-within {
+      .works__number {
+        opacity: 0;
+      }
+
+      .works__title-text {
+        transform: translateY(-100%);
+      }
+
+      .works__aside span {
+        transform: translateY(0);
+        transition-delay: 300ms;
+      }
+
+      .works__projects a {
+        transform: translateY(0);
+        transition: transform 600ms var(--ease-main),
+          text-decoration-color var(--arrow-duration) var(--ease-main);
+      }
+
+      .works__projects li:nth-child(1) a {
+        transition-delay: 700ms;
+      }
+      .works__projects li:nth-child(2) a {
+        transition-delay: 650ms;
+      }
+      .works__projects li:nth-child(3) a {
+        transition-delay: 600ms;
+      }
+      .works__projects li:nth-child(4) a {
+        transition-delay: 550ms;
+      }
+      .works__projects li:nth-child(5) a {
+        transition-delay: 500ms;
+      }
+
+      .works__summary {
+        opacity: 1;
+        transition: opacity 1500ms var(--ease-main) 800ms;
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .works__block,
+  .works__block::before,
+  .works__block::after,
+  .works__number,
+  .works__title-text,
+  .works__aside span,
+  .works__projects a,
+  .works__summary {
+    transition: none;
+  }
+}
