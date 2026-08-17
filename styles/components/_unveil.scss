@@ -1,0 +1,24 @@
+// A downward wipe, so what is behind it arrives rather than fades up.
+//
+// The hero scales its photograph as it wipes. This doesn't, because it wipes a
+// whole box — anything set above or beside the picture would swim against it.
+//
+// There is deliberately no transition. The fraction is rewritten every frame from
+// the scroll position, so each value is already where the picture should be, not
+// a target to ease toward; easing on top of it would only lag the scroll. The
+// smoothing the effect does have comes from Lenis, which the scroll is eased by
+// before it ever reaches here.
+
+.unveil {
+  // Only clipped once the script is live, so the picture still shows if it never
+  // runs or if the reveal has been turned off for reduced motion.
+  &.is-armed &__inner {
+    clip-path: inset(0 0 calc((1 - var(--unveil-progress, 0)) * 100%) 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .unveil.is-armed .unveil__inner {
+    clip-path: none;
+  }
+}

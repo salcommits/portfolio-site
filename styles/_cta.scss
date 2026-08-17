@@ -1,0 +1,42 @@
+// The underline shared by every call to action on the site: the resting rule
+// retracts to the right while a second grows in from the left, so the line
+// reads as redrawing itself rather than sliding across.
+//
+// Where it hangs and how heavy it is varies by setting — the header sits it
+// against the text, the rest hang it below — so both are passed in.
+@mixin redraw-underline($bottom: 0, $height: 2px) {
+  position: relative;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 $bottom 0;
+    height: $height;
+    background: currentColor;
+    transition: transform var(--line-in-duration) var(--ease-main);
+  }
+
+  &::before {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  &::after {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+
+  &:hover::before,
+  &:focus-visible::before {
+    transform: scaleX(0);
+    transform-origin: right;
+    transition-duration: var(--line-out-duration);
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}

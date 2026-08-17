@@ -1,4 +1,5 @@
 @use "../breakpoints" as bp;
+@use "../tracking";
 
 // The reference scales its whole hero with the viewport: it sets the root font
 // size to 100vw/1920 in JS, so every `rem` in its CSS is one pixel of the 1920
@@ -15,6 +16,16 @@
     --u: 0.0520833vw;
 
     padding: calc(180 * var(--u)) var(--gutter) calc(60 * var(--u));
+  }
+
+  // Level with the counter opposite it, which is the top of the section's own
+  // content — hence the section's top padding repeated as the offset.
+  &__index {
+    top: 6.25rem;
+
+    @include bp.from("nav") {
+      top: calc(180 * var(--u));
+    }
   }
 
   // Above the portrait, so the headline reads across the photograph rather than
@@ -44,6 +55,7 @@
     overflow: hidden;
     font-weight: 700;
     letter-spacing: -0.0833em;
+    @include tracking.trailing(0.0833em);
     // Digits keep a constant width, so counting up doesn't jitter.
     font-variant-numeric: tabular-nums;
 
@@ -70,38 +82,51 @@
     }
   }
 
+  // Container units rather than `--u`, because the headline is set to fill the
+  // measure rather than to the reference's own 300u — that is what gives it the
+  // edge-to-edge presence, and it has to hold at any width.
+  //
+  // Both figures are measured against the wording, so they only hold for it:
+  // the row runs the whole headline, while the stacked layout is governed by
+  // its longest word. Changing the copy means measuring the fill again.
+  //
+  // The size sits on the word rather than on the letters so that the padding
+  // making room for the tracking has the display size to measure itself
+  // against.
   &__word {
     display: flex;
     overflow: hidden;
+    font-size: 35cqw;
+    @include tracking.trailing(0.0833em);
+
+    @include bp.from("nav") {
+      font-size: 18.6cqw;
+    }
   }
 
-  // Container units rather than `--u`: this headline is 20 letters against the
-  // reference's 16, so it is sized to fill the measure rather than to the
-  // reference's own 300u. 12.5cqw holds a ~98% fill at every width.
   &__letter {
     display: block;
     font-family: var(--font-sans);
-    font-size: 21cqw;
     font-weight: 700;
     line-height: 0.99;
     letter-spacing: -0.0833em;
     text-transform: uppercase;
     animation: hero-rise var(--enter-duration) var(--ease-main) both;
     animation-delay: calc(var(--i) * var(--enter-stagger));
-
-    @include bp.from("nav") {
-      font-size: 12.5cqw;
-    }
   }
 
   // Three parts pushed apart across a fixed measure, so the spread reads as
   // deliberate placement rather than a letter-spacing value.
+  //
+  // It tucks under the right end of the headline, so the offset has to clear
+  // whatever the headline's fill works out to — raise it and the line prints
+  // through the last word.
   &__location {
     display: none;
 
     @include bp.from("nav") {
       position: absolute;
-      top: calc(450 * var(--u));
+      top: calc(545 * var(--u));
       right: calc(50 * var(--u));
       display: flex;
       justify-content: space-between;
@@ -140,23 +165,31 @@
     position: relative;
     z-index: 3;
 
+    // The list is only as wide as its longest label, so that label's own
+    // tracking leaves this box short of the letter it ends on. The size sits
+    // here rather than on the line so the padding has something to measure
+    // itself against.
     li {
       overflow: hidden;
+      font-size: 1.125rem;
+      @include tracking.trailing(0.0555em);
+
+      // 30u rather than the reference's 36u: these labels are longer than its
+      // own, and at 36u the first one runs under the portrait.
+      @include bp.from("nav") {
+        font-size: calc(30 * var(--u));
+      }
     }
 
     span {
       display: block;
-      font-size: 1.125rem;
       font-weight: 700;
       line-height: 0.99;
       letter-spacing: -0.0555em;
       text-transform: uppercase;
 
-      // 30u rather than the reference's 36u: these labels are longer than its
-      // own, and at 36u the first one runs under the portrait.
       @include bp.from("nav") {
         margin-bottom: calc(10 * var(--u));
-        font-size: calc(30 * var(--u));
       }
     }
 

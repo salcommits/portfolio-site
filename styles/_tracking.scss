@@ -1,0 +1,16 @@
+// `letter-spacing` is added after the last letter as well as between letters,
+// so a word set with negative tracking sits in a box narrower than its own ink.
+// That is invisible until the box also clips — the reveal masks, the hero's
+// words, the accordion's roll window — at which point the last letter loses its
+// right-hand edge.
+//
+// The padding moves the clip edge out without moving the glyphs, and the
+// matching negative margin takes the same width back out of the layout, so the
+// line still sets exactly where it did.
+//
+// `$amount` is the tracking being compensated for, as a positive length, in a
+// unit that resolves against the text's own size.
+@mixin trailing($amount) {
+  padding-right: $amount;
+  margin-right: calc(#{$amount} * -1);
+}

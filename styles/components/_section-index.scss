@@ -1,0 +1,24 @@
+@use "../breakpoints" as bp;
+
+// Set as a note rather than a label: small, grey and out at the margin, so it
+// is there to be found rather than read on the way past.
+//
+// Hung off the section itself rather than dropped into its heading, because the
+// heads differ from one section to the next and this has to land in the same
+// place in all of them. Only the depth is left to the section, since each one
+// starts its content at its own.
+.section-index {
+  position: absolute;
+  right: var(--gutter);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: var(--weight-light);
+  line-height: 0.99;
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--color-muted);
+
+  @include bp.from("nav") {
+    font-size: calc(16 * var(--u));
+  }
+}

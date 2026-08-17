@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 
 import { RevealText } from "@/components/motion/reveal-text";
+import { SectionIndex } from "@/components/ui/section-index";
 
 const EMAIL = "liamatkins24@gmail.com";
 
@@ -40,19 +41,32 @@ export function Contact() {
 
   return (
     <section id="contact" className="contact">
-      <p className="contact__eyebrow">Lets start a conversation</p>
+      <SectionIndex n={5} className="contact__index" />
 
-      <RevealText as="h2" text="Lorem ipsum" className="contact__title" />
+      <p className="contact__eyebrow">Let&rsquo;s start a conversation</p>
+
+      {/* v6's subhead is short enough to carry the display line itself, so it
+          runs here rather than as a paragraph under it. Its second sentence,
+          "Let's talk", is what the eyebrow above already says. */}
+      <RevealText
+        as="h2"
+        text="Got a project in mind?"
+        className="contact__title"
+      />
 
       <p className="contact__divider">Starts with</p>
 
       <RevealText
         as="p"
-        text="Lorem ipsum dilor"
+        text="A few details"
         className="contact__title contact__title--wide"
       />
 
       <form className="contact__form" onSubmit={onSubmit}>
+        <p className="contact__intro">
+          I&rsquo;ll get back to you within a day or two.
+        </p>
+
         <div className="contact__fields">
           {fields.map((field) => (
             <p key={field.name} className="contact__field">

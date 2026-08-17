@@ -1,25 +1,142 @@
 @use "../breakpoints" as bp;
+@use "../cta";
+
+// The count the reference sets above each plate. Shared by the screens' numbers
+// and the devices' label, because they mark the same kind of thing in the same
+// run and any difference between them would read as a difference in kind.
+@mixin marker {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: var(--weight-light);
+  line-height: 0.99;
+  // Spread until the gaps run wider than the characters themselves, which is
+  // what the reference does and why the word reads as a row of marks rather
+  // than as a word. Indented by the same amount, because the tracking that
+  // follows the last character would otherwise throw the alignment off by all
+  // of it.
+  letter-spacing: 1em;
+  text-indent: 1em;
+  text-transform: uppercase;
+
+  @include bp.from("nav") {
+    margin-bottom: calc(24 * var(--u));
+    font-size: calc(20 * var(--u));
+  }
+}
 
 // A centred column throughout, closing on a full-bleed dark band.
 .project {
-  padding-top: 2.5rem;
+  // The measure the prose blocks are set to. Wider than the reference, which
+  // runs a few short lines between large images — these pages are the other way
+  // round, carrying the write-up with imagery in support.
+  --measure: calc(760 * var(--u));
+  // What the page opens with, named because the back link pins itself to the
+  // foot of it rather than to a figure of its own.
+  --top-space: 1.5rem;
+  // The header's own height: its padding either side of the wordmark. Flat
+  // until `wide`, where the padding starts scaling with the viewport.
+  --header-height: 5.125rem;
+
+  padding-top: var(--top-space);
   text-align: center;
 
   @include bp.from("nav") {
     --u: 0.0520833vw;
-
-    padding-top: calc(60 * var(--u));
+    --top-space: calc(40 * var(--u));
   }
 
-  // Placeholders until real imagery lands.
+  @include bp.from("wide") {
+    --header-height: calc(3.854vw + 2.625rem);
+  }
+
+  // Held at the top of the window for the whole page, so the way out is never
+  // more than a glance away on a scroll this long. Pinned exactly where it
+  // already sits, which is what stops it appearing to jump as it catches.
+  //
+  // No ground of its own, and blended like the header for the same reason: it
+  // has to cross the dark plates further down, and `difference` against a
+  // near-white ink resolves light over those and dark over the page.
+  &__back {
+    position: sticky;
+    top: calc(var(--header-height) + var(--top-space));
+    z-index: calc(var(--z-header) - 1);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-blend-ink);
+    mix-blend-mode: difference;
+    // Block-level and shrunk to its text, so the auto margin can range it left
+    // out of the centred column.
+    width: fit-content;
+    margin-bottom: 2rem;
+    margin-right: auto;
+    margin-left: var(--gutter);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-light);
+    line-height: 0.99;
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      margin-bottom: calc(50 * var(--u));
+      font-size: calc(16 * var(--u));
+    }
+
+    // Backs out from under the label on hover, the mirror of the outbound
+    // arrows elsewhere.
+    &:hover .project__back-icon,
+    &:focus-visible .project__back-icon {
+      transform: translateX(-0.25em);
+    }
+  }
+
+  &__back-icon {
+    flex: none;
+    width: 1em;
+    height: 1em;
+    transition: transform var(--arrow-duration) var(--ease-main);
+  }
+
+  // The white mount the reference sets its opening in, so the capture reads as
+  // something laid on the page rather than printed into it. Pure white against
+  // the near-white page, which is the whole of the effect — any more contrast
+  // and the mount would compete with the picture it is carrying.
   &__cover {
     width: calc(100% - var(--gutter) * 2);
-    aspect-ratio: 16 / 10;
     margin: 0 auto;
-    background: var(--color-placeholder);
+    padding: 0.75rem;
+    background: var(--color-white);
 
     @include bp.from("nav") {
       width: calc(1050 * var(--u));
+      // The reference's inset is a shade over four per cent of its mount, and
+      // even on all four sides. Kept in the same unit as the width so the two
+      // stay in proportion at any viewport.
+      padding: calc(46 * var(--u));
+    }
+  }
+
+  // Letterboxed rather than the reference's near-square, which would dominate
+  // everything under it. Falls back to a flat block on projects with no shot
+  // yet, which is why the box sets its own ratio instead of taking the image's.
+  &__cover-image {
+    display: block;
+    width: 100%;
+    // Near enough the desktop letterbox that the crop stops in the same place
+    // on the capture, rather than running on into whatever follows the fold.
+    aspect-ratio: 20 / 9;
+    height: auto;
+    background: var(--color-placeholder);
+    // Page captures are cropped from the top: the masthead is the part that
+    // identifies the site, and the fold below it is in the gallery anyway.
+    object-fit: cover;
+    object-position: top;
+
+    @include bp.from("nav") {
+      aspect-ratio: 21 / 9;
     }
   }
 
@@ -45,12 +162,20 @@
     margin: 2rem auto 0;
 
     @include bp.from("nav") {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       width: calc(1050 * var(--u));
       margin-top: calc(80 * var(--u));
     }
 
     dt {
+      // Laid out rather than left to sit inline, so the glyph aligns to the
+      // label's own box instead of to a baseline the two fonts read differently.
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      // Absorbs the tracking that trails the label's last character, which would
+      // otherwise read as part of the space before the glyph.
+      gap: 0.25em;
       font-family: var(--font-mono);
       font-size: 0.625rem;
       font-weight: var(--weight-light);
@@ -60,22 +185,49 @@
       color: var(--color-muted);
 
       @include bp.from("nav") {
-        font-size: calc(14 * var(--u));
+        font-size: calc(15 * var(--u));
       }
     }
 
     dd {
       margin-top: 0.625rem;
       font-family: var(--font-mono);
-      font-size: 0.8125rem;
+      font-size: 0.875rem;
       font-weight: var(--weight-light);
-      line-height: 0.99;
+      line-height: 1.25;
       text-transform: uppercase;
 
       @include bp.from("nav") {
         margin-top: calc(16 * var(--u));
-        font-size: calc(18 * var(--u));
+        font-size: calc(21 * var(--u));
       }
+    }
+  }
+
+  // Sized against the label rather than set in pixels, so it tracks the type at
+  // both sizes. Larger than 1em because the glyph only occupies the middle of its
+  // box: at this size the drawn arrow comes out at the label's cap height, which
+  // is where the reference sets it.
+  &__meta-icon {
+    flex: none;
+    width: 1.25em;
+    height: 1.25em;
+  }
+
+  // Set over the barcode the way a market is printed over a packing mark, which
+  // is the whole of why the barcode is there.
+  &__country {
+    margin-top: 3rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-light);
+    line-height: 0.99;
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      margin-top: calc(140 * var(--u));
+      font-size: calc(16 * var(--u));
     }
   }
 
@@ -92,41 +244,67 @@
     }
   }
 
+  // The pair is one mark, so the barcode closes up under its label and the run
+  // of space above belongs to the label instead.
+  &__country + &__barcode {
+    margin-top: 1rem;
+
+    @include bp.from("nav") {
+      margin-top: calc(40 * var(--u));
+    }
+  }
+
   &__block {
     width: calc(100% - var(--gutter) * 2);
     margin: 2.5rem auto 0;
 
     @include bp.from("nav") {
-      width: calc(430 * var(--u));
+      width: var(--measure);
       margin-top: calc(90 * var(--u));
     }
   }
 
+  // Ranged left while the prose under it stays centred, which is what makes it
+  // read as a heading over the block rather than as its first line. Set a shade
+  // larger than that prose for the same reason, and left muted so the weight
+  // comes from the position rather than from the colour.
   &__label {
+    display: flex;
+    align-items: center;
+    gap: 0.9em;
     font-family: var(--font-mono);
-    font-size: 0.6875rem;
+    font-size: 0.9375rem;
     font-weight: var(--weight-light);
     line-height: 0.99;
     letter-spacing: var(--tracking-mono);
+    text-align: left;
     text-transform: uppercase;
     color: var(--color-muted);
 
     @include bp.from("nav") {
-      font-size: calc(16 * var(--u));
+      font-size: calc(22 * var(--u));
     }
   }
 
+  &__label-icon {
+    flex: none;
+    width: 0.85em;
+    height: 0.85em;
+  }
+
+  // The gap under a label, which is wider than the one between paragraphs
+  // below: it is what sets the heading above the block instead of level with it.
   &__note {
-    margin-top: 1rem;
+    margin-top: 1.375rem;
     font-family: var(--font-mono);
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     font-weight: var(--weight-light);
-    line-height: 1.5;
+    line-height: 1.55;
     text-transform: uppercase;
 
     @include bp.from("nav") {
-      margin-top: calc(24 * var(--u));
-      font-size: calc(16 * var(--u));
+      margin-top: calc(38 * var(--u));
+      font-size: calc(20 * var(--u));
     }
 
     + .project__note {
@@ -139,8 +317,11 @@
   }
 
   &__visit {
-    position: relative;
-    display: inline-block;
+    @include cta.redraw-underline(-0.3125rem, 1px);
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.83em;
     margin-top: 3rem;
     font-family: var(--font-mono);
     font-size: 0.875rem;
@@ -151,44 +332,392 @@
 
     @include bp.from("nav") {
       margin-top: calc(90 * var(--u));
-      font-size: calc(20 * var(--u));
+      font-size: calc(22 * var(--u));
     }
 
-    // Same underline redraw as the other calls to action.
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      inset: auto 0 -0.3125rem 0;
-      height: 1px;
-      background: currentColor;
-      transition: transform var(--line-in-duration) var(--ease-main);
-    }
-
-    &::before {
-      transform: scaleX(1);
-      transform-origin: left;
-    }
-
-    &::after {
-      transform: scaleX(0);
-      transform-origin: right;
-    }
-
-    &:hover::before,
-    &:focus-visible::before {
-      transform: scaleX(0);
-      transform-origin: right;
-      transition-duration: var(--line-out-duration);
-    }
-
-    &:hover::after,
-    &:focus-visible::after {
-      transform: scaleX(1);
-      transform-origin: left;
+    &:hover .project__visit-icon,
+    &:focus-visible .project__visit-icon {
+      transform: rotate(0deg);
     }
   }
 
+  // Drawn pointing right and rotated up, so hovering just unwinds it.
+  &__visit-icon {
+    flex: none;
+    width: 0.75em;
+    height: 0.75em;
+    transform: rotate(-45deg);
+    transition: transform var(--arrow-duration) var(--ease-main);
+  }
+
+  // Each screen takes a full-bleed plate of its own, alternating between the
+  // two darks — which is what stops the run reading as pictures resting on the
+  // page. The plates butt straight against each other and against the band that
+  // closes the page, so the colour always changes on a hard edge.
+  &__shot {
+    padding: 2.5rem var(--gutter);
+    background: var(--color-fg);
+    color: var(--color-white);
+    // Out of the centred column the rest of the page is set in: these range to
+    // the plate's outer edges instead.
+    text-align: left;
+
+    @include bp.from("nav") {
+      display: grid;
+      // The screen takes the larger share — these are page captures, tall and
+      // detailed, and a name only ever needs a word.
+      grid-template-columns: 4fr 6fr;
+      align-items: center;
+      gap: calc(80 * var(--u));
+      padding: calc(130 * var(--u)) var(--gutter);
+    }
+
+    &:nth-of-type(even) {
+      background: var(--color-band);
+
+      // Flipped along with the two sides, so the screen keeps the larger share
+      // when it changes ends.
+      @include bp.from("nav") {
+        grid-template-columns: 6fr 4fr;
+      }
+    }
+
+    // Only the first is spaced, to carry the run clear of the write-up.
+    &:first-of-type {
+      margin-top: 3rem;
+
+      @include bp.from("nav") {
+        margin-top: calc(140 * var(--u));
+      }
+    }
+  }
+
+  // The closing band's own margin is for when it follows the prose, which is set
+  // on white. Butted straight up against whichever plate ends the run instead,
+  // so two full-bleed darks meet rather than showing a strip of page between.
+  &__shot + &__detail,
+  &__devices + &__detail,
+  &__system + &__detail {
+    margin-top: 0;
+  }
+
+  // The screen sits to one side and its name to the other, and the pair swap
+  // ends down the run. Both are pushed out to the plate's edges, so the gap
+  // opens in the middle rather than around them.
+  &__shot-caption {
+    display: block;
+    margin-bottom: 1.5rem;
+    font-size: 9vw;
+    font-weight: 700;
+    line-height: 0.74;
+    letter-spacing: -0.073em;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      grid-row: 1;
+      grid-column: 1;
+      margin-bottom: 0;
+      font-size: calc(88 * var(--u));
+    }
+  }
+
+  &__shot:nth-of-type(even) &__shot-caption {
+    @include bp.from("nav") {
+      grid-column: 2;
+      text-align: right;
+    }
+  }
+
+  // One plate in the run is given over to a name, at a size the screen labels
+  // never reach. The two words are left to wrap on their own rather than being
+  // broken by hand — the column is narrow enough that they always do, and the
+  // stack is most of what makes this read as a statement instead of a label.
+  &__shot--display &__shot-caption {
+    font-size: 26vw;
+
+    @include bp.from("nav") {
+      font-size: calc(210 * var(--u));
+    }
+  }
+
+  &__shot-frame {
+    @include bp.from("nav") {
+      grid-row: 1;
+      grid-column: 2;
+      // Sized to the picture rather than the column, so the count above it
+      // starts at the picture's own edge and the picture reaches the plate's.
+      justify-self: end;
+      // Capped here rather than on the picture: the picture's width comes from
+      // its height, and this box's width comes from the picture, so a cap on
+      // the picture would be measured against a width it was itself setting.
+      max-width: 100%;
+    }
+  }
+
+  &__shot:nth-of-type(even) &__shot-frame {
+    @include bp.from("nav") {
+      grid-column: 1;
+      justify-self: start;
+    }
+  }
+
+  &__shot-index {
+    @include marker;
+  }
+
+  // The responsive pass, on a plate set to the ground the devices were shot
+  // against so they stand on it rather than in a panel laid over it. That is
+  // also why this one doesn't join the two-tone alternation above: its colour is
+  // decided by the capture, not by its turn in the run.
+  &__devices {
+    padding: 2.5rem var(--gutter);
+    background: var(--color-device);
+    color: var(--color-white);
+    text-align: left;
+
+    @include bp.from("nav") {
+      display: grid;
+      // Named rather than numbered, because the label is two items that have to
+      // meet in the middle against a picture spanning both of their rows.
+      grid-template-columns: 6fr 4fr;
+      grid-template-areas:
+        "shot mark"
+        "shot name";
+      align-content: center;
+      gap: 0 calc(80 * var(--u));
+      padding: calc(130 * var(--u)) var(--gutter);
+    }
+  }
+
+  &__devices-frame {
+    @include bp.from("nav") {
+      grid-area: shot;
+    }
+  }
+
+  // Sized to the plate rather than to its own height, unlike the page captures:
+  // this one is landscape and already holds three screens, so it is the width
+  // that has to be spent on it.
+  &__devices-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  &__devices-index {
+    @include marker;
+
+    @include bp.from("nav") {
+      grid-area: mark;
+      // Pushed to the foot of the upper row, so it sits directly above the name
+      // and the pair reads as one block at the picture's middle.
+      align-self: end;
+    }
+  }
+
+  &__devices-caption {
+    display: block;
+    // Clears the picture stacked under it. On the grid the two are side by side,
+    // so the gap does the same job and this would only push the name off centre.
+    margin-bottom: 1.5rem;
+    font-size: 9vw;
+    font-weight: 700;
+    line-height: 0.74;
+    letter-spacing: -0.073em;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      grid-area: name;
+      align-self: start;
+      margin-bottom: 0;
+      font-size: calc(88 * var(--u));
+    }
+  }
+
+  // The captures arrive at whatever shape they were taken at, so rather than
+  // force a common crop each is given the same height and left to take the
+  // width that follows. The run stays even, and no screen loses an edge.
+  &__shot-image {
+    display: block;
+    width: 100%;
+    height: auto;
+
+    @include bp.from("nav") {
+      // Width follows from the height, which is what keeps the run even. The
+      // frame around it is what stops it outgrowing the column.
+      width: auto;
+      // The captures' own 1024px, so at the width the design is drawn for they
+      // sit at full size rather than being reduced to fit a smaller plate.
+      height: calc(1024 * var(--u));
+    }
+  }
+
+  // The system the pages were assembled from, set on the ground its sheets were
+  // drawn on so each module reads as cut from an artboard rather than as another
+  // screen of the finished site. Full bleed and unspaced, so it butts against
+  // whichever plate ends the run above it.
+  &__system {
+    padding: 3rem var(--gutter);
+    background: var(--color-canvas);
+    color: var(--color-white);
+    text-align: left;
+
+    @include bp.from("nav") {
+      padding: calc(130 * var(--u)) var(--gutter);
+    }
+  }
+
+  &__system-index {
+    @include marker;
+  }
+
+  // Held back from the page title's size on mobile, where the longer of the two
+  // words is half again as long as anything in a project's name and would run
+  // into the gutter at it.
+  &__system-title {
+    display: block;
+    font-size: 11vw;
+    font-weight: 700;
+    line-height: 0.74;
+    letter-spacing: -0.073em;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      font-size: calc(120 * var(--u));
+    }
+  }
+
+  // Set at the measure the prose blocks use, so the section reads as one
+  // statement with plates under it rather than as a caption apiece.
+  &__system-note {
+    margin-top: 1.375rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: var(--weight-light);
+    line-height: 1.55;
+    text-transform: uppercase;
+    color: var(--color-muted-soft);
+
+    @include bp.from("nav") {
+      width: var(--measure);
+      margin-top: calc(38 * var(--u));
+      font-size: calc(20 * var(--u));
+    }
+  }
+
+  // A family to a block, stacked down the plate.
+  &__families {
+    display: grid;
+    gap: 3rem;
+    margin-top: 3rem;
+
+    @include bp.from("nav") {
+      gap: calc(110 * var(--u));
+      margin-top: calc(110 * var(--u));
+    }
+  }
+
+  // The family, not the variants under it — so it is set as a label like the
+  // ones over the prose rather than as a name like the ones beside the screens.
+  &__family-name {
+    display: flex;
+    align-items: center;
+    gap: 0.9em;
+    margin-bottom: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-light);
+    line-height: 0.99;
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+    color: var(--color-muted-soft);
+
+    @include bp.from("nav") {
+      margin-bottom: calc(30 * var(--u));
+      font-size: calc(18 * var(--u));
+    }
+  }
+
+  &__family-icon {
+    flex: none;
+    width: 0.85em;
+    height: 0.85em;
+  }
+
+  // Three across, because the point being made is that the family has more than
+  // one member — a variant shown alone would only read as a screen. Stacked
+  // below the breakpoint, where a third of the width is too little to make out
+  // that they differ at all.
+  &__variants {
+    display: grid;
+    gap: 1.5rem;
+
+    @include bp.from("nav") {
+      grid-template-columns: repeat(3, 1fr);
+      // Cut to a common box within each family, so the row lines up on its own
+      // without anything being asked to align to it.
+      gap: calc(40 * var(--u));
+    }
+  }
+
+  &__variant-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  // What moved after launch. Ranged left as a whole, unlike the prose blocks:
+  // this is a set of separate measures rather than a paragraph, and centring it
+  // would leave the glyphs down a ragged edge.
+  &__results {
+    width: calc(100% - var(--gutter) * 2);
+    margin: 2.5rem auto 0;
+    text-align: left;
+
+    @include bp.from("nav") {
+      width: var(--measure);
+      margin-top: calc(140 * var(--u));
+    }
+  }
+
+  &__results-list {
+    display: grid;
+    gap: 0.875rem;
+    margin-top: 1.75rem;
+
+    @include bp.from("nav") {
+      gap: calc(26 * var(--u));
+      margin-top: calc(46 * var(--u));
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 0.83em;
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: var(--weight-light);
+      line-height: 1.25;
+      text-transform: uppercase;
+
+      @include bp.from("nav") {
+        font-size: calc(20 * var(--u));
+      }
+    }
+  }
+
+  // Turned up and left there. The same arrow on a link unwinds on hover, but
+  // this one is reporting a direction rather than offering to go anywhere.
+  &__results-icon {
+    flex: none;
+    width: 0.75em;
+    height: 0.75em;
+    transform: rotate(-45deg);
+  }
+
+  // Closes the page on a full-bleed dark band. Text alone: an image alongside
+  // would have set how long the write-up could run, and this is the block that
+  // needs to be free to run long.
   &__detail {
     margin-top: 4rem;
     padding: 3rem var(--gutter);
@@ -196,36 +725,25 @@
     color: var(--color-muted-soft);
 
     @include bp.from("nav") {
-      display: flex;
-      align-items: center;
-      gap: calc(120 * var(--u));
       margin-top: calc(140 * var(--u));
-      padding: calc(90 * var(--u)) var(--gutter);
+      padding: calc(110 * var(--u)) var(--gutter);
     }
   }
 
+  // Same measure as the blocks above it, so the page holds one spine from the
+  // title down whatever length this reaches.
   &__detail-text {
     @include bp.from("nav") {
-      width: calc(430 * var(--u));
-      margin-left: calc(60 * var(--u));
-    }
-  }
-
-  &__detail-media {
-    aspect-ratio: 4 / 3;
-    margin-top: 2.5rem;
-    background: var(--color-placeholder);
-
-    @include bp.from("nav") {
-      flex: 1 1 auto;
-      margin-top: 0;
+      width: var(--measure);
+      margin: 0 auto;
     }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .project__visit::before,
-  .project__visit::after {
+  .project__visit::after,
+  .project__visit-icon {
     transition: none;
   }
 }

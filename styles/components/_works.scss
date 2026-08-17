@@ -1,15 +1,34 @@
 @use "../breakpoints" as bp;
+@use "../tracking";
 
 // Horizontal accordion. Panels hold a fixed width and widen on hover, with the
 // contents staged in behind the width transition — the reference's approach.
 
 .works {
+  position: relative;
   padding: 3.5rem 0 0;
+  // Held here rather than on the title itself, because the box that clips the
+  // title has to size its padding against it and doesn't carry the size.
+  --category-size: 1.875rem;
 
   @include bp.from("nav") {
     --u: 0.0520833vw;
+    --category-size: calc(40 * var(--u));
+    // The mark repeated inside an open panel. Set to clear the grown number
+    // beside it on the longest category name, which is what caps it — on its
+    // own it would happily run larger.
+    --mark-size: calc(44 * var(--u));
 
     padding-top: calc(200 * var(--u));
+  }
+
+  // The section's own top padding, so it starts level with the head beside it.
+  &__index {
+    top: 3.5rem;
+
+    @include bp.from("nav") {
+      top: calc(200 * var(--u));
+    }
   }
 
   &__head {
@@ -52,9 +71,12 @@
   &__wrapper {
     margin-top: 2.5rem;
 
+    // Runs the full width, unlike the heading above it, which keeps the
+    // gutter. The panels carry their own padding instead, so the first one's
+    // contents sit inside the edge without lining up with the heading.
     @include bp.from("nav") {
       display: flex;
-      margin: calc(115 * var(--u)) var(--gutter) 0;
+      margin: calc(115 * var(--u)) 0 0;
       border-top: 2px solid var(--color-fg);
     }
   }
@@ -80,19 +102,13 @@
         background-color var(--menu-duration) var(--ease-main);
     }
 
-    // The outer two panels drop their side padding so the row's text lines up
-    // with the section heading above it.
-    &:first-child {
-      @include bp.from("nav") {
-        padding-left: 0;
-      }
-    }
-
+    // Nothing to divide it from on the right, but it keeps its padding: the row
+    // now reaches the viewport edge, so dropping it would put the contents
+    // against the glass.
     &:last-child {
       border-bottom: 0;
 
       @include bp.from("nav") {
-        padding-right: 0;
         border-right: 0;
       }
     }
@@ -142,13 +158,16 @@
     line-height: 0.74;
     letter-spacing: -0.1em;
     color: #dedede;
-    transition: font-size var(--line-in-duration) var(--ease-main),
-      opacity var(--line-in-duration) var(--ease-main);
+    transition: font-size var(--line-in-duration) var(--ease-main);
 
+    // Boxed at the size it grows to when the panel opens, so the title and the
+    // links below it don't shift down as it grows. The margin is shortened by
+    // the same amount, leaving the closed panel exactly as it was.
     @include bp.from("nav") {
       display: block;
+      height: calc(45 * var(--u));
       margin-right: 0;
-      margin-bottom: calc(50 * var(--u));
+      margin-bottom: calc(20 * var(--u));
       font-size: calc(20 * var(--u));
       color: inherit;
     }
@@ -161,6 +180,9 @@
     // Inline, so the index and the title share a line on the stacked layout.
     display: inline-block;
     overflow: hidden;
+    // The stacked layout sizes this box to the title, so the tracking that
+    // follows the last letter leaves it narrower than the word's own ink.
+    @include tracking.trailing(calc(var(--category-size) * 0.066));
     vertical-align: bottom;
 
     // Only the accordion rolls the title away, and it travels by its own
@@ -174,16 +196,12 @@
 
   &__title-text {
     display: inline-block;
-    font-size: 1.875rem;
+    font-size: var(--category-size);
     font-weight: 700;
     line-height: 1.1;
     letter-spacing: -0.066em;
     text-transform: uppercase;
     transition: transform var(--roll-duration) var(--ease-main);
-
-    @include bp.from("nav") {
-      font-size: calc(40 * var(--u));
-    }
   }
 
   &__aside {
@@ -195,10 +213,13 @@
       right: calc(37 * var(--u));
       display: block;
       overflow: hidden;
+      // Only ever as wide as the mark, so the tracking that follows its last
+      // letter leaves the box short of the ink.
+      @include tracking.trailing(calc(var(--mark-size) * 0.06));
 
       span {
         display: inline-block;
-        font-size: calc(50 * var(--u));
+        font-size: var(--mark-size);
         font-weight: 700;
         line-height: 1.1;
         letter-spacing: -0.06em;
@@ -251,12 +272,48 @@
     }
   }
 
-  &__summary {
+  // Anchored to the panel's right edge like the large mark above it, so it
+  // travels in with the edge as the panel opens — which happens while it is
+  // still faded out, so what you see is a fade rather than a slide.
+  &__shot {
     display: none;
 
     @include bp.from("nav") {
+      position: absolute;
+      // Level with the first project link.
+      top: calc(196 * var(--u));
+      right: calc(25 * var(--u));
       display: block;
-      margin-top: calc(60 * var(--u));
+      width: calc(230 * var(--u));
+      aspect-ratio: 10 / 7;
+      background: var(--color-muted-soft);
+      opacity: 0;
+      transition: opacity 100ms var(--ease-main);
+    }
+  }
+
+  // Cropped to the head of the capture. These are full-page shots, and at a
+  // couple of hundred pixels wide the masthead is the only part of one that
+  // still reads as anything.
+  &__shot-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  &__summary {
+    display: none;
+
+    // Sits at the foot of the panel rather than after the links, so it clears
+    // the placeholder above it and stays put as categories gain projects.
+    @include bp.from("nav") {
+      position: absolute;
+      right: calc(25 * var(--u));
+      bottom: calc(47 * var(--u));
+      left: calc(25 * var(--u));
+      display: block;
       font-family: var(--font-mono);
       font-size: calc(20 * var(--u));
       font-weight: var(--weight-light);
@@ -272,8 +329,10 @@
   @include bp.from("nav") {
     &__block:hover,
     &__block:focus-within {
+      // Stays put and grows to sit alongside the large mark, rather than
+      // clearing out of its way.
       .works__number {
-        opacity: 0;
+        font-size: calc(56 * var(--u));
       }
 
       .works__title-text {
@@ -291,20 +350,18 @@
           text-decoration-color var(--arrow-duration) var(--ease-main);
       }
 
-      .works__projects li:nth-child(1) a {
-        transition-delay: 700ms;
+      // Counted down from the top so the lowest link starts first and the set
+      // runs in from the bottom. Generated rather than written out, so a
+      // category can gain a project without the last one arriving out of turn.
+      @for $i from 1 through 8 {
+        .works__projects li:nth-child(#{$i}) a {
+          transition-delay: #{700 - ($i - 1) * 50}ms;
+        }
       }
-      .works__projects li:nth-child(2) a {
-        transition-delay: 650ms;
-      }
-      .works__projects li:nth-child(3) a {
-        transition-delay: 600ms;
-      }
-      .works__projects li:nth-child(4) a {
-        transition-delay: 550ms;
-      }
-      .works__projects li:nth-child(5) a {
-        transition-delay: 500ms;
+
+      .works__shot {
+        opacity: 1;
+        transition: opacity 900ms var(--ease-main) 550ms;
       }
 
       .works__summary {
@@ -323,6 +380,7 @@
   .works__title-text,
   .works__aside span,
   .works__projects a,
+  .works__shot,
   .works__summary {
     transition: none;
   }

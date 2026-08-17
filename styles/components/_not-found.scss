@@ -1,0 +1,142 @@
+@use "../breakpoints" as bp;
+
+// A single centred stack with the status numerals behind it as a watermark.
+// Nothing here scrolls, so it is sized to the viewport less the header rather
+// than to its content.
+
+.not-found {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // Enough room under the fixed header that the stack still reads as centred.
+  min-height: 82svh;
+  padding: 7rem var(--gutter) 5rem;
+  overflow: hidden;
+
+  @include bp.from("nav") {
+    min-height: 78svh;
+  }
+
+  // Set to the viewport so it fills the width whatever the copy does, and kept
+  // just off the background so it reads as a watermark rather than as content.
+  &__figure {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 0;
+    font-size: 52vw;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    color: var(--color-fg);
+    opacity: 0.05;
+    white-space: nowrap;
+    transform: translate(-50%, -50%);
+    user-select: none;
+  }
+
+  &__body {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__title {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
+  }
+
+  &__note {
+    max-width: 26em;
+    margin-top: 1.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-light);
+    line-height: 1.5;
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+    color: var(--color-muted);
+
+    @include bp.from("nav") {
+      font-size: 1rem;
+    }
+  }
+
+  &__prompt {
+    margin-top: 3rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: var(--weight-light);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      font-size: 0.875rem;
+    }
+  }
+
+  // The header's bracket link, which is the site's way of marking a
+  // destination — the brackets open out on hover rather than the label moving.
+  &__link {
+    --bracket-inset: 0.5625rem;
+
+    position: relative;
+    margin-top: 0.875rem;
+    padding: 0 1.625rem;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: var(--weight-light);
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    @include bp.from("nav") {
+      font-size: 1.125rem;
+    }
+
+    &::before,
+    &::after {
+      position: absolute;
+      top: 50%;
+      font-size: 0.833em;
+      letter-spacing: 0;
+      transform: translateY(-50%);
+      transition: left var(--bracket-duration) var(--ease-main),
+        right var(--bracket-duration) var(--ease-main);
+    }
+
+    &::before {
+      content: "[";
+      left: var(--bracket-inset);
+    }
+
+    &::after {
+      content: "]";
+      right: var(--bracket-inset);
+    }
+
+    &:hover::before,
+    &:focus-visible::before {
+      left: 0;
+    }
+
+    &:hover::after,
+    &:focus-visible::after {
+      right: 0;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .not-found__link::before,
+  .not-found__link::after {
+    transition: none;
+  }
+}

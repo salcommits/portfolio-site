@@ -1,4 +1,5 @@
 @use "../breakpoints" as bp;
+@use "../cta";
 
 // The bar has no background of its own. `difference` against a near-white ink
 // resolves to near-black over the light sections and near-white over the dark
@@ -162,7 +163,8 @@
   }
 
   &__cta {
-    position: relative;
+    @include cta.redraw-underline;
+
     align-self: flex-start;
     margin-top: auto;
     display: inline-flex;
@@ -183,41 +185,6 @@
 
     @include bp.from("wide") {
       font-size: 1.125rem;
-    }
-
-    // Two rules: the resting line retracts to the right while a second grows
-    // in from the left, so the underline appears to redraw itself.
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      inset: auto 0 0 0;
-      height: 2px;
-      background: currentColor;
-      transition: transform var(--line-in-duration) var(--ease-main);
-    }
-
-    &::before {
-      transform: scaleX(1);
-      transform-origin: left;
-    }
-
-    &::after {
-      transform: scaleX(0);
-      transform-origin: right;
-    }
-
-    &:hover::before,
-    &:focus-visible::before {
-      transform: scaleX(0);
-      transform-origin: right;
-      transition-duration: var(--line-out-duration);
-    }
-
-    &:hover::after,
-    &:focus-visible::after {
-      transform: scaleX(1);
-      transform-origin: left;
     }
 
     &:hover .site-header__cta-icon,

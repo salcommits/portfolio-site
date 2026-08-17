@@ -9,6 +9,20 @@
   --color-muted-soft: #aaaaaa;
   --color-white: #ffffff;
   --color-panel: #f1f1f1;
+  // The second of the two plate tones the project screens alternate between.
+  // Matched to the value of the reference's muted olive, with the hue taken
+  // out — light enough to read as a change from --color-fg, dark enough to
+  // hold the same white text.
+  --color-band: #4e4e4e;
+  // The field the device captures are shot against, so their plate can be set
+  // to the same value and the phones read as standing on it rather than inside
+  // a panel laid over it. Sampled from the capture, not picked to taste — if a
+  // capture ever arrives on another ground, this is what has to move.
+  --color-device: #0d1017;
+  // The canvas the design-system sheets were drawn on, so a module cut out of
+  // one keeps the ground it was laid out against and reads as still sitting on
+  // the artboard. Sampled from the sheets for the same reason as above.
+  --color-canvas: #404040;
   // Stands in for project imagery that hasn't been shot yet.
   --color-placeholder: #f3e4fb;
   // Not quite white, so the header's difference blend lands just short of pure

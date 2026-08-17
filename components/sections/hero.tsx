@@ -1,15 +1,20 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { CSSProperties } from "react";
 
 import { CountUp } from "@/components/motion/count-up";
+import { SectionIndex } from "@/components/ui/section-index";
+import { recentProject } from "@/lib/projects";
 
-const headline = ["Hands-on", "Technologist"];
-const roles = ["Solutions Architect", "Developer", "Project Lead"];
+const headline = ["Always", "Building"];
+const roles = ["Technical Design", "Full-stack Builds", "Client-side Delivery"];
 const location = ["Based", "in", "London"];
 
 export function Hero() {
   return (
     <section id="hero" className="hero">
+      <SectionIndex n={1} className="hero__index" />
+
       <div className="hero__title">
         <span className="hero__number" aria-hidden="true">
           <span>
@@ -61,17 +66,22 @@ export function Hero() {
       </div>
 
       <p className="hero__description">
-        Lorem ipsum lorem ipsum lorem ipsum, lorem ipsum lorem ipsum lorem ipsum
-        lorem ipsum lorem ipsum.
+        I build software alongside the people who will end up running it.
       </p>
 
-      <a href="#work" className="hero__recent">
-        <span className="hero__recent-label">
-          Recent work
-          <ArrowUpRight />
-        </span>
-        <span className="hero__recent-value">Arch</span>
-      </a>
+      {/* Nothing to point at while the project list is being rebuilt, so the
+          link drops out rather than 404ing. */}
+      {recentProject ? (
+        <Link href={`/work/${recentProject.slug}`} className="hero__recent">
+          <span className="hero__recent-label">
+            Recent work
+            <ArrowUpRight />
+          </span>
+          <span className="hero__recent-value">
+            {recentProject.shortTitle ?? recentProject.title}
+          </span>
+        </Link>
+      ) : null}
     </section>
   );
 }

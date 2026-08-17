@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import { Wordmark } from "@/components/layout/wordmark";
 import { RollingText } from "@/components/motion/rolling-text";
+import { getLenis } from "@/components/motion/smooth-scroll";
 
 // Rooted rather than bare fragments, so they still reach the section when the
 // visitor is on a project page.
@@ -36,11 +37,13 @@ export function SiteHeader() {
 
     const { overflow } = document.body.style;
     document.body.style.overflow = "hidden";
+    getLenis()?.stop();
     document.addEventListener("keydown", onKeyDown);
     query.addEventListener("change", onBreakpointChange);
 
     return () => {
       document.body.style.overflow = overflow;
+      getLenis()?.start();
       document.removeEventListener("keydown", onKeyDown);
       query.removeEventListener("change", onBreakpointChange);
     };

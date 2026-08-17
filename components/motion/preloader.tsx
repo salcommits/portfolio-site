@@ -2,12 +2,17 @@
 
 import { useEffect, useState, type CSSProperties } from "react";
 
+import { getLenis } from "@/components/motion/smooth-scroll";
+
 // Two concentric bands, as in the reference: the name on the rim and the roles
 // set smaller inside it. Each phrase goes round exactly once, and the trailing
 // separator is what keeps the join from reading as a seam.
 const RINGS = [
-  { text: "Liam Atkins — Hands-on technologist — ", modifier: "lead" },
-  { text: "Solutions architect / Developer / Project lead / ", modifier: "trail" },
+  { text: "Liam Atkins — Always building — ", modifier: "lead" },
+  {
+    text: "Technical design / Full-stack builds / Client-side delivery / ",
+    modifier: "trail",
+  },
 ];
 const DURATION = 1900;
 const EXIT = 700;
@@ -64,16 +69,20 @@ export function Preloader() {
 
     const { overflow } = document.body.style;
     document.body.style.overflow = "hidden";
+    getLenis()?.stop();
 
     return () => {
       cancelAnimationFrame(frame);
       window.clearTimeout(exitTimer);
       document.body.style.overflow = overflow;
+      getLenis()?.start();
     };
   }, []);
 
   useEffect(() => {
-    if (phase === "gone") document.body.style.overflow = "";
+    if (phase !== "gone") return;
+    document.body.style.overflow = "";
+    getLenis()?.start();
   }, [phase]);
 
   if (phase === "gone") return null;

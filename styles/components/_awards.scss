@@ -6,12 +6,22 @@
 // walking it down the page. Same `--u` frame as the neighbouring sections.
 
 .awards {
+  position: relative;
   padding: 3.5rem 0 4rem;
 
   @include bp.from("nav") {
     --u: 0.0520833vw;
 
     padding: calc(200 * var(--u)) 0 calc(220 * var(--u));
+  }
+
+  // The section's own top padding, so it starts level with the head beside it.
+  &__index {
+    top: 3.5rem;
+
+    @include bp.from("nav") {
+      top: calc(200 * var(--u));
+    }
   }
 
   &__head {
@@ -175,61 +185,131 @@
     transform: rotate(0deg);
   }
 
-  // Below the breakpoint there is no hover to reveal them, so the blocks simply
-  // sit under the row they belong to.
-  &__thumbs {
+  // Below the breakpoint there is no hover to reveal them, so the cards simply
+  // sit under the row they belong to, two abreast.
+  &__certificates {
     display: flex;
-    gap: 0.375rem;
-    margin-top: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
     margin-left: 2.125rem;
-
-    span {
-      width: 1.75rem;
-      aspect-ratio: 152 / 200;
-    }
 
     @include bp.from("nav") {
       position: absolute;
-      // Set down from the top of the list so the artwork sits just above the
+      // Set down from the top of the list so the cards sit just above the
       // first row's cap line rather than riding over it.
       top: calc(32 * var(--u));
       left: calc(594 * var(--u));
       display: grid;
-      grid-template-columns: repeat(3, calc(152 * var(--u)));
+      grid-auto-flow: column;
+      grid-auto-columns: calc(152 * var(--u));
       gap: calc(10 * var(--u));
       margin: 0;
       opacity: 0;
-      // Stacked one on top of another in the same spot, so the panels that are
-      // out of view must not sit in front of the artwork that is.
+      // Stacked one on top of another in the same spot, so the sets that are
+      // out of view must not sit in front of the one that is.
       pointer-events: none;
+    }
+  }
 
-      span {
-        width: auto;
-        opacity: 0;
-        transform: translateY(calc(20 * var(--u)));
-        transition: opacity var(--line-out-duration) var(--ease-main),
-          transform var(--line-out-duration) var(--ease-main);
-      }
+  // Set like the certificate itself rather than a caption for it: the award,
+  // the year it covers, then who it was given to.
+  &__certificate {
+    display: flex;
+    flex-direction: column;
+    width: 8.5rem;
+    aspect-ratio: 152 / 200;
+    padding: 0.75rem;
+    color: var(--color-fg);
+
+    @include bp.from("nav") {
+      width: auto;
+      padding: calc(16 * var(--u));
+      opacity: 0;
+      transform: translateY(calc(20 * var(--u)));
+      transition: opacity var(--line-out-duration) var(--ease-main),
+        transform var(--line-out-duration) var(--ease-main);
+    }
+  }
+
+  &__certificate-title {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+
+    @include bp.from("nav") {
+      font-size: calc(17 * var(--u));
+    }
+  }
+
+  &__certificate-year {
+    margin-top: 0.125rem;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: var(--weight-light);
+    letter-spacing: var(--tracking-mono);
+    // Against a tint rather than the page, so this steps back from the title
+    // without dropping to the section's grey.
+    opacity: 0.6;
+
+    @include bp.from("nav") {
+      margin-top: calc(4 * var(--u));
+      font-size: calc(12 * var(--u));
+    }
+  }
+
+  // Set off from the award above it, so the card reads as the award and then
+  // who it went to rather than one run of three lines.
+  &__certificate-name {
+    margin-top: 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+
+    @include bp.from("nav") {
+      margin-top: calc(14 * var(--u));
+      font-size: calc(15 * var(--u));
+    }
+  }
+
+  // Dropped to the foot of the card, the way a figure is noted on the
+  // certificate itself rather than run in with the name above it.
+  &__certificate-prize {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: var(--weight-light);
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      padding-top: calc(10 * var(--u));
+      font-size: calc(12 * var(--u));
     }
   }
 
   @include bp.from("nav") {
-    &__row:hover &__thumbs,
-    &__row:focus-within &__thumbs {
+    &__row:hover &__certificates,
+    &__row:focus-within &__certificates {
       opacity: 1;
+      // Selectable once it is the set on show.
+      pointer-events: auto;
 
-      span {
+      .awards__certificate {
         opacity: 1;
         transform: translateY(0);
         transition-duration: var(--line-in-duration);
       }
 
       // Dealt out left to right rather than all at once.
-      span:nth-child(2) {
+      .awards__certificate:nth-child(2) {
         transition-delay: 80ms;
       }
 
-      span:nth-child(3) {
+      .awards__certificate:nth-child(3) {
         transition-delay: 160ms;
       }
     }
@@ -238,11 +318,11 @@
 
 @media (prefers-reduced-motion: reduce) {
   .awards__arrow,
-  .awards__thumbs span {
+  .awards__certificate {
     transition: none;
   }
 
-  .awards__thumbs span {
+  .awards__certificate {
     transform: none;
   }
 }

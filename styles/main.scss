@@ -5,6 +5,8 @@
 
 @use "components/rolling-text";
 @use "components/reveal";
+@use "components/unveil";
+@use "components/section-index";
 @use "components/preloader";
 @use "components/wordmark";
 @use "components/site-header";
@@ -15,3 +17,4 @@
 @use "components/awards";
 @use "components/contact";
 @use "components/project";
+@use "components/not-found";

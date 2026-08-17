@@ -2,34 +2,46 @@ import Image from "next/image";
 
 import { FallingText, type FallingLine } from "@/components/motion/falling-text";
 import { RevealText } from "@/components/motion/reveal-text";
+import { SectionIndex } from "@/components/ui/section-index";
 
 const EMAIL = "liamatkins24@gmail.com";
 
-// Copy is the placeholder from the design; swap in real text when it lands.
+// Broken to the column rather than left to wrap: the letters fall from these
+// lines, so a break that moved with the viewport would change the shape of the
+// fall. Around 25 characters is what the measure holds at the display size.
+//
+// The reference's shape: the subject on its own, the narrow reading of it
+// dropped back in grey, then the wider one returned to white. Reads on from the
+// "For me" label beside it, which keeps it a view rather than a pronouncement.
 const statement: FallingLine[] = [
-  { text: "Lorem" },
-  { text: "ipsum dolor" },
-  { text: "sit amet, consectetur", muted: true },
-  { text: "adi elit." },
+  { text: "Software" },
+  { text: "is not just", muted: true },
+  { text: "what gets built, but", muted: true },
+  { text: "what people can do" },
+  { text: "with it." },
 ];
 
-// Broken by hand, short–long–short, so the statement keeps a ragged edge instead
-// of squaring off into a slab. The spaces around the dash are non-breaking: HTML
-// would otherwise collapse them, and the gap is what gives the line its pause.
+// One sentence broken over three lines, rather than three clauses building to a
+// point. At this size anything with a payoff on the last line reads as a slogan.
+//
+// Deliberately not the "not just X, but Y" turn — the statement above now runs
+// it, and it was landing three times in one section.
 const manifesto = [
-  "Lorem ipsum sit",
-  "amet\u00a0\u00a0—\u00a0\u00a0consectetur elit",
-  "dolore magna.",
+  "The simplest thing",
+  "that works",
+  "is usually right.",
 ];
 
 export function About() {
   return (
     <section id="about" className="about">
+      <SectionIndex n={2} className="about__index" />
+
       <div className="about__intro">
         <a href={`mailto:${EMAIL}`} className="about__contact">
           <span className="about__contact-label">
             Contact
-            <ArrowDownRight className="about__contact-icon" />
+            <Arrow className="about__contact-icon" />
           </span>
           <span className="about__contact-email">{EMAIL}</span>
         </a>
@@ -58,11 +70,11 @@ export function About() {
         <div className="about__block about__block--experience">
           <p className="about__label about__label--marked">
             My experience
-            <ArrowDownRight />
+            <Arrow />
           </p>
           <p className="about__note">
-            A solutions architect with over 10 years of experience in tech for
-            companies.
+            Every project has taught me something I did not expect, usually
+            from the people already living with the problem.
           </p>
         </div>
 
@@ -74,54 +86,65 @@ export function About() {
           ))}
         </p>
 
-        <p className="about__note about__note--wide">
-          Vivamus in justo id eros vulputate faucibus luctus sed lectus. Nullam
-          ut lectus non dolor congue fermentum.
-        </p>
-
         <div className="about__block about__block--philosophy">
           <p className="about__label about__label--marked">
             My philosophy
-            <ArrowDownRight />
+            <Arrow />
           </p>
           <p className="about__note">
-            Duis ultrices venenatis eros id facilisis. Morbi tincidunt et ante
-            pulvinar pulvinar. Ut cursus, nibh vel placerat accumsan.
+            I value curiosity, momentum and honesty &mdash; in software and in
+            life. I am close to the idea of building in the open: small things,
+            shown early, allowed to grow. I love systems simple enough to hold
+            in your head.
           </p>
         </div>
 
         <div className="about__lifestyle">
-          <div className="about__gallery" aria-hidden="true">
-            <span className="about__frame about__frame--one" />
-            <span className="about__frame about__frame--two" />
+          <div className="about__gallery">
+            <span className="about__frame about__frame--one" aria-hidden="true" />
+
+            {/* The link is grouped with the second frame so it sits under it,
+                the way the reference hangs it off the imagery. */}
+            <div className="about__frame-group">
+              <span
+                className="about__frame about__frame--two"
+                aria-hidden="true"
+              />
+
+              <a href="#contact" className="about__connect">
+                Lets connect
+                <Arrow className="about__connect-icon" />
+              </a>
+            </div>
           </div>
 
           <div className="about__block about__block--lifestyle">
             <p className="about__label about__label--marked">
-            My lifestyle
-            <ArrowDownRight />
-          </p>
+              My lifestyle
+              <Arrow />
+            </p>
+            {/* Invented, unlike the rest of the section — the copy deck has no
+                source material for this one and lists it as outstanding. It is
+                written to the right length and voice so the layout is honest,
+                but none of it is a claim about you. Replace before launch. */}
             <p className="about__note">
-              Cras lacus leo, efficitur nec venenatis ut, porttitor ac ipsum.
-              Morbi molestie mattis justo, vel ornare nisl sagittis nec.
+              I look for good design everywhere: in a well-written function, in
+              a train timetable, in the way a kitchen is laid out.
             </p>
             <p className="about__note">
-              Duis ligula odio, pretium vitae vehicula non, rutrum ut libero.
-              Nam blandit et enim id cursus. Nulla purus mi, convallis sit amet
-              dignissim.
+              Away from the screen it is mostly outdoors, and a long tail of
+              half-finished side projects.
             </p>
           </div>
         </div>
-
-        <a href="#contact" className="about__connect">
-          Lets connect
-        </a>
       </div>
     </section>
   );
 }
 
-function ArrowDownRight({ className = "about__arrow" }: { className?: string }) {
+// Drawn pointing right; every use turns it with CSS, so the same glyph serves
+// the labels pointing down into their blocks and the link pointing up and out.
+function Arrow({ className = "about__arrow" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 16 16"

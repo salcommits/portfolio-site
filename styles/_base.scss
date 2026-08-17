@@ -1,17 +1,12 @@
 @use "breakpoints" as bp;
 
+// No `scroll-behavior: smooth` here: the eased scroll is driven per frame from
+// JavaScript, and a native smooth scroll on top of it fights the same property.
+// Anchor links are handled there instead.
 html {
   height: 100%;
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
 }
 
 body {

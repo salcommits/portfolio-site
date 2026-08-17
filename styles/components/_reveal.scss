@@ -1,13 +1,19 @@
 // Letters rise out of a clipped word box. The word box is the mask, so the
 // clip follows wrapping instead of cutting the line in half.
 
+@use "../tracking";
+
 .reveal {
   &__word {
     display: inline-flex;
     overflow: hidden;
-    // Extra room around the cap so `overflow: hidden` doesn't shave the tops
-    // off headings set on a tight line-height.
-    padding: 0.14em 0 0.08em;
+    // Extra room above and below the cap so `overflow: hidden` doesn't shave
+    // the tops off headings set on a tight line-height.
+    padding-block: 0.14em 0.08em;
+    // Padded to the widest tracking any heading here uses, which is the About
+    // title's -0.0833em. Overshooting costs the tighter-set ones nothing, since
+    // the extra only widens where the mask stops, never the layout.
+    @include tracking.trailing(0.0833em);
     vertical-align: bottom;
   }
 

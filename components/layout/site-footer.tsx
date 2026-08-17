@@ -55,7 +55,7 @@ export function SiteFooter() {
           London, UK: <LocalTime />
         </p>
 
-        <p className="site-footer__credit">Development &mdash; {NAME}</p>
+        <p className="site-footer__credit">Built by me</p>
 
         <p className="site-footer__legal">
           {new Date().getFullYear()} All rights reserved. {NAME}. Any
