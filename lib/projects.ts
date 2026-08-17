@@ -27,8 +27,9 @@ export type Project = {
   solution: string;
   detail: string[];
   /**
-   * Letterboxed art at the head of the page. Omitted until the work has been
-   * shot, which falls back to the flat placeholder the design was built on.
+   * Letterboxed art at the head of the page. Omitted where there is nothing to
+   * show — work that was a script or a programme rather than an interface — and
+   * the page then opens on its title instead.
    */
   cover?: Shot;
   /**
@@ -80,6 +81,22 @@ export type Project = {
   results?: {
     note: string;
     measures: string[];
+  };
+  /**
+   * The client's own words, on a plate of their own. Attributed, because an
+   * unattributed quote reads as something the site wrote about itself.
+   */
+  testimonial?: {
+    /**
+     * Set at display size beside the quote. On a page with no screens this is
+     * the only place the client is named at scale, which is the job the display
+     * plate does in a gallery.
+     */
+    client: string;
+    quote: string;
+    name: string;
+    /** Their standing at the client, so the name alone isn't doing the work. */
+    role: string;
   };
   /** Omitted for anything without a public URL, which hides the visit link. */
   url?: string;
@@ -158,7 +175,7 @@ export const categories: Category[] = [
         summary:
           "A custom, modular WordPress recruitment platform with an integrated ATS, scoped and built in six weeks.",
         challenge:
-          "Morgan Latif's site brought in very little traffic and almost no candidate activity, so their pipelines ran almost entirely through consultants. That holds while a business is small. Grow the headcount and the search mandates and those same pipelines start needing proportionally more people to sustain them, while the demand the brand should be catching goes to competitors instead.",
+          "Morgan Latif's site brought in very little traffic and almost no candidate activity, so their pipelines ran almost entirely through consultants. That holds while a business stays the size it is. Theirs was growing fast, and a pipeline carried by people needs proportionally more people to carry it — every new mandate asking for consultant time that the brand's own demand should have been absorbing, while that demand went to competitors instead.",
         meta: {
           service: "Build & Development",
           industry: "Recruitment",
@@ -176,7 +193,7 @@ export const categories: Category[] = [
           // number is to hand.
           "The build was fully custom — PHP and SCSS, parent and child WordPress themes, responsive at every width. No single module was difficult. Making fifty of them combine in any order and still animate, still reflow, still look like the drawings is where nearly all of the difficulty sat, and it had to hold while the design team's own commitments were being met to their schedule.",
           "Six weeks, scope to launch. The design partner stayed close the whole way and effectively became a second pass of QA, which is a large part of why a build that compressed went out clean. I kept hosting and maintainability for the twelve months after it.",
-          "Worth saying plainly: low traffic never meant a weak candidate network. It meant the network was being carried by people rather than by the site. If the mandates grow and organic candidate acquisition doesn't, that carrying simply costs more consultant time — which is the case for building this, more than any figure on a dashboard.",
+          "Worth saying plainly: low traffic never meant a weak candidate network. It meant the network was being carried by people rather than by the site. With the mandates growing and organic candidate acquisition flat, that carrying simply costs more consultant time — which is the case for building this, more than any figure on a dashboard.",
         ],
         // The homepage capture again, left to the cover's own crop rather than
         // cut to shape here. Cropping from the top of a tall capture lands on
@@ -357,7 +374,7 @@ export const categories: Category[] = [
           year: "2023",
         },
         country: "UK",
-        url: "https://www.hypedmgt.co",
+        url: "https://hypedmgt.co",
         approach:
           "Design and build both, on this one — the experience and interface drawn in Figma, then developed by hand with no theme underneath it. The brief was less about features than about standing: sell the roster, turn attention into enquiries, and be good enough that a brand reads it as taste rather than as a directory of names. Talent choosing who should represent them reads it the same way, which is the part most management sites miss.",
         solution:
@@ -417,6 +434,40 @@ export const categories: Category[] = [
             "Repeat visits from brands and agencies",
             "High-quality commercial opportunities",
           ],
+        },
+      },
+      // Also delivered at Carno. COREP is named in the write-up, so the comment
+      // only carries what the page doesn't: there are no screens on this one
+      // because the work was a script, and the whole of its interface is a box
+      // you paste a list of postcodes into.
+      {
+        slug: "commute-analysis",
+        title: "Commute Analysis",
+        summary:
+          "A hosted Python tool that turns a team's postcodes into real commute data for every office on a shortlist.",
+        challenge:
+          "COREP advise businesses on the buildings they work from — thirty-odd people, acting mostly for occupiers large enough that a move is a programme rather than a decision. Part of that work is narrowing a shortlist to A, B or C, and one of the things that settles it is what each option would do to the people already there: how far everyone would now be travelling, and whether that holds up when somebody asks. Getting to the answer meant working through the team's postcodes by hand, a route at a time, for every building still in the running.",
+        meta: {
+          service: "Build & Development",
+          industry: "Commercial real estate",
+          year: "2023",
+        },
+        country: "UK",
+        approach:
+          "Software for this exists, and COREP had priced it. It was expensive, and it answered a much larger question than the one being asked — a platform, where what they wanted was an answer. So the brief arrived as a problem rather than a specification: work out what the thing actually has to do, then build it. Most of the value turned out to sit in deciding how little that was.",
+        solution:
+          "A Python script hooked to the Google Maps API, hosted so that using it is a matter of pasting in a list. It takes the postcodes the business already holds for its team and the addresses on the shortlist, and returns real commute times for every pairing, option by option. Twenty hours or more come back on a typical evaluation — across a year of them, near enough a full-time person.",
+        detail: [
+          "Transport mode is a setting rather than a rebuild, so the same list can be read as driving on one run and public transport on the next, and it holds up over data sets far larger than the manual version could face. Every route is also a paid call, so the script keeps its own ceiling — batching what it asks for, and holding the limit itself rather than trusting whoever is running it to be careful. Beyond those calls there is nothing to pay for: no seats, no licence, no renewal to defend next year.",
+          "It is small enough to read start to finish, which is what makes it maintainable rather than mine. The people using it can see what it does, and changing it when the question changes is an afternoon rather than a procurement exercise.",
+          "Under a week from brief to working tool, which was mostly a matter of agreeing what it did not need to do. The platform on the market would have done a great deal more than this one does. This one did the thing they were actually doing by hand.",
+        ],
+        testimonial: {
+          client: "COREP",
+          quote:
+            "We tasked Liam with a slightly unusual task that required a complex mix of coding and website creation. We weren't actually sure if it was possible, however Liam built a fantastic, fool proof tool in less than a week. I couldn't speak more highly about his personable nature and unique skillset. Thanks again Liam!",
+          name: "Matt Swash",
+          role: "Founder",
         },
       },
     ],

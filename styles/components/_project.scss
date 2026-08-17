@@ -120,8 +120,8 @@
   }
 
   // Letterboxed rather than the reference's near-square, which would dominate
-  // everything under it. Falls back to a flat block on projects with no shot
-  // yet, which is why the box sets its own ratio instead of taking the image's.
+  // everything under it. The box sets its own ratio rather than taking the
+  // image's, because the captures arrive tall and this is a crop of one.
   &__cover-image {
     display: block;
     width: 100%;
@@ -129,7 +129,6 @@
     // on the capture, rather than running on into whatever follows the fold.
     aspect-ratio: 20 / 9;
     height: auto;
-    background: var(--color-placeholder);
     // Page captures are cropped from the top: the masthead is the part that
     // identifies the site, and the fold below it is in the gallery anyway.
     object-fit: cover;
@@ -151,6 +150,18 @@
     @include bp.from("nav") {
       margin-top: calc(60 * var(--u));
       font-size: calc(120 * var(--u));
+    }
+  }
+
+  // Where there is no cover, the title follows the back link directly and comes
+  // up the page to meet it. Less air than the cover took, but more than the
+  // title asks for on its own: it is now what the page opens on, and it wants
+  // to arrive as a title rather than as the first line of the write-up.
+  &__back + &__title {
+    margin-top: 2rem;
+
+    @include bp.from("nav") {
+      margin-top: calc(90 * var(--u));
     }
   }
 
@@ -392,12 +403,16 @@
     }
   }
 
-  // The closing band's own margin is for when it follows the prose, which is set
-  // on white. Butted straight up against whichever plate ends the run instead,
-  // so two full-bleed darks meet rather than showing a strip of page between.
+  // A full-bleed band's own margin is for when it follows the prose, which is
+  // set on white. Butted straight up against whichever plate runs into it
+  // instead, so two darks meet rather than showing a strip of page between.
   &__shot + &__detail,
   &__devices + &__detail,
-  &__system + &__detail {
+  &__system + &__detail,
+  &__quote + &__detail,
+  &__shot + &__quote,
+  &__devices + &__quote,
+  &__system + &__quote {
     margin-top: 0;
   }
 
@@ -713,6 +728,87 @@
     width: 0.75em;
     height: 0.75em;
     transform: rotate(-45deg);
+  }
+
+  // The client's own words, laid out the way the screens are: the name at
+  // display size on one side, the thing being shown on the other. Set on the
+  // second dark rather than the first, so it butts the closing band with the
+  // colour changing on a hard edge — the same way the plates above meet.
+  &__quote {
+    margin-top: 3rem;
+    padding: 2.5rem var(--gutter);
+    background: var(--color-band);
+    color: var(--color-white);
+    text-align: left;
+
+    @include bp.from("nav") {
+      display: grid;
+      // The quote takes the larger share, as the captures do: a name only ever
+      // needs a word, and this is several sentences of somebody talking.
+      grid-template-columns: 4fr 6fr;
+      align-items: center;
+      gap: calc(80 * var(--u));
+      margin-top: calc(140 * var(--u));
+      padding: calc(130 * var(--u)) var(--gutter);
+    }
+  }
+
+  // Set at the page title's size rather than the screen labels', because on a
+  // page with no gallery this is the only place the client is named at scale —
+  // it is standing in for the display plate, not for a caption.
+  &__quote-client {
+    display: block;
+    // Clears the quote stacked under it. Side by side on the grid, where the
+    // gap does the same job.
+    margin-bottom: 1.5rem;
+    font-size: 13vw;
+    font-weight: 700;
+    line-height: 0.74;
+    letter-spacing: -0.073em;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      margin-bottom: 0;
+      font-size: calc(120 * var(--u));
+    }
+  }
+
+  &__quote-index {
+    @include marker;
+  }
+
+  // A good deal larger than the prose it follows and well short of the names
+  // beside it: it has to read as somebody speaking rather than as a caption,
+  // and there is far too much of it to set at display size.
+  &__quote-text {
+    font-family: var(--font-mono);
+    font-size: 1.0625rem;
+    font-weight: var(--weight-light);
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      font-size: calc(34 * var(--u));
+    }
+  }
+
+  // Muted under the quote, so the two read as a statement and its source rather
+  // than as one run of speech.
+  &__quote-name {
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-light);
+    line-height: 1.25;
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+    color: var(--color-muted-soft);
+
+    @include bp.from("nav") {
+      margin-top: calc(46 * var(--u));
+      font-size: calc(16 * var(--u));
+    }
   }
 
   // Closes the page on a full-bleed dark band. Text alone: an image alongside

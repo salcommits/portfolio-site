@@ -75,11 +75,12 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
         Back
       </Link>
 
-      {/* The mount is always drawn, and holds either the capture or the flat
-          block that stands in for one, so a project without a shot yet still
-          opens on the same plate rather than on a different arrangement. */}
-      <div className="project__cover">
-        {project.cover ? (
+      {/* Drawn only where there is something to put in it. Plenty of this work
+          was a script or a programme with no interface to photograph, and an
+          empty mount at the head of one would read as a picture that failed to
+          load rather than as a page that never had one. */}
+      {project.cover ? (
+        <div className="project__cover">
           <Image
             src={project.cover.src}
             width={project.cover.width}
@@ -88,10 +89,8 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
             priority
             className="project__cover-image"
           />
-        ) : (
-          <div className="project__cover-image" aria-hidden="true" />
-        )}
-      </div>
+        </div>
+      ) : null}
 
       <RevealText as="h1" className="project__title" text={project.title} />
 
@@ -260,6 +259,33 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
             ))}
           </ul>
         </section>
+      ) : null}
+
+      {/* Arranged the way the screens above are — the name at display size on
+          one side, what is being shown on the other — because it is the same
+          kind of beat: something of the client's, on a plate of its own. The
+          name carries the client so the attribution only has to carry the
+          person. */}
+      {project.testimonial ? (
+        <figure className="project__quote">
+          <RevealText
+            as="figcaption"
+            text={project.testimonial.client}
+            className="project__quote-client"
+          />
+
+          <div>
+            <span className="project__quote-index" aria-hidden="true">
+              / client
+            </span>
+            <blockquote className="project__quote-text">
+              {`“${project.testimonial.quote}”`}
+            </blockquote>
+            <p className="project__quote-name">
+              {`${project.testimonial.name} — ${project.testimonial.role}`}
+            </p>
+          </div>
+        </figure>
       ) : null}
 
       <section className="project__detail">
