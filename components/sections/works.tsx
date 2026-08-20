@@ -12,10 +12,19 @@ export function Works() {
 
       <div className="works__head">
         <RevealText as="h2" text="Works" className="works__title" />
-      <p className="works__intro">
-        Five ways of describing the same work, really &mdash; and most of these
-        projects ended up touching more than one of them.
-      </p>
+        <p className="works__intro">
+          Five ways of describing the same work, really &mdash; and most of
+          these projects ended up touching more than one of them.
+        </p>
+
+        {/* The other half of the work: everything currently on the bench, which
+            is too short to write up at this length. Labelled by what is at the
+            other end rather than by the page's name, which the list itself then
+            opens by repeating. */}
+        <Link href="/build-list" className="works__more">
+          See what I am building now
+          <ArrowUpRight />
+        </Link>
       </div>
 
       <div className="works__wrapper">
@@ -75,5 +84,24 @@ export function Works() {
         })}
       </div>
     </section>
+  );
+}
+
+// Drawn pointing right and rotated up, so hovering just unwinds it — the same
+// arrow the hero's recent-work link carries.
+function ArrowUpRight() {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.25"
+      strokeLinecap="square"
+      aria-hidden="true"
+      className="works__more-icon"
+    >
+      <path d="M2.5 8h11" />
+      <path d="M9 3.5 13.5 8 9 12.5" />
+    </svg>
   );
 }

@@ -1,0 +1,227 @@
+@use "../back-link" as back;
+@use "../breakpoints" as bp;
+
+// A list rather than a write-up: everything here is one line long, so the page
+// is ranged left the whole way down and the columns do the work the headings
+// would have done on a project page.
+
+.builds {
+  // What the page opens with, named because the back link pins itself to the
+  // foot of it rather than to a figure of its own.
+  --top-space: 1.5rem;
+  // The header's own height: its padding either side of the wordmark. Flat
+  // until `wide`, where the padding starts scaling with the viewport.
+  --header-height: 5.125rem;
+
+  padding-top: var(--top-space);
+  padding-bottom: 4rem;
+
+  @include bp.from("nav") {
+    --u: 0.0520833vw;
+    --top-space: calc(40 * var(--u));
+
+    padding-bottom: calc(160 * var(--u));
+  }
+
+  @include bp.from("wide") {
+    --header-height: calc(3.854vw + 2.625rem);
+  }
+
+  &__back {
+    @include back.back-link(".builds__back-icon");
+  }
+
+  &__back-icon {
+    @include back.back-link-icon;
+  }
+
+  &__title {
+    display: block;
+    margin-left: var(--gutter);
+    font-size: 13vw;
+    font-weight: 700;
+    line-height: 0.74;
+    letter-spacing: -0.073em;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      margin-top: calc(90 * var(--u));
+      font-size: calc(120 * var(--u));
+    }
+  }
+
+  // Set to a measure rather than the table's width. The table is wide because
+  // it is four columns; a sentence read across the same span would not be.
+  &__intro {
+    margin: 1.75rem var(--gutter) 0;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: var(--weight-light);
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: var(--color-muted);
+
+    @include bp.from("nav") {
+      width: calc(760 * var(--u));
+      margin-top: calc(60 * var(--u));
+      font-size: calc(20 * var(--u));
+    }
+  }
+
+  // The tracks are held here rather than on the rows, so the head and every row
+  // are laid out against one set of columns and there is a single figure to
+  // change when a column is too tight.
+  &__table {
+    --columns: 3.2fr 4.6fr 1.5fr 1.3fr;
+
+    margin: 3rem var(--gutter) 0;
+
+    @include bp.from("nav") {
+      margin-top: calc(120 * var(--u));
+    }
+  }
+
+  // Only drawn once the row is a row. Below the breakpoint each entry stacks
+  // into a block of its own and a set of headings over the first one would be
+  // labelling something that is no longer beneath them.
+  &__columns {
+    display: none;
+
+    @include bp.from("nav") {
+      display: grid;
+      grid-template-columns: var(--columns);
+      gap: calc(40 * var(--u));
+      padding-bottom: calc(18 * var(--u));
+      border-bottom: 1px solid var(--color-fg);
+      font-family: var(--font-mono);
+      font-size: calc(15 * var(--u));
+      font-weight: var(--weight-light);
+      line-height: 0.99;
+      letter-spacing: var(--tracking-mono);
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+  }
+
+  &__row {
+    border-bottom: 1px solid var(--color-fg);
+  }
+
+  &__cells {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    column-gap: 1rem;
+    row-gap: 0.5rem;
+    padding: 1.25rem 0;
+
+    @include bp.from("nav") {
+      grid-template-columns: var(--columns);
+      align-items: start;
+      gap: calc(40 * var(--u));
+      padding: calc(30 * var(--u)) 0 calc(28 * var(--u));
+    }
+  }
+
+  &__name {
+    grid-column: 1;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      font-size: calc(34 * var(--u));
+      // The display face sits high in its box, so the name's cap line and the
+      // mono beside it would otherwise start at different heights.
+      margin-top: calc(-6 * var(--u));
+    }
+
+    // Only some names have anywhere to go, so the one that does says so on
+    // hover as well as by the arrow it carries.
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35em;
+      transition: color var(--arrow-duration) var(--ease-main);
+
+      &:hover,
+      &:focus-visible {
+        color: var(--color-muted);
+      }
+    }
+  }
+
+  &__description {
+    grid-column: 1 / -1;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-light);
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: var(--color-muted);
+
+    @include bp.from("nav") {
+      grid-column: 2;
+      font-size: calc(18 * var(--u));
+    }
+  }
+
+  &__type,
+  &__status {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: var(--weight-light);
+    line-height: 1.25;
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+
+    @include bp.from("nav") {
+      font-size: calc(16 * var(--u));
+    }
+  }
+
+  &__type {
+    grid-column: 1;
+
+    @include bp.from("nav") {
+      grid-column: 3;
+    }
+  }
+
+  // Ranged right where it shares a line with the type, so the pair reads as two
+  // marks at either end rather than as a phrase.
+  &__status {
+    grid-column: 2;
+    text-align: right;
+
+    @include bp.from("nav") {
+      grid-column: 4;
+      text-align: left;
+    }
+  }
+
+  // Sized against the name it sits beside rather than in its own units, so it
+  // holds its proportion when the name scales at the breakpoint.
+  &__arrow {
+    flex: none;
+    width: 0.5em;
+    height: 0.5em;
+    transform: rotate(-45deg);
+    transition: transform var(--arrow-duration) var(--ease-main);
+  }
+
+  &__row:hover &__arrow,
+  &__row:focus-within &__arrow {
+    transform: rotate(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .builds__arrow,
+  .builds__back-icon,
+  .builds__name a {
+    transition: none;
+  }
+}

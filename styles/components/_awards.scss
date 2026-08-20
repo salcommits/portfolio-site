@@ -213,7 +213,8 @@
   }
 
   // Set like the certificate itself rather than a caption for it: the award,
-  // the year it covers, then who it was given to.
+  // the year it covers, then the client where the award names one. The ink here
+  // is the light plate's; the dark two override it below.
   &__certificate {
     display: flex;
     flex-direction: column;
@@ -249,7 +250,7 @@
     font-size: 0.625rem;
     font-weight: var(--weight-light);
     letter-spacing: var(--tracking-mono);
-    // Against a tint rather than the page, so this steps back from the title
+    // Against a plate rather than the page, so this steps back from the title
     // without dropping to the section's grey.
     opacity: 0.6;
 
@@ -260,8 +261,8 @@
   }
 
   // Set off from the award above it, so the card reads as the award and then
-  // who it went to rather than one run of three lines.
-  &__certificate-name {
+  // who it was won for rather than one run of three lines.
+  &__certificate-client {
     margin-top: 0.625rem;
     font-size: 0.75rem;
     font-weight: 700;
@@ -289,6 +290,31 @@
       padding-top: calc(10 * var(--u));
       font-size: calc(12 * var(--u));
     }
+  }
+
+  // The mark takes the first card's plate, so the row and the set it opens
+  // start on the same colour.
+  &__mark--red,
+  &__certificate--red {
+    background: var(--plate-red);
+  }
+
+  &__mark--violet,
+  &__certificate--violet {
+    background: var(--plate-violet);
+  }
+
+  &__mark--teal,
+  &__certificate--teal {
+    background: var(--plate-teal);
+  }
+
+  // Both dark plates carry white. The teal keeps the section's ink instead: the
+  // reference sets white on its teal too, but nothing on those cards is as
+  // small as the year and the client are here.
+  &__certificate--red,
+  &__certificate--violet {
+    color: var(--color-white);
   }
 
   @include bp.from("nav") {

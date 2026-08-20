@@ -1,0 +1,55 @@
+@use "breakpoints" as bp;
+
+// The way out of a page that isn't the home page. Held at the top of the window
+// for the whole scroll, so it is never more than a glance away however long the
+// page runs, and pinned exactly where it already sits — which is what stops it
+// appearing to jump as it catches.
+//
+// No ground of its own, and blended like the header for the same reason: it has
+// to cross the dark plates further down, and `difference` against a near-white
+// ink resolves light over those and dark over the page.
+//
+// Expects `--header-height` and `--top-space` from the page that includes it,
+// because where it pins is a fact about that page's opening rather than about
+// the link.
+@mixin back-link($icon) {
+  position: sticky;
+  top: calc(var(--header-height) + var(--top-space));
+  z-index: calc(var(--z-header) - 1);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-blend-ink);
+  mix-blend-mode: difference;
+  // Block-level and shrunk to its text, so the auto margin can range it left
+  // out of the centred column.
+  width: fit-content;
+  margin-bottom: 2rem;
+  margin-right: auto;
+  margin-left: var(--gutter);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: var(--weight-light);
+  line-height: 0.99;
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+
+  @include bp.from("nav") {
+    margin-bottom: calc(50 * var(--u));
+    font-size: calc(16 * var(--u));
+  }
+
+  // Backs out from under the label on hover, the mirror of the outbound arrows
+  // elsewhere.
+  &:hover #{$icon},
+  &:focus-visible #{$icon} {
+    transform: translateX(-0.25em);
+  }
+}
+
+@mixin back-link-icon {
+  flex: none;
+  width: 1em;
+  height: 1em;
+  transition: transform var(--arrow-duration) var(--ease-main);
+}

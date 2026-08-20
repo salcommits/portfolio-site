@@ -6,17 +6,27 @@ const PHONE = "+44 7531219924";
 const EMAIL = "liamatkins24@gmail.com";
 const NAME = "Liam Atkins";
 
-const socials = [
+// Me, off this site — profiles and the CV together, since they are the same
+// thing to a visitor: somewhere else to go and read.
+const elsewhere = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/liam-robert-atkins/" },
   { label: "GitHub", href: "https://github.com/salcommits" },
   // Telegram has no username-to-profile page of its own; t.me is the handle's
   // canonical link, and it opens the app where one is installed.
   { label: "Telegram", href: "https://t.me/liamatki" },
+  // Drive's preview, so it opens to read rather than landing in a downloads
+  // folder. Swap this for a file served from the site if the link ever needs to
+  // outlive the share setting on that folder.
+  {
+    label: "CV",
+    href: "https://drive.google.com/file/d/1iM7PVFpcUNg6vFoCtpoy6xBpgDVho62T/view",
+  },
 ];
 
 const pages = [
   { label: "About me", href: "/#about" },
   { label: "Works", href: "/#work" },
+  { label: "Build list", href: "/build-list" },
 ];
 
 export function SiteFooter() {
@@ -29,11 +39,11 @@ export function SiteFooter() {
         {EMAIL}
       </a>
 
-      <ul className="site-footer__social">
-        {socials.map((social) => (
-          <li key={social.label}>
-            <a href={social.href} target="_blank" rel="noreferrer noopener">
-              {social.label}
+      <ul className="site-footer__elsewhere">
+        {elsewhere.map((link) => (
+          <li key={link.label}>
+            <a href={link.href} target="_blank" rel="noreferrer noopener">
+              {link.label}
               <ArrowUpRight />
             </a>
           </li>

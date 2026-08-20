@@ -12,6 +12,7 @@ import { getLenis } from "@/components/motion/smooth-scroll";
 const navLinks = [
   { label: "About me", href: "/#about" },
   { label: "Works", href: "/#work" },
+  { label: "Build list", href: "/build-list" },
   { label: "Connect", href: "/#contact" },
 ];
 

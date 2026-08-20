@@ -33,8 +33,7 @@ export function Awards() {
           <li key={award.slug} className="awards__row">
             <div className="awards__line">
               <span
-                className="awards__mark"
-                style={{ background: award.certificates[0].tint }}
+                className={`awards__mark awards__mark--${award.certificates[0].plate}`}
                 aria-hidden="true"
               />
 
@@ -53,14 +52,17 @@ export function Awards() {
               {award.certificates.map((certificate) => (
                 <li
                   key={certificate.title}
-                  className="awards__certificate"
-                  style={{ background: certificate.tint }}
+                  className={`awards__certificate awards__certificate--${certificate.plate}`}
                 >
                   <p className="awards__certificate-title">
                     {certificate.title}
                   </p>
                   <p className="awards__certificate-year">{certificate.year}</p>
-                  <p className="awards__certificate-name">{certificate.name}</p>
+                  {certificate.client ? (
+                    <p className="awards__certificate-client">
+                      {certificate.client}
+                    </p>
+                  ) : null}
                   {certificate.prize ? (
                     <p className="awards__certificate-prize">
                       {certificate.prize}

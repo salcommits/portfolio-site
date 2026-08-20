@@ -512,10 +512,13 @@ export function getProject(slug: string) {
 }
 
 /**
- * What the hero points at. First in the list rather than sorted by year, so the
- * order the projects are written in is the order they rank.
+ * What the hero points at. Named rather than taken from the top of the list,
+ * because which project leads the page and which order the works section lists
+ * them in are two separate decisions. Falls back to the first written up, so the
+ * hero still has something to point at if this slug ever stops existing.
  */
-export const recentProject: Project | undefined = projects[0];
+export const recentProject: Project | undefined =
+  getProject("commute-analysis") ?? projects[0];
 
 export function getCategoryFor(slug: string) {
   return categories.find((category) =>

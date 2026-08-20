@@ -1,13 +1,22 @@
+/**
+ * The ground a card is set on. Named rather than given as a colour so a card
+ * can only be one of the three the section holds, and none of the three is
+ * light: the first card of a set also fills the mark beside its row, so a plate
+ * has to hold against the page as well as behind text.
+ */
+export type Plate = "red" | "violet" | "teal";
+
 export type Certificate = {
   /**
-   * Stands in for the certificate artwork, which hasn't been gathered yet. The
-   * card is set to read as the certificate itself, so swap this for an image
-   * when the artwork lands rather than adding one alongside.
+   * Standing in for the certificate artwork, which hasn't been gathered yet —
+   * so it is dealt out to vary across a set rather than saying anything about
+   * the award. Swap the plate for an image when the artwork lands, rather than
+   * adding one alongside.
    */
-  tint: string;
+  plate: Plate;
   title: string;
-  /** Recipient, with the client in brackets where the award names one. */
-  name: string;
+  /** The client, where the award names one. */
+  client?: string;
   year: string;
   /**
    * The figure the award carried, where it had one. Set apart at the foot of
@@ -22,8 +31,6 @@ export type Award = {
   certificates: Certificate[];
 };
 
-const NAME = "Liam Atkins";
-
 // Confirmed: Services MVP, Team of the Year, the $1 Million Club, the AI
 // Solution prize and the scholarship. The rest follow the same shape with the
 // details guessed from the copy deck, so check every title, client and year
@@ -35,15 +42,13 @@ export const awards: Award[] = [
     certificates: [
       // CHECK: the deck dates this Q3 FY25 but doesn't name the award or client.
       {
-        tint: "#cbb6ef",
+        plate: "violet",
         title: "EMEA MVP FY25",
-        name: NAME,
         year: "2024-25",
       },
       {
-        tint: "#b6d4ef",
+        plate: "teal",
         title: "Services MVP FY26",
-        name: NAME,
         year: "2025-26",
       },
     ],
@@ -53,9 +58,9 @@ export const awards: Award[] = [
     title: "Team of the Year",
     certificates: [
       {
-        tint: "#b6efc9",
+        plate: "red",
         title: "Team of the Year FY26",
-        name: `${NAME} (Daily Mail Group)`,
+        client: "Daily Mail Group",
         year: "2025-26",
       },
     ],
@@ -68,9 +73,9 @@ export const awards: Award[] = [
       // "major global media organisation" is Publicis, not a media owner.
       // CHECK: the exact award title.
       {
-        tint: "#efe2b6",
+        plate: "teal",
         title: "AI Solution of the Year",
-        name: `${NAME} (Publicis)`,
+        client: "Publicis",
         year: "2025",
         prize: "$10k prize pot",
       },
@@ -81,9 +86,9 @@ export const awards: Award[] = [
     title: "Sales",
     certificates: [
       {
-        tint: "#efbdb6",
+        plate: "violet",
         title: "$1 Million Club",
-        name: `${NAME} (Publicis)`,
+        client: "Publicis",
         year: "2025",
         prize: "$1m + in sales",
       },
@@ -96,21 +101,18 @@ export const awards: Award[] = [
       // CHECK: all three invented. Nothing in the deck says what these are for
       // or which years they cover.
       {
-        tint: "#b6eaef",
+        plate: "red",
         title: "Services Award FY24",
-        name: NAME,
         year: "2023-24",
       },
       {
-        tint: "#d9efb6",
+        plate: "violet",
         title: "Services Award FY25",
-        name: NAME,
         year: "2024-25",
       },
       {
-        tint: "#efb6d9",
+        plate: "teal",
         title: "Services Award FY26",
-        name: NAME,
         year: "2025-26",
       },
     ],
@@ -121,9 +123,9 @@ export const awards: Award[] = [
     certificates: [
       // CHECK: the year. Everything else here is confirmed.
       {
-        tint: "#bcbdef",
+        plate: "violet",
         title: "Academic Excellence Scholarship",
-        name: `${NAME} (Oxford Brookes University)`,
+        client: "Oxford Brookes University",
         year: "2015",
       },
     ],

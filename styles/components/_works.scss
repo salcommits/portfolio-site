@@ -1,4 +1,5 @@
 @use "../breakpoints" as bp;
+@use "../cta";
 @use "../tracking";
 
 // Horizontal accordion. Panels hold a fixed width and widen on hover, with the
@@ -66,6 +67,44 @@
       margin-bottom: calc(20 * var(--u));
       font-size: calc(18 * var(--u));
     }
+  }
+
+  // Sits at the foot of the head beside the intro, where the section's own
+  // heading has already said what kind of thing is being pointed at.
+  &__more {
+    @include cta.redraw-underline(-0.3125rem, 1px);
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.83em;
+    margin-top: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: var(--weight-regular);
+    line-height: 0.99;
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    @include bp.from("nav") {
+      margin-top: 0;
+      margin-bottom: calc(20 * var(--u));
+      font-size: calc(18 * var(--u));
+    }
+
+    &:hover &-icon,
+    &:focus-visible &-icon {
+      transform: rotate(0deg);
+    }
+  }
+
+  // Drawn pointing right and rotated up, so hovering just unwinds it.
+  &__more-icon {
+    flex: none;
+    width: 0.75em;
+    height: 0.75em;
+    transform: rotate(-45deg);
+    transition: transform var(--arrow-duration) var(--ease-main);
   }
 
   &__wrapper {

@@ -26,6 +26,13 @@
   // Not quite white, so the header's difference blend lands just short of pure
   // black over the light sections.
   --color-blend-ink: #efefef;
+  // The three grounds the award cards are set on, sampled from the reference's
+  // certificates. An award takes one of these rather than a colour of its own,
+  // so the colour says which award it is and the set can't drift into a palette
+  // of its own.
+  --plate-red: #e73d38;
+  --plate-violet: #634488;
+  --plate-teal: #9bd5d8;
 
   // Typography
   // Fallbacks belong inside var(); a family list after it would never be

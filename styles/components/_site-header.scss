@@ -11,6 +11,14 @@
   color: var(--color-blend-ink);
   mix-blend-mode: difference;
 
+  // The bar is set in the same `--u` frame as the sections below it. The
+  // reference sizes its nav this way rather than in steps, which is what keeps
+  // the links small on the window widths a laptop actually sits at — a fixed
+  // size picked at the 1440 frame reads far too large by 1000px.
+  @include bp.from("nav") {
+    --u: 0.0520833vw;
+  }
+
   // The open menu is a white panel inside the header, so it would be blended
   // too. Everything reverts to painting normally while it is up.
   &--open {
@@ -78,16 +86,26 @@
     flex-direction: column;
     row-gap: 0.75rem;
 
+    // The gap and the standoff from the wordmark are what give way as the
+    // window narrows, in the reference's three steps: almost nothing where the
+    // row is only just fitting, then 40px, then 84u scaling with the viewport.
+    // The links keep their own padding throughout, since the brackets open into
+    // it and cutting it would move them.
     @include bp.from("nav") {
       flex-direction: row;
       align-items: center;
+      column-gap: 0.625rem;
+      margin-left: 1.875rem;
+    }
+
+    @include bp.from("mid") {
       column-gap: 2.5rem;
       margin-left: 6.25rem;
     }
 
     @include bp.from("wide") {
-      column-gap: 3.9375rem;
-      margin-left: 10.5625rem;
+      column-gap: calc(84 * var(--u));
+      margin-left: calc(225 * var(--u));
     }
   }
 
@@ -110,17 +128,19 @@
       align-items: center;
       padding: 0 1.5625rem;
       font-family: var(--font-mono);
-      font-size: 1rem;
+      // The reference's 24u, which reaches 18px at the 1440 frame and 12.5px on
+      // a 1000px window. It lets that keep falling to 10px at the burger; the
+      // floor holds it readable, and only bites below about 920px.
+      font-size: max(0.75rem, calc(24 * var(--u)));
       font-weight: var(--weight-light);
       letter-spacing: var(--tracking-mono);
       white-space: nowrap;
     }
 
     @include bp.from("wide") {
-      --bracket-inset: 0.5625rem;
+      --bracket-inset: calc(12 * var(--u));
 
-      padding: 0 1.625rem;
-      font-size: 1.125rem;
+      padding: 0 calc(35 * var(--u));
     }
 
     // Brackets sit just inside the padding and slide out to the edges on
@@ -183,8 +203,10 @@
       font-size: 1rem;
     }
 
+    // Held at 16px through the middle band like the reference, so it stays the
+    // one fixed thing in the bar while the links shrink around it.
     @include bp.from("wide") {
-      font-size: 1.125rem;
+      font-size: calc(24 * var(--u));
     }
 
     &:hover .site-header__cta-icon,
