@@ -55,6 +55,13 @@ export default function BuildList() {
       </p>
 
       <div className="builds__table">
+        {/* A legend rather than a sentence in the intro: it carries the same
+            arrow the rows do, so what marks a link is shown as well as said. */}
+        <p className="builds__hint">
+          <ArrowUpRight />
+          Project names with an arrow are links, and open in a new tab
+        </p>
+
         <div className="builds__columns" aria-hidden="true">
           {columns.map((column) => (
             <span key={column}>{column}</span>

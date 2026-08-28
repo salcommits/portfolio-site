@@ -1,5 +1,6 @@
 @use "../back-link" as back;
 @use "../breakpoints" as bp;
+@use "../cta";
 
 // A list rather than a write-up: everything here is one line long, so the page
 // is ranged left the whole way down and the columns do the work the headings
@@ -81,6 +82,39 @@
     }
   }
 
+  // Set with the table rather than under the intro, at the column heads' size
+  // and colour, because it explains how to read the rows rather than what the
+  // page is for.
+  &__hint {
+    display: flex;
+    // Top rather than centre, since the line wraps on a narrow screen and the
+    // mark belongs beside the start of it rather than between the two lines.
+    align-items: flex-start;
+    gap: 0.5em;
+    margin-bottom: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: var(--weight-light);
+    line-height: 1.3;
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+    color: var(--color-muted);
+
+    @include bp.from("nav") {
+      margin-bottom: calc(24 * var(--u));
+      font-size: calc(15 * var(--u));
+    }
+
+    // Set larger against its own text than the one in a row, so the mark is
+    // still legible at the size the legend is written in, and dropped to the
+    // middle of the first line rather than sitting on its cap.
+    .builds__arrow {
+      width: 0.75em;
+      height: 0.75em;
+      margin-top: 0.28em;
+    }
+  }
+
   // Only drawn once the row is a row. Below the breakpoint each entry stacks
   // into a block of its own and a set of headings over the first one would be
   // labelling something that is no longer beneath them.
@@ -138,18 +172,16 @@
       margin-top: calc(-6 * var(--u));
     }
 
-    // Only some names have anywhere to go, so the one that does says so on
-    // hover as well as by the arrow it carries.
+    // The site's own link mark, so a name that leads somewhere is underlined
+    // like every other link here rather than relying on its arrow to say so.
+    // Hung below the cap line in ems, since the name doubles in size at the
+    // breakpoint and a fixed drop would not follow it.
     a {
+      @include cta.redraw-underline(-0.14em, 2px);
+
       display: inline-flex;
       align-items: center;
       gap: 0.35em;
-      transition: color var(--arrow-duration) var(--ease-main);
-
-      &:hover,
-      &:focus-visible {
-        color: var(--color-muted);
-      }
     }
   }
 
@@ -221,7 +253,8 @@
 @media (prefers-reduced-motion: reduce) {
   .builds__arrow,
   .builds__back-icon,
-  .builds__name a {
+  .builds__name a::before,
+  .builds__name a::after {
     transition: none;
   }
 }

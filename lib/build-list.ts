@@ -33,34 +33,10 @@ export type Build = {
  */
 const PLACEHOLDER = "https://google.com";
 
-// The Airtable pieces live in public repos rather than at a URL of their own, so
-// if a repo counts as somewhere to send people, `BuildType` wants a "Code"
-// member.
+// Down to the one entry that is ready to be read about. The Airtable pieces,
+// ClipScout and the helpdesk agent were all written up here first — they are in
+// the commit before this one if any of them wants bringing back.
 const entries: Build[] = [
-  {
-    title: "Airtable Base Health Check",
-    description:
-      "Audits any Airtable base for structural and data-quality problems, then scores it out of a hundred with the findings ordered by what is worth fixing first.",
-    type: "Application",
-    status: "Live",
-    url: PLACEHOLDER,
-  },
-  {
-    title: "Airtable Running Club",
-    description:
-      "A running club that lives in Airtable and talks in Slack: Strava activities posted as they land, a leaderboard every Monday morning, and a couple of nudges midweek.",
-    type: "Application",
-    status: "Live",
-    url: PLACEHOLDER,
-  },
-  {
-    title: "Airtable Time Machine",
-    description:
-      "Reconstructs what actually happened inside a base — who made what, when, and where the audit log holds the rest — and writes it up as a timeline you can read rather than a log you have to parse.",
-    type: "Application",
-    status: "Building",
-    url: PLACEHOLDER,
-  },
   {
     // The one entry here that already has a write-up drafted, parked in
     // `projects.ts` until it is finished enough to have a page.
@@ -69,24 +45,6 @@ const entries: Build[] = [
       "Scheduled agents that read the calls, Slack and email on a partner-delivered account, keep a plain-language activity log, and raise a risk only where there is evidence enough to write it properly.",
     type: "Prototype",
     status: "Building",
-    url: PLACEHOLDER,
-  },
-  // CHECK: these two are from your own list and the names are yours, but the
-  // descriptions are drafted from the names alone — worth rewriting.
-  {
-    title: "ClipScout",
-    description:
-      "Watches long-form footage for the moments worth cutting and hands back clips with their timestamps, rather than a transcript to read through first.",
-    type: "Prototype",
-    status: "Building",
-    url: PLACEHOLDER,
-  },
-  {
-    title: "Helpdesk Agent",
-    description:
-      "Triages inbound support tickets, drafts the reply, and passes on only the ones that actually need a person.",
-    type: "Prototype",
-    status: "Testing",
     url: PLACEHOLDER,
   },
 ];
