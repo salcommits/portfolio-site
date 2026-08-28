@@ -15,19 +15,27 @@ export type Certificate = {
    */
   plate: Plate;
   title: string;
-  /** The client, where the award names one. */
+  /** Who it came from, where it names anyone: a client, an employer, a school. */
   client?: string;
-  year: string;
+  /** Left off where the date isn't confirmed, rather than guessed at. */
+  year?: string;
   /**
-   * The figure the award carried, where it had one. Set apart at the foot of
-   * the card, since the superscript beside the title is now always a count.
+   * The line at the foot of the card: what an award carried, or what a
+   * certificate involved. Set apart there because the superscript beside the
+   * title is now always a count.
    */
-  prize?: string;
+  footnote?: string;
 };
 
 export type Award = {
   slug: string;
   title: string;
+  /**
+   * True where the row holds qualifications rather than awards. They are listed
+   * with the rest but stay out of the count the section opens with, which is a
+   * claim about the work and not about what I have sat.
+   */
+  qualifications?: boolean;
   certificates: Certificate[];
 };
 
@@ -77,7 +85,7 @@ export const awards: Award[] = [
         title: "AI Solution of the Year",
         client: "Publicis",
         year: "2025",
-        prize: "$10k prize pot",
+        footnote: "$10k prize pot",
       },
     ],
   },
@@ -90,7 +98,7 @@ export const awards: Award[] = [
         title: "$1 Million Club",
         client: "Publicis",
         year: "2025",
-        prize: "$1m + in sales",
+        footnote: "$1m + in sales",
       },
     ],
   },
@@ -127,6 +135,25 @@ export const awards: Award[] = [
         title: "Academic Excellence Scholarship",
         client: "Oxford Brookes University",
         year: "2015",
+      },
+    ],
+  },
+  {
+    slug: "certs",
+    title: "Certs",
+    qualifications: true,
+    certificates: [
+      // CHECK: both years, which is why neither card carries one yet.
+      {
+        plate: "teal",
+        title: "Software Engineering Immersive",
+        client: "General Assembly",
+        footnote: "3-month bootcamp",
+      },
+      {
+        plate: "red",
+        title: "Drupal Developer",
+        footnote: "Certified",
       },
     ],
   },

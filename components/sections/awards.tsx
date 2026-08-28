@@ -1,15 +1,14 @@
 import { RevealText } from "@/components/motion/reveal-text";
-import { SectionIndex } from "@/components/ui/section-index";
 import { awards } from "@/lib/awards";
 
 // Counted rather than written down, so the line can't drift from the list.
-const total = awards.reduce((sum, award) => sum + award.certificates.length, 0);
+const total = awards
+  .filter((award) => !award.qualifications)
+  .reduce((sum, award) => sum + award.certificates.length, 0);
 
 export function Awards() {
   return (
     <section id="awards" className="awards">
-      <SectionIndex n={4} className="awards__index" />
-
       <div className="awards__head">
         <RevealText as="h2" text="Awards" className="awards__title" />
 
@@ -25,7 +24,7 @@ export function Awards() {
       <p className="awards__note">
         <strong>Mostly internal awards</strong>
         <span>from the places I have worked,</span>
-        <span>plus one from university.</span>
+        <span>plus a scholarship and two certs.</span>
       </p>
 
       <ul className="awards__list">
@@ -57,15 +56,19 @@ export function Awards() {
                   <p className="awards__certificate-title">
                     {certificate.title}
                   </p>
-                  <p className="awards__certificate-year">{certificate.year}</p>
+                  {certificate.year ? (
+                    <p className="awards__certificate-year">
+                      {certificate.year}
+                    </p>
+                  ) : null}
                   {certificate.client ? (
                     <p className="awards__certificate-client">
                       {certificate.client}
                     </p>
                   ) : null}
-                  {certificate.prize ? (
-                    <p className="awards__certificate-prize">
-                      {certificate.prize}
+                  {certificate.footnote ? (
+                    <p className="awards__certificate-foot">
+                      {certificate.footnote}
                     </p>
                   ) : null}
                 </li>
