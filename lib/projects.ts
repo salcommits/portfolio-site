@@ -25,6 +25,13 @@ export type Project = {
   country?: string;
   approach: string;
   solution: string;
+  /**
+   * Where the work landed, for anything that was one stage of a longer
+   * programme. Set after the solution rather than folded into `detail`: it is
+   * the outcome of the phase, and the page would otherwise describe what was
+   * designed without saying whether it held.
+   */
+  completion?: string;
   detail: string[];
   /**
    * Letterboxed art at the head of the page. Omitted where there is nothing to
@@ -45,6 +52,30 @@ export type Project = {
      * the scroll breaks somewhere instead of passing four equal screens.
      */
     display?: boolean;
+    /**
+     * A film rather than a still, for work whose point is that it was running
+     * somewhere. `src` carries a frame from it, which holds the plate's space
+     * before the film arrives and is what anyone who never plays it sees.
+     *
+     * It takes its turn in the run like a screen, but not a number: the count
+     * is of screens, and this is footage of them.
+     */
+    video?: string;
+  })[];
+  /**
+   * The work being done rather than the thing built: photographs, for pages
+   * where what was delivered belongs to the client and can't be shown. Kept
+   * apart from `gallery` because that run counts designs and sizes tall page
+   * captures to a common height, and these are neither.
+   */
+  photos?: (Shot & {
+    caption: string;
+    /**
+     * Described properly rather than left to the caption. A screen's caption is
+     * its name, so it stands in for alt text; a photograph's caption is a place
+     * or a subject, which tells you nothing about what is in the picture.
+     */
+    alt: string;
   })[];
   /**
    * The responsive pass, as a set of devices in one capture rather than separate
@@ -74,13 +105,19 @@ export type Project = {
     }[];
   };
   /**
-   * What moved after launch. Directions rather than figures: the brief records
-   * which measures rose, not by how much, and a number nobody can stand behind
-   * is worth less here than a list that is true.
+   * The list a write-up closes its account with, under a heading of its own.
+   * `label` is set by the project because the claim isn't the same on all of
+   * them: work that launched reports what moved after it, and a phase that
+   * handed over reports what it was contracted to produce.
+   *
+   * Where the label is a results claim, the items are directions rather than
+   * figures: the briefs record which measures rose, not by how much, and a
+   * number nobody can stand behind is worth less here than a list that is true.
    */
-  results?: {
+  rundown?: {
+    label: string;
     note: string;
-    measures: string[];
+    items: string[];
   };
   /**
    * The client's own words, on a plate of their own. Attributed, because an
@@ -95,7 +132,12 @@ export type Project = {
     client: string;
     quote: string;
     name: string;
-    /** Their standing at the client, so the name alone isn't doing the work. */
+    /**
+     * Their standing at the client, so the name alone isn't doing the work.
+     * Required rather than optional: a quote is attributed to a real person, and
+     * the field being here is what forces the title to be asked for instead of
+     * guessed at.
+     */
     role: string;
   };
   /** Omitted for anything without a public URL, which hides the visit link. */
@@ -346,9 +388,10 @@ export const categories: Category[] = [
             },
           ],
         },
-        results: {
+        rundown: {
+          label: "After 90 days",
           note: "Everything the team were watching moved the same way:",
-          measures: [
+          items: [
             "Candidate CV submissions",
             "Candidate enquiries",
             "Client enquiries",
@@ -423,9 +466,10 @@ export const categories: Category[] = [
           width: 1024,
           height: 776,
         },
-        results: {
+        rundown: {
+          label: "After 90 days",
           note: "The measures the agency watches all moved the same way:",
-          measures: [
+          items: [
             "Brand and partnership enquiries",
             "Talent representation enquiries",
             "Talent profile views",
@@ -470,6 +514,80 @@ export const categories: Category[] = [
           role: "Founder",
         },
       },
+      // GSK is named in the write-up, so the comment only carries what the page
+      // doesn't: these captures are the kiosk's own landscape, which is why
+      // their plates are set by width rather than to the common height the tall
+      // page captures above take.
+      {
+        slug: "touchscreen-platform",
+        title: "Touchscreen Platform",
+        shortTitle: "Touchscreens",
+        summary:
+          "A self-service touchscreen application covering five clinical topic areas, built for GSK and deployed at two global pharmaceutical events.",
+        challenge:
+          "GSK needed something that could stand on a conference floor and be used without anybody staffing it. The content is what made that hard: adult immunisation — aging immunity, the value of vaccination, herpes zoster, RSV — clinical material a specialist audience would work through at their own pace, with nobody beside the screen to steer them past a wrong turn. Work of this kind arrives with its own constraints as well. Several physical screens, conference dates that don't move, and every asset on them cleared through regulatory sign-off before it can be shown.",
+        meta: {
+          service: "Build & Development",
+          industry: "Pharmaceutical & life sciences",
+          year: "2023",
+        },
+        // The events themselves were international, but the mark is for who the
+        // work was for rather than where it was shown — and the entity that
+        // signs the footer of every screen in it is the Belgian one.
+        country: "Belgium",
+        approach:
+          "Designed and built the whole of it: the interaction flow — menu, topic cards, infographics, slide decks, video, an interactive world map — the idle logic that returns a screen to its welcome state once it has been left alone, and the build underneath. Turnarounds were short and the same work had to appear on several screens across more than one event, so it was structured to be replicated and redeployed rather than started again each time. Hosting and uptime stayed with me afterwards.",
+        solution:
+          "A touchscreen application covering five clinical topic areas, each opening into its own set of infographics, slide decks and video, with a standalone interactive world map alongside it. Deployed at two global pharmaceutical events, with interaction tracked and heatmapped so the screens reported back which content was actually being used on the floor.",
+        detail: [
+          "The hard part was never a single screen. It was making the whole thing behave as a public kiosk: returning to the welcome screen after a set period of inactivity, holding five parallel branches of content without the navigation coming apart in one of them, and staying on-brand and compliant down to the reference codes in the footer of every screen.",
+          "The heatmaps then said which topics and which formats attendees actually spent time on, and that fed into how later builds for other enterprise clients were put together.",
+        ],
+        cover: {
+          src: "/work/touchscreen-platform/welcome.png",
+          width: 1024,
+          height: 573,
+        },
+        // In the order somebody at the screen met them: the welcome state, the
+        // thing running on the floor, the menu it opens onto, one topic's
+        // content, then the map that ran as a tool of its own.
+        gallery: [
+          {
+            caption: "Welcome",
+            src: "/work/touchscreen-platform/welcome.png",
+            width: 1024,
+            height: 573,
+          },
+          // The only asset here that isn't the design itself: the kiosk in the
+          // venue, mid-use, on somebody's phone. Second, so what the rest of the
+          // run is a set of screens from is established early.
+          {
+            caption: "On the floor",
+            src: "/work/touchscreen-platform/on-the-floor.jpg",
+            video: "/work/touchscreen-platform/on-the-floor.mp4",
+            width: 640,
+            height: 352,
+          },
+          {
+            caption: "Main menu",
+            src: "/work/touchscreen-platform/main-menu.png",
+            width: 1024,
+            height: 575,
+          },
+          {
+            caption: "Age slider",
+            src: "/work/touchscreen-platform/age-slider.png",
+            width: 1024,
+            height: 542,
+          },
+          {
+            caption: "World map",
+            src: "/work/touchscreen-platform/world-map.png",
+            width: 1024,
+            height: 726,
+          },
+        ],
+      },
     ],
   },
   {
@@ -477,14 +595,142 @@ export const categories: Category[] = [
     title: "Solutions Architecture",
     summary:
       "Working out how the pieces should fit, and what each choice will cost later on.",
-    projects: [],
+    projects: [
+      // Delivered at Airtable. Daily Mail Group names itself in the write-up, so
+      // the comment only carries what the page doesn't: there are no screens
+      // because the work lives inside the client's own platform, and a national
+      // newsroom's unpublished stories are not mine to show.
+      {
+        slug: "editorial-platform",
+        title: "Editorial Platform",
+        shortTitle: "Editorial",
+        summary:
+          "An Airtable platform unifying story creation and publication across 30+ editorial desks at Daily Mail Group, in print and digital.",
+        challenge:
+          "Daily Mail Group ran story creation and publication across 30+ desks, spanning print and dailymail.co.uk, with no one connected system tying the workflow together. At that scale that is a bottleneck rather than an inconvenience: consistency and speed matter as much as editorial judgement.",
+        meta: {
+          service: "Solutions Architecture",
+          industry: "Media & publishing",
+          // CHECK: taken from the Team of the Year FY26 award for this account,
+          // which the awards section dates 2025-26. Swap it for the year the
+          // platform actually went in if that isn't the same.
+          year: "2026",
+        },
+        country: "UK",
+        approach:
+          "Owned end to end: discovery, design, build, deployment and adoption. Discovery ran as high-level user flows, wireframes and concept mapping, scoped onsite with the editorial teams themselves — then technical scoping for the publication integrations on both sides, digital and print, and an archiving layer built to hold the volume a national newsroom generates. A working prototype was live for the primary desk within six weeks, and the iterations after it went out desk by desk, with adoption supported across all 30+ group-wide.",
+        solution:
+          "An Airtable platform that unified story creation and publication into one system: one place where a story is written, reviewed and put out, in print and online. Not a tool sitting beside the newsroom's core workflow — the workflow itself. A second, smaller solution followed for the social team, tracking posts at their own volume, which took the platform past editorial and into distribution.",
+        // Both numbers are the supplier's own: what the programme cost against
+        // what it was budgeted, and how much of the team's time on it was
+        // billable and active. Written out rather than left as the initials they
+        // arrive as, which nobody outside the account would decode.
+        completion:
+          "The programme closed at a project efficiency score of 1.03 against a target of 1.00 — under budget, in other words — with the delivery team 86.7% billable and active across the trailing 90 days. It took Team of the Year internally for the account.",
+        // Carries the countables so the solution above can say what the thing is
+        // rather than what it holds. Present and planned in one list, which the
+        // note is there to set up: the point of ending here is that the platform
+        // is still being extended, not that it landed and stopped.
+        rundown: {
+          label: "Where it stands",
+          note: "What the platform carries now, and what was already being planned on top of it:",
+          items: [
+            "1,137 enterprise seats across the group",
+            "30+ editorial desks on one core system",
+            "1,000+ articles a day, digital and print",
+            "500 further seats in planning",
+            "Rollout now taking in Metro and the i paper",
+            "Further editorial workflows behind them",
+          ],
+        },
+        testimonial: {
+          client: "Daily Mail Group",
+          quote:
+            "What a brilliant collaboration this has been. Everyone has been super helpful and proactive — and we've come so far together in just six months. It really could not have been done without everyone helping us to collectively get to a great solution.",
+          name: "Simon Regan-Edwards",
+          role: "Product Director",
+        },
+        detail: [
+          "Discovery had to run across editorial and technical stakeholders at the same time. The flows and the wireframes were tested against how the desks actually worked rather than how the process was written down, and validated onsite before any of it was built.",
+          "Landing a working prototype for the primary desk in six weeks set the pattern for everything after it: each new desk came onto the same core system rather than getting a build of its own. That is what let adoption reach 30+ desks and 1,100+ seats without the archiving layer, or the print and digital integrations, needing to be reworked on the way.",
+        ],
+      },
+    ],
   },
   {
     index: "00-3",
     title: "Project Leadership",
     summary:
       "Looking after delivery: the planning, the people, and keeping everyone pointed the same way.",
-    projects: [],
+    projects: [
+      // Delivered at Airtable. DHL names itself in the write-up, so the comment
+      // only carries what the page doesn't: there are no screens on this one
+      // because the work was a design phase inside a client's own platform, and
+      // none of what it produced is mine to publish.
+      {
+        slug: "warehousing-platform",
+        title: "Warehousing Platform",
+        shortTitle: "Warehousing",
+        summary:
+          "A three-month design phase moving DHL's warehousing workflows off spreadsheets and onto a governed Airtable platform.",
+        challenge:
+          "DHL's warehousing division was running its core commercial and operational workflows through spreadsheets — workable at the scale they began at, but not built to hold across multiple regions and teams, or the scale DHL was moving towards.",
+        meta: {
+          service: "Project Leadership",
+          industry: "Logistics & supply chain",
+          year: "2026",
+        },
+        // CHECK: the offsites were in Frankfurt and the division is DHL's, but
+        // the regional teams were spread wider than one country. Swap this for
+        // the region if Germany reads too narrow for what the work covered.
+        country: "Germany",
+        approach:
+          "A three-month design phase, run with DHL's leadership and their eMerge regional teams and including offsites in Frankfurt with the warehousing division, to map the end-to-end proposal and pricing process onto Airtable — from how volumes get forecast, through the hours and resourcing that volume drives, to the rate card DHL ultimately sends the customer. It ran alongside the data modelling teams reshaping the underlying process, rather than recreating the spreadsheets in a new tool. Delivery was cross-divisional: a combined team of 15+ across delivery partners and Airtable's own.",
+        solution:
+          "A phased design foundation for moving DHL's core workflows off Excel and onto a governed Airtable platform — validated with leadership, and drawn to hold as it scaled.",
+        completion:
+          "The design phase closed with signed-off architecture and a validated approach, clearing the way for DHL to commit to the next phase — a build, test, deployment and early-support programme running close to a year in total. DHL doesn't fund a multi-phase enterprise build off a design phase that hasn't proven itself.",
+        // The phase's own contracted artefacts, kept at the level the headings
+        // in the statement of work set them at. The tiers below that name
+        // Airtable's and DHL's internal components, which is detail a public
+        // page has no business carrying.
+        rundown: {
+          label: "Design deliverables",
+          note: "The phase was contracted against a fixed set of artefacts, signed off before the build could start:",
+          items: [
+            "High-level design: architecture, data and integrations",
+            "Low-level design: schemas, formulas and module specs",
+            "Interface specifications and mockups, by persona",
+            "To-be process maps for every module",
+            "A working prototype validating the data model",
+            "Governance model and architecture decision records",
+            "Test and performance strategy for the build",
+          ],
+        },
+        // No screens on this one, so the pictures are of the phase itself: the
+        // room it was run in, and one of the flows being worked through in it.
+        photos: [
+          {
+            caption: "Frankfurt",
+            alt: "The DHL warehousing team and the delivery team together at the end of an offsite in Frankfurt.",
+            src: "/work/warehousing-platform/frankfurt.jpg",
+            width: 1024,
+            height: 768,
+          },
+          {
+            caption: "Volume drivers",
+            alt: "Presenting a data volume driver flow to the room, mapping what sets the volumes a tender is priced from.",
+            src: "/work/warehousing-platform/volume-drivers.jpg",
+            width: 1024,
+            height: 768,
+          },
+        ],
+        detail: [
+          "The core problem wasn't really the spreadsheets. DHL's tender process runs on a chain: work out expected volumes, turn those into the hours and resourcing needed to deliver them, then turn that cost base into a rate card the customer sees. Each step depends on the one before it, and in Excel that chain lived across different files maintained by different people, which is where consistency broke down. The design work was redrawing it as one connected system rather than a like-for-like port of the spreadsheets.",
+          "The account went on to grow from an initial pilot to 600+ licences and 3,000+ billable hours of delivery within the year — one of the larger enterprise engagements run during my time at Airtable.",
+        ],
+      },
+    ],
   },
   {
     index: "00-4",
@@ -498,7 +744,36 @@ export const categories: Category[] = [
     title: "Technical Strategy",
     summary:
       "Thinking about what is worth building, in what order, and what it means a few years out.",
-    projects: [],
+    projects: [
+      // Delivered inside Imagination, who name themselves in the write-up. What
+      // the page doesn't say is that the client was the business itself: the
+      // fifteen were their own projects and the board being sold to was their
+      // own, which is also why there is nothing to show — the work was fifteen
+      // documents, and their contents were the company's plans.
+      {
+        slug: "innovation-roadmap",
+        title: "Innovation Roadmap",
+        shortTitle: "Roadmap",
+        summary:
+          "Fifteen board-ready proposals for emerging technology investment — VR, AR and AI — scoped for Imagination's Global CTO in four months.",
+        challenge:
+          "Imagination's Global CTO office needed a pipeline of investment-ready proposals for emerging, human-centric technology — virtual reality, augmented reality, AI — that a board could actually evaluate and sign off, each with its own scope, timeline and cost estimate. All of it inside a four-month window.",
+        meta: {
+          service: "Technical Strategy",
+          industry: "Creative technology & experience design",
+          year: "2020",
+        },
+        country: "UK",
+        approach:
+          "Worked directly with the Global CTO to scope fifteen major internal projects: pulling requirements and estimates out of teams across the business, then turning each one into a project initiation document — technical specification, timeline, cost estimate — in a state a board could review. Each was presented to the C-suite in person, with the case for it made there rather than left on the page. Two of the fifteen give the range: a technology refresh for the London office, building tailored client-facing experiences on what Imagination already had, and a rebuild of the company's own key marketing assets.",
+        solution:
+          "Fifteen board-ready work streams spanning virtual reality, augmented reality, AI and other human-centric technology — each scoped, estimated and put in front of the board for sign-off inside four months.",
+        detail: [
+          "The constraint was never any single proposal. It was volume and pace: fifteen concurrent scopes, each drawing its requirements from a different internal team, each needing to be translated out of fast-moving emerging technology and into a business case that would hold up with a board reading it on paper.",
+          "Working directly with the Global CTO is what kept the fifteen consistent in format and rigour, rather than each one reading like whoever had written it. That mattered more than it sounds: they were being reviewed side by side, and a set that varies in shape gets read as a set that varies in quality.",
+        ],
+      },
+    ],
   },
 ];
 

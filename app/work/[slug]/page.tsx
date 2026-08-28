@@ -65,6 +65,15 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
     { label: "Year", value: project.meta.year },
   ];
 
+  // The mark over each plate, worked out before the run is drawn because it
+  // depends on what came before: films take their turn in the run but not a
+  // number, so the screens stay counted 1, 2, 3 either side of one.
+  let screen = 0;
+  const gallery = project.gallery?.map((shot) => ({
+    ...shot,
+    mark: shot.video ? "/ film" : `/ dsgn ${(screen += 1)}`,
+  }));
+
   return (
     <article className="project">
       {/* Back to the section the project was opened from, rather than the top
@@ -87,7 +96,7 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
             height={project.cover.height}
             alt=""
             priority
-            className="project__cover-image"
+            className={`project__cover-image${wide("cover-image", project.cover)}`}
           />
         </div>
       ) : null}
@@ -122,22 +131,38 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
         <p className="project__note">{project.approach}</p>
       </div>
 
-      <div className="project__block">
-        <Label text="Solution" />
-        <p className="project__note">{project.solution}</p>
-      </div>
+      {/* The turn in the write-up, set apart on a band of its own: the two
+          blocks above are the setup, and everything here is what came of it.
+          The link belongs on it for the same reason — what was built, how it
+          landed, and the way to go and see it. */}
+      <section className="project__outcome">
+        <div className="project__block">
+          <Label text="Solution" />
+          <p className="project__note">{project.solution}</p>
+        </div>
 
-      {project.url ? (
-        <a
-          href={project.url}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="project__visit"
-        >
-          View website
-          <ArrowUpRight className="project__visit-icon" />
-        </a>
-      ) : null}
+        {/* Kept in the run of prose rather than after the visit link, so the
+            four labels read as one sequence and the link still closes on the
+            work. */}
+        {project.completion ? (
+          <div className="project__block">
+            <Label text="At completion" />
+            <p className="project__note">{project.completion}</p>
+          </div>
+        ) : null}
+
+        {project.url ? (
+          <a
+            href={project.url}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="project__visit"
+          >
+            View website
+            <ArrowUpRight className="project__visit-icon" />
+          </a>
+        ) : null}
+      </section>
 
       {/* Captioned, so the run reads as a tour of the thing rather than a
           contact sheet. The caption carries the alt text — repeating it on the
@@ -145,12 +170,12 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
       {/* The count travels with the screen rather than the name, because it
           marks where the screen sits in the run and the two are on opposite
           sides of the plate. */}
-      {project.gallery?.map((shot, index) => (
+      {gallery?.map((shot) => (
         <figure
           key={shot.src}
           className={`project__shot${
             shot.display ? " project__shot--display" : ""
-          }`}
+          }${wide("shot", shot)}`}
         >
           <RevealText
             as="figcaption"
@@ -159,13 +184,60 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
           />
           <Unveil className="project__shot-frame">
             <span className="project__shot-index" aria-hidden="true">
-              / dsgn {index + 1}
+              {shot.mark}
+            </span>
+            {/* Silent, and looping on its own so the plate has something moving
+                in a run of stills. Left with its controls: it runs longer than
+                a glance, and anyone who wants it to stop has to be able to
+                stop it. */}
+            {shot.video ? (
+              <video
+                src={shot.video}
+                poster={shot.src}
+                width={shot.width}
+                height={shot.height}
+                autoPlay
+                muted
+                loop
+                playsInline
+                controls
+                preload="metadata"
+                className="project__shot-film"
+              />
+            ) : (
+              <Image
+                src={shot.src}
+                width={shot.width}
+                height={shot.height}
+                alt=""
+                className="project__shot-image"
+              />
+            )}
+          </Unveil>
+        </figure>
+      ))}
+
+      {/* The same plates as the screens above, counted separately because these
+          are photographs of the work happening rather than designs. */}
+      {project.photos?.map((photo, index) => (
+        <figure key={photo.src} className={`project__shot${wide("shot", photo)}`}>
+          <RevealText
+            as="figcaption"
+            text={photo.caption}
+            className="project__shot-caption"
+          />
+          <Unveil className="project__shot-frame">
+            <span className="project__shot-index" aria-hidden="true">
+              / photo {index + 1}
             </span>
             <Image
-              src={shot.src}
-              width={shot.width}
-              height={shot.height}
-              alt=""
+              src={photo.src}
+              width={photo.width}
+              height={photo.height}
+              // The picture fills its half of the plate, which is a shade over
+              // half the viewport once the gutters are taken off.
+              sizes="(min-width: 48.0625rem) 55vw, 92vw"
+              alt={photo.alt}
               className="project__shot-image"
             />
           </Unveil>
@@ -243,18 +315,20 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
         </section>
       ) : null}
 
-      {/* Directions, not figures. Set as a list because the only thing being
-          said about each of these is that it went the same way as the rest. */}
-      {project.results ? (
-        <section className="project__results">
-          <Label text="After 90 days" />
-          <p className="project__note">{project.results.note}</p>
+      {/* Set as a list because the only thing being said about each of these is
+          that it belongs with the rest — measures that all moved the same way,
+          or artefacts that all had to be signed off. The heading is the
+          project's, since those are not the same claim. */}
+      {project.rundown ? (
+        <section className="project__rundown">
+          <Label text={project.rundown.label} />
+          <p className="project__note">{project.rundown.note}</p>
 
-          <ul className="project__results-list">
-            {project.results.measures.map((result) => (
-              <li key={result}>
-                <ArrowUpRight className="project__results-icon" />
-                {result}
+          <ul className="project__rundown-list">
+            {project.rundown.items.map((item) => (
+              <li key={item}>
+                <ArrowUpRight className="project__rundown-icon" />
+                {item}
               </li>
             ))}
           </ul>
@@ -300,6 +374,16 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
       </section>
     </article>
   );
+}
+
+// How a plate sizes the picture on it, and where a cover takes its crop from,
+// both come down to the same thing. Tall captures are set to a common height
+// and cropped from the top, where the masthead is; anything already wider than
+// it is tall takes its share of the plate's width, and has no fold below it to
+// crop towards. Read off the file rather than declared per picture, since the
+// shape is the only thing either choice turns on.
+function wide(part: string, shot: { width: number; height: number }) {
+  return shot.width > shot.height ? ` project__${part}--wide` : "";
 }
 
 // Drawn pointing right and turned up by whichever class it is given, so the one

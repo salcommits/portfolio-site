@@ -27,7 +27,7 @@
   }
 }
 
-// A centred column throughout, closing on a full-bleed dark band.
+// A centred column throughout, broken and then closed by full-bleed dark bands.
 .project {
   // The measure the prose blocks are set to. Wider than the reference, which
   // runs a few short lines between large images — these pages are the other way
@@ -97,6 +97,13 @@
     @include bp.from("nav") {
       aspect-ratio: 21 / 9;
     }
+  }
+
+  // A capture that arrives wider than it is tall has no fold under it to crop
+  // towards, so the letterbox is taken evenly off both edges instead: whatever
+  // a screen that shape was showing, it was showing it in the middle.
+  &__cover-image--wide {
+    object-position: center;
   }
 
   &__title {
@@ -321,10 +328,53 @@
     transition: transform var(--arrow-duration) var(--ease-main);
   }
 
+  // The turn in the write-up, on a full-bleed band. Pages carrying screens take
+  // their change of ground from the plates below; the ones with nothing to
+  // photograph would otherwise run four or five blocks of centred prose down an
+  // unbroken page. Same ground and same set-back prose as the band that closes
+  // the page, and as the dark half of the section about me — a dark band means
+  // the same thing wherever it falls.
+  &__outcome {
+    margin-top: 3rem;
+    padding: 3rem var(--gutter);
+    background: var(--color-fg);
+    color: var(--color-muted-soft);
+
+    @include bp.from("nav") {
+      margin-top: calc(140 * var(--u));
+      padding: calc(110 * var(--u)) var(--gutter);
+    }
+  }
+
+  // The band's own gutters hold the prose in from the edges, so the blocks on it
+  // drop the inset they carry out on the page and would otherwise apply twice.
+  // The measure above the breakpoint is the page's, unchanged: the band is a
+  // ground under the same column, not a column of its own.
+  &__outcome &__block {
+    width: 100%;
+
+    @include bp.from("nav") {
+      width: var(--measure);
+    }
+  }
+
+  // The band's padding is the space over its first block, which the block's own
+  // margin would otherwise double.
+  &__outcome &__block:first-child {
+    margin-top: 0;
+  }
+
+  // The only thing on the band that is an offer rather than a statement, so it
+  // takes the ground's brightest value while the prose around it stays set back.
+  &__outcome &__visit {
+    color: var(--color-white);
+  }
+
   // Each screen takes a full-bleed plate of its own, alternating between the
   // two darks — which is what stops the run reading as pictures resting on the
-  // page. The plates butt straight against each other and against the band that
-  // closes the page, so the colour always changes on a hard edge.
+  // page. The plates butt straight against each other, and against the bands
+  // that break and close the write-up, so no strip of page is ever left showing
+  // between two darks.
   &__shot {
     padding: 2.5rem var(--gutter);
     background: var(--color-fg);
@@ -361,6 +411,13 @@
         margin-top: calc(140 * var(--u));
       }
     }
+
+    // Unless the write-up ended on a band, in which case there is nothing to
+    // carry it clear of and the run starts against it. Set here rather than with
+    // the other pairs below, because it has to land after the rule above.
+    .project__outcome + & {
+      margin-top: 0;
+    }
   }
 
   // A full-bleed band's own margin is for when it follows the prose, which is
@@ -370,9 +427,11 @@
   &__devices + &__detail,
   &__system + &__detail,
   &__quote + &__detail,
+  &__outcome + &__detail,
   &__shot + &__quote,
   &__devices + &__quote,
-  &__system + &__quote {
+  &__system + &__quote,
+  &__outcome + &__quote {
     margin-top: 0;
   }
 
@@ -527,6 +586,49 @@
     }
   }
 
+  // Landscape pictures — photographs, and screens from anything that wasn't a
+  // browser — would run past the plate's edges at a height set for tall page
+  // captures. They take the width of their share of the plate instead, which
+  // leaves the run even in the only direction the eye reads it as even in.
+  &__shot--wide &__shot-image {
+    @include bp.from("nav") {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  // Footage only ever arrives landscape, so it takes its plate the way the wide
+  // pictures do rather than being set to the tall captures' height.
+  &__shot-film {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  // The picture is the wider of the two now, so the columns are set the other
+  // way round to the tall captures': the caption keeps enough width for a word,
+  // and the picture takes the rest.
+  &__shot--wide {
+    @include bp.from("nav") {
+      grid-template-columns: 3fr 7fr;
+
+      &:nth-of-type(even) {
+        grid-template-columns: 7fr 3fr;
+      }
+    }
+  }
+
+  // The frame is what the picture's width is now measured against, so it has to
+  // be the whole column rather than shrink-wrapped to a picture that is itself
+  // waiting to be told how wide to be. Spelled out for both ends of the run,
+  // since the rule that swaps the sides is set on the same number of classes.
+  &__shot--wide &__shot-frame,
+  &__shot--wide:nth-of-type(even) &__shot-frame {
+    @include bp.from("nav") {
+      justify-self: stretch;
+    }
+  }
+
   // The system the pages were assembled from, set on the ground its sheets were
   // drawn on so each module reads as cut from an artboard rather than as another
   // screen of the finished site. Full bleed and unspaced, so it butts against
@@ -641,10 +743,11 @@
     height: auto;
   }
 
-  // What moved after launch. Ranged left as a whole, unlike the prose blocks:
-  // this is a set of separate measures rather than a paragraph, and centring it
-  // would leave the glyphs down a ragged edge.
-  &__results {
+  // The list the account closes on — what moved after a launch, or what a phase
+  // handed over. Ranged left as a whole, unlike the prose blocks: these are
+  // separate lines rather than a paragraph, and centring them would leave the
+  // glyphs down a ragged edge.
+  &__rundown {
     width: calc(100% - var(--gutter) * 2);
     margin: 2.5rem auto 0;
     text-align: left;
@@ -655,7 +758,7 @@
     }
   }
 
-  &__results-list {
+  &__rundown-list {
     display: grid;
     gap: 0.875rem;
     margin-top: 1.75rem;
@@ -682,8 +785,8 @@
   }
 
   // Turned up and left there. The same arrow on a link unwinds on hover, but
-  // this one is reporting a direction rather than offering to go anywhere.
-  &__results-icon {
+  // this one is marking an item in a list rather than offering to go anywhere.
+  &__rundown-icon {
     flex: none;
     width: 0.75em;
     height: 0.75em;
