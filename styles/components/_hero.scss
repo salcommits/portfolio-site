@@ -18,16 +18,6 @@
     padding: calc(180 * var(--u)) var(--gutter) calc(60 * var(--u));
   }
 
-  // Level with the counter opposite it, which is the top of the section's own
-  // content — hence the section's top padding repeated as the offset.
-  &__index {
-    top: 6.25rem;
-
-    @include bp.from("nav") {
-      top: calc(180 * var(--u));
-    }
-  }
-
   // Above the portrait, so the headline reads across the photograph rather than
   // being covered by it.
   &__title {

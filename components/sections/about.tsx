@@ -2,7 +2,6 @@ import Image from "next/image";
 
 import { FallingText, type FallingLine } from "@/components/motion/falling-text";
 import { RevealText } from "@/components/motion/reveal-text";
-import { SectionIndex } from "@/components/ui/section-index";
 
 const EMAIL = "liamatkins24@gmail.com";
 
@@ -35,8 +34,6 @@ const manifesto = [
 export function About() {
   return (
     <section id="about" className="about">
-      <SectionIndex n={2} className="about__index" />
-
       <div className="about__intro">
         <a href={`mailto:${EMAIL}`} className="about__contact">
           <span className="about__contact-label">
@@ -100,23 +97,10 @@ export function About() {
         </div>
 
         <div className="about__lifestyle">
-          <div className="about__gallery">
-            <span className="about__frame about__frame--one" aria-hidden="true" />
-
-            {/* The link is grouped with the second frame so it sits under it,
-                the way the reference hangs it off the imagery. */}
-            <div className="about__frame-group">
-              <span
-                className="about__frame about__frame--two"
-                aria-hidden="true"
-              />
-
-              <a href="#contact" className="about__connect">
-                Lets connect
-                <Arrow className="about__connect-icon" />
-              </a>
-            </div>
-          </div>
+          <a href="#contact" className="about__connect">
+            Lets connect
+            <Arrow className="about__connect-icon" />
+          </a>
 
           <div className="about__block about__block--lifestyle">
             <p className="about__label about__label--marked">

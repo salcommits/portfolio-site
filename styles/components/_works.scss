@@ -23,15 +23,6 @@
     padding-top: calc(200 * var(--u));
   }
 
-  // The section's own top padding, so it starts level with the head beside it.
-  &__index {
-    top: 3.5rem;
-
-    @include bp.from("nav") {
-      top: calc(200 * var(--u));
-    }
-  }
-
   &__head {
     padding: 0 var(--gutter);
 

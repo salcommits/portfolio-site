@@ -3,7 +3,6 @@
 import { useState, type FormEvent } from "react";
 
 import { RevealText } from "@/components/motion/reveal-text";
-import { SectionIndex } from "@/components/ui/section-index";
 
 const EMAIL = "liamatkins24@gmail.com";
 
@@ -41,8 +40,6 @@ export function Contact() {
 
   return (
     <section id="contact" className="contact">
-      <SectionIndex n={5} className="contact__index" />
-
       <p className="contact__eyebrow">Let&rsquo;s start a conversation</p>
 
       {/* v6's subhead is short enough to carry the display line itself, so it

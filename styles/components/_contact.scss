@@ -2,7 +2,6 @@
 @use "../cta";
 
 .contact {
-  position: relative;
   padding: 4rem var(--gutter) 5rem;
   text-align: center;
 
@@ -10,17 +9,6 @@
     --u: 0.0520833vw;
 
     padding: calc(180 * var(--u)) var(--gutter) calc(190 * var(--u));
-  }
-
-  // The section's own top padding, so it starts level with the eyebrow. The
-  // section centres its text; this is placed rather than set, so it opts out.
-  &__index {
-    top: 4rem;
-    text-align: left;
-
-    @include bp.from("nav") {
-      top: calc(180 * var(--u));
-    }
   }
 
   &__eyebrow {

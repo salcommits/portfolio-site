@@ -3,7 +3,6 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 
 import { CountUp } from "@/components/motion/count-up";
-import { SectionIndex } from "@/components/ui/section-index";
 import { recentProject } from "@/lib/projects";
 
 const headline = ["Always", "Building"];
@@ -13,8 +12,6 @@ const location = ["Based", "in", "London"];
 export function Hero() {
   return (
     <section id="hero" className="hero">
-      <SectionIndex n={1} className="hero__index" />
-
       <div className="hero__title">
         <span className="hero__number" aria-hidden="true">
           <span>

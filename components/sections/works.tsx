@@ -2,14 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { RevealText } from "@/components/motion/reveal-text";
-import { SectionIndex } from "@/components/ui/section-index";
 import { categories } from "@/lib/projects";
 
 export function Works() {
   return (
     <section id="work" className="works">
-      <SectionIndex n={3} className="works__index" />
-
       <div className="works__head">
         <RevealText as="h2" text="Works" className="works__title" />
         <p className="works__intro">
