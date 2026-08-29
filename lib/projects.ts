@@ -622,22 +622,27 @@ export const categories: Category[] = [
         solution:
           "An Airtable platform that unified story creation and publication into one system: one place where a story is written, reviewed and put out, in print and online. Not a tool sitting beside the newsroom's core workflow — the workflow itself. A second, smaller solution followed for the social team, tracking posts at their own volume, which took the platform past editorial and into distribution.",
         // Both numbers are the supplier's own: what the programme cost against
-        // what it was budgeted, and how much of the team's time on it was
-        // billable and active. Written out rather than left as the initials they
-        // arrive as, which nobody outside the account would decode.
+        // what it was budgeted, and how much of the delivery team was billable
+        // and active on it. BATP is named as it arrives and then explained in
+        // the line after, because the initials decode to nothing outside the
+        // account and the reason the figure is here at all is that it is high.
         completion:
-          "The programme closed at a project efficiency score of 1.03 against a target of 1.00 — under budget, in other words — with the delivery team 86.7% billable and active across the trailing 90 days. It took Team of the Year internally for the account.",
+          "The programme closed under budget — a project efficiency score of 1.03 against a target of 1.00 — and held 86.7% BATP across the trailing 90 days. Billable active team percentage is the share of the delivery team actually booked and working on the account, and 86.7% across ninety days is a high one to hold. It took Team of the Year internally for the account.",
         // Carries the countables so the solution above can say what the thing is
-        // rather than what it holds. Present and planned in one list, which the
-        // note is there to set up: the point of ending here is that the platform
-        // is still being extended, not that it landed and stopped.
+        // rather than what it holds. Present, the delivery figure behind it, and
+        // what was planned next, all in one list — which the note is there to
+        // set up: the point of ending here is that the platform is still being
+        // extended, not that it landed and stopped. BATP is in the prose above
+        // as well, because that is where it gets explained and this is where it
+        // gets found.
         rundown: {
           label: "Where it stands",
-          note: "What the platform carries now, and what was already being planned on top of it:",
+          note: "What the platform carries now, how the delivery ran, and what was already being planned on top of it:",
           items: [
             "1,137 enterprise seats across the group",
             "30+ editorial desks on one core system",
             "1,000+ articles a day, digital and print",
+            "86.7% BATP across the trailing 90 days",
             "500 further seats in planning",
             "Rollout now taking in Metro and the i paper",
             "Further editorial workflows behind them",
