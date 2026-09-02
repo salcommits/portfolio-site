@@ -9,13 +9,19 @@ const headline = ["Always", "Building"];
 const roles = ["Technical Design", "Full-stack Builds", "Client-side Delivery"];
 const location = ["Based", "in", "London"];
 
+// The dateline the odometer over the headline counts up to. Read off the clock
+// rather than written down, so it follows the year without anyone remembering
+// to change it. The page is static, so it is fixed when the site is built —
+// which makes it the year this edition of it went out.
+const year = new Date().getFullYear();
+
 export function Hero() {
   return (
     <section id="hero" className="hero">
       <div className="hero__title">
         <span className="hero__number" aria-hidden="true">
           <span>
-            <CountUp to={444} />
+            <CountUp to={year} />
           </span>
         </span>
 
