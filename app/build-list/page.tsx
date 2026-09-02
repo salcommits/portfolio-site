@@ -93,6 +93,26 @@ export default function BuildList() {
 
                 <p className="builds__description">{build.description}</p>
 
+                {/* Under the description rather than beside the name, because
+                    these are what the thing is made of rather than four more
+                    ways to reach it. */}
+                {build.parts ? (
+                  <ul className="builds__parts">
+                    {build.parts.map((part) => (
+                      <li key={part.url}>
+                        <a
+                          href={part.url}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                        >
+                          {part.label}
+                          <ArrowUpRight />
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+
                 {/* The labels above are decorative, so each value carries its
                     own for anyone not reading the columns. */}
                 <p className="builds__type">

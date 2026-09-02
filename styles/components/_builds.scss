@@ -200,6 +200,46 @@
     }
   }
 
+  // The pieces a build is made of, where it ships as more than one repository.
+  // Set at the type and status size rather than the description's, so the line
+  // reads as a note under the sentence instead of the end of it — and laid out
+  // in a row, since the point of them is that they belong together.
+  &__parts {
+    display: flex;
+    flex-wrap: wrap;
+    grid-column: 1 / -1;
+    gap: 0.4rem 1.25rem;
+    margin-top: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: var(--weight-light);
+    line-height: 1.25;
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+    color: var(--color-muted);
+
+    @include bp.from("nav") {
+      // Named rather than left to fall into place. Auto-placement doesn't go
+      // back for the columns it has passed, so a second line in the description's
+      // column would otherwise drag the type and status down here with it.
+      grid-row: 2;
+      grid-column: 2;
+      // Pulls back most of the row gap, which is set wide enough to separate
+      // columns and leaves too much between two lines of the same cell.
+      margin-top: calc(-24 * var(--u));
+      gap: calc(10 * var(--u)) calc(34 * var(--u));
+      font-size: calc(15 * var(--u));
+    }
+
+    a {
+      @include cta.redraw-underline(-0.25em, 1px);
+
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45em;
+    }
+  }
+
   &__type,
   &__status {
     font-family: var(--font-mono);
@@ -218,6 +258,7 @@
     grid-column: 1;
 
     @include bp.from("nav") {
+      grid-row: 1;
       grid-column: 3;
     }
   }
@@ -229,6 +270,7 @@
     text-align: right;
 
     @include bp.from("nav") {
+      grid-row: 1;
       grid-column: 4;
       text-align: left;
     }
@@ -254,7 +296,9 @@
   .builds__arrow,
   .builds__back-icon,
   .builds__name a::before,
-  .builds__name a::after {
+  .builds__name a::after,
+  .builds__parts a::before,
+  .builds__parts a::after {
     transition: none;
   }
 }
