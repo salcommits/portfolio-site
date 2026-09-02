@@ -498,40 +498,6 @@ export const categories: Category[] = [
           ],
         },
       },
-      // Also delivered at Carno. COREP is named in the write-up, so the comment
-      // only carries what the page doesn't: there are no screens on this one
-      // because the work was a script, and the whole of its interface is a box
-      // you paste a list of postcodes into.
-      {
-        slug: "commute-analysis",
-        title: "Commute Analysis",
-        summary:
-          "A hosted Python tool that turns a team's postcodes into real commute data for every office on a shortlist.",
-        challenge:
-          "COREP advise businesses on the buildings they work from — thirty-odd people, acting mostly for occupiers large enough that a move is a programme rather than a decision. Part of that work is narrowing a shortlist to A, B or C, and one of the things that settles it is what each option would do to the people already there: how far everyone would now be travelling, and whether that holds up when somebody asks. Getting to the answer meant working through the team's postcodes by hand, a route at a time, for every building still in the running.",
-        meta: {
-          service: "Build & Development",
-          industry: "Commercial real estate",
-          year: "2023",
-        },
-        country: "UK",
-        approach:
-          "Software for this exists, and COREP had priced it. It was expensive, and it answered a much larger question than the one being asked — a platform, where what they wanted was an answer. So the brief arrived as a problem rather than a specification: work out what the thing actually has to do, then build it. Most of the value turned out to sit in deciding how little that was.",
-        solution:
-          "A Python script hooked to the Google Maps API, hosted so that using it is a matter of pasting in a list. It takes the postcodes the business already holds for its team and the addresses on the shortlist, and returns real commute times for every pairing, option by option. Twenty hours or more come back on a typical evaluation — across a year of them, near enough a full-time person.",
-        detail: [
-          "Transport mode is a setting rather than a rebuild, so the same list can be read as driving on one run and public transport on the next, and it holds up over data sets far larger than the manual version could face. Every route is also a paid call, so the script keeps its own ceiling — batching what it asks for, and holding the limit itself rather than trusting whoever is running it to be careful. Beyond those calls there is nothing to pay for: no seats, no licence, no renewal to defend next year.",
-          "It is small enough to read start to finish, which is what makes it maintainable rather than mine. The people using it can see what it does, and changing it when the question changes is an afternoon rather than a procurement exercise.",
-          "Under a week from brief to working tool, which was mostly a matter of agreeing what it did not need to do. The platform on the market would have done a great deal more than this one does. This one did the thing they were actually doing by hand.",
-        ],
-        testimonial: {
-          client: "COREP",
-          quote:
-            "We tasked Liam with a slightly unusual task that required a complex mix of coding and website creation. We weren't actually sure if it was possible, however Liam built a fantastic, fool proof tool in less than a week. I couldn't speak more highly about his personable nature and unique skillset. Thanks again Liam!",
-          name: "Matt Swash",
-          role: "Founder",
-        },
-      },
       // GSK is named in the write-up, so the comment only carries what the page
       // doesn't: these captures are the kiosk's own landscape, which is why
       // their plates are set by width rather than to the common height the tall
@@ -939,7 +905,42 @@ export const categories: Category[] = [
     title: "Automation & Integration",
     summary:
       "Making systems talk to each other that were never really meant to.",
-    projects: [],
+    projects: [
+      // Delivered at Carno. COREP is named in the write-up, so the comment only
+      // carries what the page doesn't: there are no screens on this one because
+      // the work was a script, and the whole of its interface is a box you paste
+      // a list of postcodes into.
+      {
+        slug: "commute-analysis",
+        title: "Commute Analysis",
+        summary:
+          "A hosted Python tool that turns a team's postcodes into real commute data for every office on a shortlist.",
+        challenge:
+          "COREP advise businesses on the buildings they work from — thirty-odd people, acting mostly for occupiers large enough that a move is a programme rather than a decision. Part of that work is narrowing a shortlist to A, B or C, and one of the things that settles it is what each option would do to the people already there: how far everyone would now be travelling, and whether that holds up when somebody asks. Getting to the answer meant working through the team's postcodes by hand, a route at a time, for every building still in the running.",
+        meta: {
+          service: "Automation & Integration",
+          industry: "Commercial real estate",
+          year: "2023",
+        },
+        country: "UK",
+        approach:
+          "Software for this exists, and COREP had priced it. It was expensive, and it answered a much larger question than the one being asked — a platform, where what they wanted was an answer. So the brief arrived as a problem rather than a specification: work out what the thing actually has to do, then build it. Most of the value turned out to sit in deciding how little that was.",
+        solution:
+          "A Python script hooked to the Google Maps API, hosted so that using it is a matter of pasting in a list. It takes the postcodes the business already holds for its team and the addresses on the shortlist, and returns real commute times for every pairing, option by option. Twenty hours or more come back on a typical evaluation — across a year of them, near enough a full-time person.",
+        detail: [
+          "Transport mode is a setting rather than a rebuild, so the same list can be read as driving on one run and public transport on the next, and it holds up over data sets far larger than the manual version could face. Every route is also a paid call, so the script keeps its own ceiling — batching what it asks for, and holding the limit itself rather than trusting whoever is running it to be careful. Beyond those calls there is nothing to pay for: no seats, no licence, no renewal to defend next year.",
+          "It is small enough to read start to finish, which is what makes it maintainable rather than mine. The people using it can see what it does, and changing it when the question changes is an afternoon rather than a procurement exercise.",
+          "Under a week from brief to working tool, which was mostly a matter of agreeing what it did not need to do. The platform on the market would have done a great deal more than this one does. This one did the thing they were actually doing by hand.",
+        ],
+        testimonial: {
+          client: "COREP",
+          quote:
+            "We tasked Liam with a slightly unusual task that required a complex mix of coding and website creation. We weren't actually sure if it was possible, however Liam built a fantastic, fool proof tool in less than a week. I couldn't speak more highly about his personable nature and unique skillset. Thanks again Liam!",
+          name: "Matt Swash",
+          role: "Founder",
+        },
+      },
+    ],
   },
   {
     index: "00-5",
