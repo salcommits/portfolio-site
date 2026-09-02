@@ -67,12 +67,17 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
 
   // The mark over each plate, worked out before the run is drawn because it
   // depends on what came before: films take their turn in the run but not a
-  // number, so the screens stay counted 1, 2, 3 either side of one.
+  // number, so the screens stay counted 1, 2, 3 either side of one. A plate
+  // that names its own mark is out of the count for the same reason.
   let screen = 0;
   const gallery = project.gallery?.map((shot) => ({
     ...shot,
-    mark: shot.video ? "/ film" : `/ dsgn ${(screen += 1)}`,
+    mark: shot.mark ?? (shot.video ? "/ film" : `/ dsgn ${(screen += 1)}`),
   }));
+
+  // A plate takes one remark or several, so the run is what gets drawn and a
+  // single quote is a run of one.
+  const remarks = [project.testimonial?.quote ?? []].flat();
 
   return (
     <article className="project">
@@ -317,20 +322,25 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
 
       {/* Set as a list because the only thing being said about each of these is
           that it belongs with the rest — measures that all moved the same way,
-          or artefacts that all had to be signed off. The heading is the
-          project's, since those are not the same claim. */}
+          artefacts that all had to be signed off, or work that all came out of
+          the same year. The heading is the project's, since those are not the
+          same claim. */}
       {project.rundown ? (
         <section className="project__rundown">
           <Label text={project.rundown.label} />
           <p className="project__note">{project.rundown.note}</p>
 
           <ul className="project__rundown-list">
-            {project.rundown.items.map((item) => (
-              <li key={item}>
-                <ArrowUpRight className="project__rundown-icon" />
-                {item}
-              </li>
-            ))}
+            {project.rundown.items.map((item) => {
+              const text = typeof item === "string" ? item : item.text;
+
+              return (
+                <li key={text}>
+                  <ArrowUpRight className="project__rundown-icon" />
+                  {typeof item === "string" ? text : <Pointer {...item} />}
+                </li>
+              );
+            })}
           </ul>
         </section>
       ) : null}
@@ -352,9 +362,13 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
             <span className="project__quote-index" aria-hidden="true">
               / client
             </span>
-            <blockquote className="project__quote-text">
-              {`“${project.testimonial.quote}”`}
-            </blockquote>
+            {/* Quoted a remark at a time rather than as one block, because
+                answers to separate questions are not one piece of speech. */}
+            {remarks.map((remark) => (
+              <blockquote key={remark} className="project__quote-text">
+                {`“${remark}”`}
+              </blockquote>
+            ))}
             <p className="project__quote-name">
               {`${project.testimonial.name} — ${project.testimonial.role}`}
             </p>
@@ -384,6 +398,19 @@ export default async function ProjectPage(props: PageProps<"/work/[slug]">) {
 // shape is the only thing either choice turns on.
 function wide(part: string, shot: { width: number; height: number }) {
   return shot.width > shot.height ? ` project__${part}--wide` : "";
+}
+
+// A rundown item that leads somewhere. Another page here is routed rather than
+// fetched again, and anything off the site opens in a tab of its own, which is
+// the same split every other link on these pages is drawn along.
+function Pointer({ text, href }: { text: string; href: string }) {
+  return href.startsWith("/") ? (
+    <Link href={href}>{text}</Link>
+  ) : (
+    <a href={href} target="_blank" rel="noreferrer noopener">
+      {text}
+    </a>
+  );
 }
 
 // Drawn pointing right and turned up by whichever class it is given, so the one

@@ -53,6 +53,13 @@ export type Project = {
      */
     display?: boolean;
     /**
+     * Names the plate instead of numbering it, for something that belongs on
+     * the page but isn't a screen of mine — a page elsewhere the work is still
+     * sitting on. Kept out of the count for the same reason a film is: the
+     * count is of designs.
+     */
+    mark?: string;
+    /**
      * A film rather than a still, for work whose point is that it was running
      * somewhere. `src` carries a frame from it, which holds the plate's space
      * before the film arrives and is what anyone who never plays it sees.
@@ -117,7 +124,12 @@ export type Project = {
   rundown?: {
     label: string;
     note: string;
-    items: string[];
+    /**
+     * A line, or a line that leads somewhere. The linked form is for a rundown
+     * that lists work rather than claims — other pages on this site, and
+     * anything that only exists off it.
+     */
+    items: (string | { text: string; href: string })[];
   };
   /**
    * The client's own words, on a plate of their own. Attributed, because an
@@ -130,7 +142,13 @@ export type Project = {
      * plate does in a gallery.
      */
     client: string;
-    quote: string;
+    /**
+     * One remark, or several where the feedback came back as separate answers
+     * rather than as a paragraph. Each keeps its own quotation marks: running
+     * them together would read as one person talking at length, which is not
+     * what a form of them is.
+     */
+    quote: string | string[];
     name: string;
     /**
      * Their standing at the client, so the name alone isn't doing the work.
@@ -402,8 +420,8 @@ export const categories: Category[] = [
           ],
         },
       },
-      // The client names itself in the write-up, and the site ships under that
-      // name, so the title is the name.
+      // Also delivered at Carno. The client names itself in the write-up, and
+      // the site ships under that name, so the title is the name.
       {
         slug: "hyped",
         title: "Hyped",
@@ -588,6 +606,34 @@ export const categories: Category[] = [
           },
         ],
       },
+      // IDX is named in the write-up, since the challenge is about the product
+      // rather than about a site built on it. No screens: what shipped was a
+      // library of components, and a component out of the page it was used on
+      // photographs as a button on a white ground.
+      {
+        slug: "design-system",
+        title: "Design System",
+        summary:
+          "A modular React component library replacing the rigid Drupal templates behind IDX, the product carrying 3,000+ public company applications.",
+        challenge:
+          "IDX, the core Drupal product behind more than 3,000 public company applications, had gone out of date. It could not be upgraded without one-off fixes paid for a site at a time, and every delivery cycle ran longer than it needed to because of it.",
+        meta: {
+          service: "Build & Development",
+          // Confirmed as the guess in the brief: IDX carries corporate and
+          // investor sites, so the industry is the one its clients report into.
+          industry: "Investor relations & corporate communications",
+          year: "2022",
+        },
+        country: "UK",
+        approach:
+          "Owned the frontend contribution end to end, from designing the system through to building it, and worked with the design teams to settle a new architecture: a modular React component library — Next.js and TypeScript, styled with Theme UI — sitting on the existing Drupal backend through a Next-Drupal integration layer. The rigid templates gave way to atomic, reusable components that mirror the design team's own Figma system.",
+        solution:
+          "A component-based design system of 50+ components, structured on atomic design: atoms for colour, grid, icons, spacing and typography, molecules for buttons, navigation, accordions and text links. It launched into the business and went out onto corporate websites, which gave the product a clear upgrade path and cut delivery time well below what the old approach took.",
+        detail: [
+          "The fix wasn't a like-for-like rebuild, it was decoupling. Each component was built, tested and versioned on its own inside a Lerna and Yarn monorepo, with Jest snapshot tests catching regressions before they shipped. The Next-Drupal connector meant content types on the Drupal side could feed the React frontend directly, so the two ends no longer had to be rebuilt in lockstep.",
+          "That is what let 50+ components update modularly across 3,000+ applications, rather than the old monolithic build being put at risk every time one thing needed to change. On a product carrying that many sites, how risky a change is to make is what actually sets how often anyone makes one.",
+        ],
+      },
     ],
   },
   {
@@ -733,6 +779,157 @@ export const categories: Category[] = [
         detail: [
           "The core problem wasn't really the spreadsheets. DHL's tender process runs on a chain: work out expected volumes, turn those into the hours and resourcing needed to deliver them, then turn that cost base into a rate card the customer sees. Each step depends on the one before it, and in Excel that chain lived across different files maintained by different people, which is where consistency broke down. The design work was redrawing it as one connected system rather than a like-for-like port of the spreadsheets.",
           "The account went on to grow from an initial pilot to 600+ licences and 3,000+ billable hours of delivery within the year — one of the larger enterprise engagements run during my time at Airtable.",
+        ],
+      },
+      // Delivered at Airtable. Publicis Media name themselves in the write-up,
+      // and the internal award the copy mentions is the AI Solution of the Year
+      // in the awards section — the same work, sitting under the client's name
+      // for it there.
+      {
+        slug: "activation-platform",
+        title: "Activation Platform",
+        shortTitle: "Activation",
+        summary:
+          "An AI-driven media activation platform for Publicis, grown from a $15k pilot into a $1.8m licensing and services deal inside a year.",
+        challenge:
+          "Publicis's media planners and activators were running campaigns for a long list of clients across a long list of regions on whatever was to hand: spreadsheets, trackers built for one team, and no consistent view of what was live or on track. It began as a small bespoke build for a single team, which meant it had to prove itself before anyone would back it at group scale.",
+        meta: {
+          service: "Project Leadership",
+          industry: "Media & advertising",
+          // The year the two Publicis awards in the awards section are dated,
+          // both of which came off this account.
+          year: "2025",
+        },
+        // CHECK: the account ran out of London, and the event in the photograph
+        // was there, but the rollout went into global markets. Swap this if the
+        // mark should read wider than one country.
+        country: "UK",
+        approach:
+          "Led the first build — a $15k bespoke engagement — and grew it into a $1.8m licensing and services deal inside twelve months. Pilot deployments ran with P&G and Nestlé before the rollout went into global markets. Partners were upskilled and onboarded alongside it, so deployments and the managed service behind them could keep growing without the delivery team having to scale one-for-one with the client base.",
+        solution:
+          "An AI-driven activation platform giving planners and activators one consistent way to run campaigns across clients and regions, in place of a spreadsheet per team. It was on roughly 1,000 licences by the time the account was handed over, against a stated ambition of 10,000 inside three years.",
+        completion:
+          "A $15k pilot became a $1.8m licensing and services deal in twelve months, and two pilot clients became global markets. The work closed at 5/5 CSAT across project management, expertise, delivery and adoption, and took an internal Airtable award for AI-driven solutions. The client has since presented it on stage at several events, including an Airtable evening in London.",
+        // Where it got to after the handover, and the one item that is about the
+        // way it was built rather than the platform: the delivery model is what
+        // the rest of the list is downstream of.
+        rundown: {
+          label: "Where it stands",
+          note: "Where the platform has got to since the handover, and what the way it was built changed:",
+          items: [
+            "1,000 licences, on a stated path to 10,000",
+            "20+ critical accounts across Publicis",
+            "Implementation time down by roughly 90% on a traditional build",
+            "Deployments and the managed service run by partners",
+          ],
+        },
+        // No screens on this one — the platform is the client's own, and what it
+        // holds is their campaign work. The picture is the client presenting it,
+        // which is the part of this that is mine to show.
+        photos: [
+          {
+            caption: "Airtable London",
+            alt: "The client presenting the platform on stage to a full room at an Airtable event in London, under a slide reading that real transformation begins with pain points, not platforms.",
+            src: "/work/activation-platform/on-stage.jpg",
+            width: 1024,
+            height: 768,
+          },
+        ],
+        // Two answers from the client's feedback round rather than one piece of
+        // speech, which is why they are set as two.
+        testimonial: {
+          client: "Publicis Media",
+          quote: [
+            "It felt like we were working as one extended team rather than a vendor–client relationship. The level of engagement, transparency, and commitment to outcomes deserves real credit.",
+            "The team brought deep technical expertise, particularly in Airtable architecture and automation logic... Their ability to learn our business quickly and translate that into scalable solutions was impressive.",
+          ],
+          name: "Rami Faouzi",
+          role: "Head of Global Distributed Delivery",
+        },
+        detail: [
+          "The growth is the part worth explaining. A $15k build for one team doesn't become a group-wide platform because it worked; it becomes one because the next team that needs it can be given it without the people who built it being in the room. That is what the partner onboarding was for — deployments and the managed service run by people trained to run them, which is the only version of this that reaches twenty-odd accounts.",
+          "The delivery model came out of building the thing rather than being drawn up first, and it is what makes the implementation time defensible now: roughly a tenth of a traditional build, which changes what a client is prepared to pilot in the first place. The clearest sign it landed is that the client took it on stage themselves, and the case they made there was that transformation starts with the pain points a team already has rather than with the platform someone sells them.",
+        ],
+      },
+      // The business was mine rather than a client's, so there is nobody to
+      // name in a comment here. What the page doesn't say is that most of the
+      // work it sold is written up elsewhere in these categories — which is
+      // what the list on it points at, and why the one plate is the podcast
+      // rather than a screen. The screens belong to those pages.
+      {
+        slug: "founder",
+        title: "Founder",
+        summary:
+          "Founding and running Carno Communications, a digital consultancy: eight clients and thirteen projects sold inside the first twelve months.",
+        challenge:
+          "Starting a consultancy from nothing means the whole of it is one person's job: sales, marketing, product, delivery, and the admin underneath all of that. What makes it the difficult part rather than just the busy part is that none of it can show in the work. GSK were a client inside the first year, and a pharmaceutical company buying software for a global conference is buying the same standard from a business of one as from a business of two hundred.",
+        meta: {
+          service: "Project Leadership",
+          industry: "Digital consultancy",
+          // The only open-ended year on the site, because this is the only entry
+          // that hasn't finished. Dated from the first full year of client work:
+          // the GSK builds and the podcast are both 2023.
+          year: "2023 — present",
+        },
+        country: "UK",
+        approach:
+          "Carno Communications, run end to end — sales, marketing, product development, delivery, admin — with the client work delivered by the same pair of hands. Growth was planned rather than reacted to: targets set in advance, decisions made against what the numbers actually said, terms negotiated rather than discounted to get to a yes. Two things came out of working that way. A templated web application, so a new project started from a foundation rather than an empty repository. And demand generated somewhere other than outbound — the Virtual Coffee podcast, sitting down with people working in digital and tech, and turning up in the same networking rooms often enough to be known in them. Commercial terms and client relationships stayed with me throughout.",
+        solution:
+          "Eight new clients and thirteen projects sold inside twelve months: GSK, two touchscreen applications for pharmaceutical events; COREP, an automation tool standing in for a commute analysis that had been done by hand; Morgan Latif, a recruitment site with an integrated ATS. Quarterly goals met throughout, and the year closed with net profit 29% over target.",
+        // The podcast opens the run rather than a screen, because it is the part
+        // of the approach that would otherwise be a claim about marketing rather
+        // than a thing anyone can go and listen to. The two homepages behind it
+        // are clients with no write-up of their own — the count starts at them,
+        // since they are the designs here.
+        gallery: [
+          {
+            caption: "Virtual Coffee",
+            mark: "/ podcast",
+            src: "/work/founder/podcast.jpg",
+            width: 1000,
+            height: 668,
+          },
+          {
+            caption: "Francesca Oddie",
+            src: "/work/founder/francesca-oddie.jpg",
+            width: 491,
+            height: 1024,
+          },
+          {
+            caption: "Moses Motorcycles",
+            src: "/work/founder/moses-motorcycles.jpg",
+            width: 554,
+            height: 1024,
+          },
+        ],
+        // The one rundown on the site that points somewhere rather than claiming
+        // something: the work is the argument here, and most of it has a page of
+        // its own a click away. Each item names the client and the page it leads
+        // to, except Hyped — that site ships under the client's own name, which
+        // is also the title of its write-up.
+        rundown: {
+          label: "The work",
+          note: "Four of the thirteen are written up here in full, and the podcast is still up:",
+          items: [
+            {
+              text: "GSK — Touchscreen Platform",
+              href: "/work/touchscreen-platform",
+            },
+            { text: "COREP — Commute Analysis", href: "/work/commute-analysis" },
+            {
+              text: "Morgan Latif — Recruitment Platform",
+              href: "/work/recruitment-platform",
+            },
+            { text: "Hyped", href: "/work/hyped" },
+            {
+              text: "Virtual Coffee — the podcast",
+              href: "https://open.spotify.com/show/5WYDwwOUevomZ2ui5aldwI",
+            },
+          ],
+        },
+        detail: [
+          "Running the business and delivering the work were the same job most quarters. Sales, marketing and product development had to fit around whatever client work was live at the time, and quarterly planning is what kept that honest: set the target, track the effort that actually went into it, then set the next quarter off what happened rather than off what had been hoped for.",
+          "That is also what made the case for a base product. Quoting and building similar sites from scratch, over and again, made it plain that a templated foundation would take time off every project after the first — which is what let the business carry more clients without the hours climbing at the same rate.",
         ],
       },
     ],

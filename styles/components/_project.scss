@@ -784,13 +784,23 @@
     }
   }
 
-  // Turned up and left there. The same arrow on a link unwinds on hover, but
-  // this one is marking an item in a list rather than offering to go anywhere.
+  // Turned up and left there, even where the item beside it leads somewhere:
+  // this one marks a place in a list, and what offers to go anywhere is the
+  // name — which says so itself, below.
   &__rundown-icon {
     flex: none;
     width: 0.75em;
     height: 0.75em;
     transform: rotate(-45deg);
+  }
+
+  // The site's own link mark, so an item pointing at another page is underlined
+  // like every other link here. Hung in ems, since the list scales at the
+  // breakpoint and a fixed drop would not follow it. Brought up inside the box
+  // rather than below it: the list is set in caps, so there is nothing under the
+  // baseline for the rule to clear.
+  &__rundown-list a {
+    @include cta.redraw-underline(0.16em, 1px);
   }
 
   // The client's own words, laid out the way the screens are: the name at
@@ -856,6 +866,17 @@
     }
   }
 
+  // Spaced further apart than the paragraphs in a block of prose, since these
+  // are separate remarks and each one opens and closes on its own quotation
+  // marks — too close and the pair would read as one answer breaking for air.
+  &__quote-text + &__quote-text {
+    margin-top: 1.5rem;
+
+    @include bp.from("nav") {
+      margin-top: calc(40 * var(--u));
+    }
+  }
+
   // Muted under the quote, so the two read as a statement and its source rather
   // than as one run of speech.
   &__quote-name {
@@ -902,7 +923,9 @@
 @media (prefers-reduced-motion: reduce) {
   .project__visit::before,
   .project__visit::after,
-  .project__visit-icon {
+  .project__visit-icon,
+  .project__rundown-list a::before,
+  .project__rundown-list a::after {
     transition: none;
   }
 }
