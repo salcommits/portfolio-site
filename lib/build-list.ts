@@ -186,6 +186,25 @@ const entries: Build[] = [
       },
     ],
   },
+  // The one row you are already inside, which is why the repository is the
+  // only link on it: pointing at the live site from the live site would lead
+  // back to this page. Started in August and committed to most days since, so
+  // the date is this month for the same reason every other date here is the
+  // month the thing last moved.
+  {
+    title: "This Site",
+    description:
+      "The site this list sits on. Next.js and Sass, with every page built before anyone asks for it and the writing kept in a TypeScript file rather than a CMS, so a change to the copy is a commit. Deployed on Heroku.",
+    type: "Site",
+    status: "Live",
+    date: "2026-09",
+    links: [
+      {
+        label: "Repository",
+        url: "https://github.com/salcommits/portfolio-site",
+      },
+    ],
+  },
   // The oldest thing here by years — forty-eight hours of pair programming on
   // the General Assembly course in the certificates section — and still up,
   // which is most of why it earns a line. The game leads the links, since
