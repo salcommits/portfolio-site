@@ -29,6 +29,18 @@ export type Build = {
   title: string;
   /** A sentence or two. Long enough to say what it does, short enough to scan. */
   description: string;
+  /**
+   * What it is written in, most defining first, in the two or three names that
+   * would tell another developer what they are looking at. It sits under the
+   * title for the reason the date sits beside the status: it is the question
+   * the name raises, and answering it in the row saves opening the repository
+   * to find out.
+   *
+   * Names the layer that is actually the work, not everything in the manifest.
+   * A React Native app is Expo and TypeScript and twenty Expo modules, and only
+   * the first two of those tell anyone anything.
+   */
+  stack: string[];
   type: BuildType;
   status: BuildStatus;
   /**
@@ -68,6 +80,7 @@ const entries: Build[] = [
     title: "Airtable Puck Extension",
     description:
       "An Airtable interface extension with the Puck editor inside it. Layouts are built by dragging components around and stored as JSON on a record, and the data-driven ones query the base for their own figures rather than having them typed in.",
+    stack: ["TypeScript", "React", "Tailwind"],
     type: "Prototype",
     status: "Built",
     // Two days in November 2025, which the walkthrough agrees with — the
@@ -99,6 +112,7 @@ const entries: Build[] = [
     title: "Automation Hub",
     description:
       "A local-first Zapier for a single Mac: a dock app watching Airtable, Slack, Notion and the machine itself — calendar, reminders, watched folders — and running rules between them. Credentials sit in the Keychain and every run is written to a local audit log, so none of it leaves the desk.",
+    stack: ["Swift"],
     type: "Application",
     status: "Building",
     date: "2026-09",
@@ -131,6 +145,7 @@ const entries: Build[] = [
     title: "Commute Calculator",
     description:
       "A Flask app over the Google Maps distance matrix: a list of home addresses, a candidate office, a travel mode and a departure time in, everyone's commute out in one table. The code behind the COREP commute analysis. COREP run their own hosted instance of it.",
+    stack: ["Python", "Flask"],
     type: "Application",
     status: "Live",
     // CHECK: the year comes from the write-up, the month is a guess. Nothing in
@@ -152,6 +167,7 @@ const entries: Build[] = [
     title: "Drupal Design System",
     description:
       "A component library for Drupal-backed sites: fifty-odd React components built on atomic principles, published out of a Lerna monorepo and joined to Drupal through a Next.js connector. The code behind the IDX design system.",
+    stack: ["TypeScript", "React", "Next.js"],
     type: "Source",
     status: "Live",
     // Dated from the tooling the monorepo is pinned to — lerna 7.2, eslint
@@ -173,6 +189,7 @@ const entries: Build[] = [
     title: "RepShuffle",
     description:
       "A gym app that puts a session together from a few answers, rather than from a plan you have to write first. React Native and Expo, so it runs on the phone rather than in a browser.",
+    stack: ["TypeScript", "React Native", "Expo"],
     type: "Application",
     status: "Built",
     // Dated from what it is built on rather than from its one commit, which is
@@ -194,6 +211,7 @@ const entries: Build[] = [
     title: "Running Club Bot",
     description:
       "A Slack bot for a running club. It polls Strava hourly for every member, files each activity into Airtable, and posts the new runs, a Monday leaderboard and a mid-week nudge back into the channel.",
+    stack: ["Python", "HyperAgent"],
     type: "Application",
     status: "Live",
     date: "2026-05",
@@ -213,6 +231,7 @@ const entries: Build[] = [
     title: "This Site",
     description:
       "The site this list sits on. Next.js and Sass, with every page built before anyone asks for it and the writing kept in a TypeScript file rather than a CMS, so a change to the copy is a commit. Deployed on Heroku.",
+    stack: ["Next.js"],
     type: "Site",
     status: "Live",
     date: "2026-09",
@@ -231,6 +250,7 @@ const entries: Build[] = [
     title: "Trump vs Kanye",
     description:
       "A quiz that shows a quote and asks who said it. Two public quote APIs behind one React front end, built to a two-day hackathon brief.",
+    stack: ["React", "Sass"],
     type: "Application",
     status: "Live",
     // Dated from its dependencies, all of which are spring 2020: React 16.13.1,
@@ -252,6 +272,7 @@ const entries: Build[] = [
     title: "WordPress Product Template",
     description:
       "A parent theme, a child theme and a Gutenberg block plugin, so a WordPress and WooCommerce product site starts from a stack rather than from scratch. Open source, and installed as a set.",
+    stack: ["PHP", "Sass", "Gutenberg"],
     type: "Source",
     status: "Live",
     // The year is confirmed, the month is nominal: nothing in the three

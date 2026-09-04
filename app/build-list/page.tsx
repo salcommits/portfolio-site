@@ -76,8 +76,20 @@ export default function BuildList() {
               <div className="builds__cells">
                 {/* Named, not clicked. A heading that was also the way in had
                     to do both jobs with one word, and could only ever say where
-                    it went by being followed. */}
-                <h2 className="builds__name">{build.title}</h2>
+                    it went by being followed.
+
+                    The stack is held in the same cell so it stays under the
+                    name. Left to the grid it would be placed against the
+                    description instead, and settle at the foot of a paragraph
+                    several lines taller than the title it belongs to. */}
+                <div className="builds__heading">
+                  <h2 className="builds__name">{build.title}</h2>
+
+                  <p className="builds__stack">
+                    <span className="visually-hidden">Built with: </span>
+                    {build.stack.join(", ")}
+                  </p>
+                </div>
 
                 <p className="builds__description">{build.description}</p>
 

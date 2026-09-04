@@ -157,8 +157,19 @@
     }
   }
 
-  &__name {
+  // The name and the stack under it, held together in one cell. As two grid
+  // items they would be placed in two rows, and the second would be pulled down
+  // level with the foot of the description — which is several lines taller than
+  // the title the stack is describing.
+  &__heading {
     grid-column: 1;
+
+    @include bp.from("nav") {
+      grid-row: 1;
+    }
+  }
+
+  &__name {
     font-size: 1.25rem;
     font-weight: 700;
     line-height: 1.15;
@@ -170,6 +181,25 @@
       // The display face sits high in its box, so the name's cap line and the
       // mono beside it would otherwise start at different heights.
       margin-top: calc(-6 * var(--u));
+    }
+  }
+
+  // Set at the type and status size and muted to match the date, so the two
+  // notes on a row — what it is written in, and when it last moved — carry the
+  // same weight at either end of it, and the title still leads.
+  &__stack {
+    margin-top: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: var(--weight-light);
+    line-height: 1.25;
+    letter-spacing: var(--tracking-mono);
+    text-transform: uppercase;
+    color: var(--color-muted);
+
+    @include bp.from("nav") {
+      margin-top: calc(12 * var(--u));
+      font-size: calc(16 * var(--u));
     }
   }
 
