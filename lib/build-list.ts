@@ -89,6 +89,12 @@ const entries: Build[] = [
   // shell and the rule list are what exist; the connectors, the Keychain store
   // and the audit log are the pieces going in, so the description below is what
   // the thing is for rather than a claim about what it does yet.
+  //
+  // Which is also why the design sits alongside the repository here and nowhere
+  // else on the list: on an unfinished thing the drawings are further along than
+  // the code, and they say what it is meant to do more clearly than a half-built
+  // dock app can. They stay on Drive rather than being copied into public/ so
+  // that revising one revises what the link opens.
   {
     title: "Automation Hub",
     description:
@@ -100,6 +106,18 @@ const entries: Build[] = [
       {
         label: "Repository",
         url: "https://github.com/salcommits/automation_hub",
+      },
+      {
+        label: "Trigger scenarios",
+        url: "https://drive.google.com/file/d/1MLw1oEqqYZ3wCZ9hfhx244bXfgMTAlrs/view",
+      },
+      {
+        label: "Event sources",
+        url: "https://drive.google.com/file/d/1BWoYvnuL2CUu8pfjxXCurtC6s63cf11r/view",
+      },
+      {
+        label: "Data model",
+        url: "https://drive.google.com/file/d/1ouujNu-1TZJ1QB5tDjjSmVNg9BqDAw5K/view",
       },
     ],
   },
