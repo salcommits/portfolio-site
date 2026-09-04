@@ -251,6 +251,13 @@
     }
   }
 
+  // Muted against the status it follows, so the pair reads as a state first and
+  // a date second. Same size as the status: the point is that it recedes, and
+  // mono set any smaller than this stops being legible.
+  &__date {
+    color: var(--color-muted);
+  }
+
   // Ranged right where it shares a line with the type, so the pair reads as two
   // marks at either end rather than as a phrase.
   &__status {

@@ -111,6 +111,12 @@ export default function BuildList() {
                 <p className="builds__status">
                   <span className="visually-hidden">Status: </span>
                   {build.status}
+                  <span className="builds__date">
+                    <span aria-hidden="true">, {stamp(build.date)}</span>
+                    <span className="visually-hidden">
+                      , {spoken(build.date)}
+                    </span>
+                  </span>
                 </p>
               </div>
             </li>
@@ -119,6 +125,25 @@ export default function BuildList() {
       </div>
     </main>
   );
+}
+
+// 11/25, to sit beside a status without competing with it. Sliced rather than
+// put through a date formatter, because the value is a year and a month and
+// anything that parses it has to invent a day and a timezone to do so.
+function stamp(date: string) {
+  const [year, month] = date.split("-");
+
+  return `${month}/${year.slice(2)}`;
+}
+
+// The same date said rather than shown: 11/25 is read out as a fraction, or as
+// two numbers, by anything that doesn't know it is a date.
+function spoken(date: string) {
+  return new Date(`${date}-01T00:00:00Z`).toLocaleDateString("en-GB", {
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
 }
 
 // Drawn pointing right and rotated up, so crossing the row unwinds it — the
