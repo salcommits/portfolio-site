@@ -171,18 +171,6 @@
       // mono beside it would otherwise start at different heights.
       margin-top: calc(-6 * var(--u));
     }
-
-    // The site's own link mark, so a name that leads somewhere is underlined
-    // like every other link here rather than relying on its arrow to say so.
-    // Hung below the cap line in ems, since the name doubles in size at the
-    // breakpoint and a fixed drop would not follow it.
-    a {
-      @include cta.redraw-underline(-0.14em, 2px);
-
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35em;
-    }
   }
 
   &__description {
@@ -200,11 +188,11 @@
     }
   }
 
-  // The pieces a build is made of, where it ships as more than one repository.
-  // Set at the type and status size rather than the description's, so the line
-  // reads as a note under the sentence instead of the end of it — and laid out
-  // in a row, since the point of them is that they belong together.
-  &__parts {
+  // Every way into a build, under the description that explains it. Set at the
+  // type and status size rather than the description's, so the line reads as a
+  // note under the sentence instead of the end of it — and laid out in a row,
+  // since these are alternatives to each other rather than a list to work down.
+  &__links {
     display: flex;
     flex-wrap: wrap;
     grid-column: 1 / -1;
@@ -295,10 +283,8 @@
 @media (prefers-reduced-motion: reduce) {
   .builds__arrow,
   .builds__back-icon,
-  .builds__name a::before,
-  .builds__name a::after,
-  .builds__parts a::before,
-  .builds__parts a::after {
+  .builds__links a::before,
+  .builds__links a::after {
     transition: none;
   }
 }

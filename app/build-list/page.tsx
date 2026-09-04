@@ -56,10 +56,11 @@ export default function BuildList() {
 
       <div className="builds__table">
         {/* A legend rather than a sentence in the intro: it carries the same
-            arrow the rows do, so what marks a link is shown as well as said. */}
+            arrow the links do, and says the one thing a row cannot show for
+            itself, which is that following one leaves the site. */}
         <p className="builds__hint">
           <ArrowUpRight />
-          Project names with an arrow are links, and open in a new tab
+          Links sit under each description, and open in a new tab
         </p>
 
         <div className="builds__columns" aria-hidden="true">
@@ -72,40 +73,27 @@ export default function BuildList() {
           {builds.map((build) => (
             <li key={build.title} className="builds__row">
               <div className="builds__cells">
-                {/* The name carries the link, so what is clickable is the thing
-                    being named rather than the whole line. An entry with nowhere
-                    to go yet keeps the same heading in plain text, which is what
-                    stops the list stepping in and out of line. */}
-                <h2 className="builds__name">
-                  {build.url ? (
-                    <a
-                      href={build.url}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                    >
-                      {build.title}
-                      <ArrowUpRight />
-                    </a>
-                  ) : (
-                    build.title
-                  )}
-                </h2>
+                {/* Named, not clicked. A heading that was also the way in had
+                    to do both jobs with one word, and could only ever say where
+                    it went by being followed. */}
+                <h2 className="builds__name">{build.title}</h2>
 
                 <p className="builds__description">{build.description}</p>
 
-                {/* Under the description rather than beside the name, because
-                    these are what the thing is made of rather than four more
-                    ways to reach it. */}
-                {build.parts ? (
-                  <ul className="builds__parts">
-                    {build.parts.map((part) => (
-                      <li key={part.url}>
+                {/* Every way in, under the sentence explaining what it opens. A
+                    build might be three repositories, or one with a film of it
+                    running, so each line carries its own label rather than the
+                    row carrying a single unmarked link. */}
+                {build.links ? (
+                  <ul className="builds__links">
+                    {build.links.map((link) => (
+                      <li key={link.url}>
                         <a
-                          href={part.url}
+                          href={link.url}
                           target="_blank"
                           rel="noreferrer noopener"
                         >
-                          {part.label}
+                          {link.label}
                           <ArrowUpRight />
                         </a>
                       </li>
