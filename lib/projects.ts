@@ -588,7 +588,10 @@ export const categories: Category[] = [
           // Confirmed as the guess in the brief: IDX carries corporate and
           // investor sites, so the industry is the one its clients report into.
           industry: "Investor relations & corporate communications",
-          year: "2022",
+          // Corrected from 2022. The library itself is on the build list, and
+          // the tooling it is pinned to — lerna 7.2, eslint 8.48, yarn 3.6.2 —
+          // was all released in the August and September of 2023.
+          year: "2023",
         },
         country: "UK",
         approach:
