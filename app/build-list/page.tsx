@@ -123,8 +123,11 @@ export default function BuildList() {
                 <p className="builds__status">
                   <span className="visually-hidden">Status: </span>
                   {build.status}
+                  {/* Read out as a continuation of the status, comma and all,
+                      because the two are one fact spoken — live, and since
+                      when — however they are set out on screen. */}
                   <span className="builds__date">
-                    <span aria-hidden="true">, {stamp(build.date)}</span>
+                    <span aria-hidden="true">{stamp(build.date)}</span>
                     <span className="visually-hidden">
                       , {spoken(build.date)}
                     </span>
