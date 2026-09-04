@@ -7,7 +7,7 @@ import { site } from "@/lib/site";
 
 const title = `Build list — ${site.name}`;
 const description =
-  "What I am building at the moment: prototypes, small applications and the things too short to write up.";
+  "What I am building, and what I have built that never needed a case study: prototypes, small applications and the things too short to write up.";
 
 // Spelled out rather than left to inherit, for the same reason as the project
 // pages — a page that sets any openGraph of its own replaces the layout's block
@@ -49,9 +49,10 @@ export default function BuildList() {
       <RevealText as="h1" className="builds__title" text="Build list" />
 
       <p className="builds__intro">
-        What I am building at the moment. Most of it is too small to be a case
-        study and too useful to leave unrecorded, so it is here instead: what the
-        thing is, where it has got to, and a way in where there is one.
+        What I am building, and what I have built that never needed a case
+        study. Most of it is too small for one and too useful to leave
+        unrecorded, so it is here instead: what the thing is, where it has got
+        to, and a way in where there is one.
       </p>
 
       <div className="builds__table">

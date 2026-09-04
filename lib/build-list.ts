@@ -70,7 +70,24 @@ const entries: Build[] = [
       },
     ],
   },
-  // The only row here with a page of its own: the engagement is written up as
+  // The one row here still being worked on, which is what Building means. The
+  // shell and the rule list are what exist; the connectors, the Keychain store
+  // and the audit log are the pieces going in, so the description below is what
+  // the thing is for rather than a claim about what it does yet.
+  {
+    title: "Automation Hub",
+    description:
+      "A local-first Zapier for a single Mac: a dock app watching Airtable, Slack, Notion and the machine itself — calendar, reminders, watched folders — and running rules between them. Credentials sit in the Keychain and every run is written to a local audit log, so none of it leaves the desk.",
+    type: "Application",
+    status: "Building",
+    links: [
+      {
+        label: "Repository",
+        url: "https://github.com/salcommits/automation_hub",
+      },
+    ],
+  },
+  // One of two rows with a page of its own: the engagement is written up as
   // Commute Analysis under /work, and this is the tool that came out of it. It
   // earns a line because the code reads on its own, without the story around it.
   //
@@ -86,6 +103,73 @@ const entries: Build[] = [
       {
         label: "Repository",
         url: "https://github.com/salcommits/python_app_commute_calculator",
+      },
+    ],
+  },
+  // The other row with a page of its own: the engagement is written up as
+  // Design System under /work, and this is the library that came out of it.
+  // Named for the stack rather than the client, so a reader coming from that
+  // page does not meet what looks like the same entry twice.
+  {
+    title: "Drupal Design System",
+    description:
+      "A component library for Drupal-backed sites: fifty-odd React components built on atomic principles, published out of a Lerna monorepo and joined to Drupal through a Next.js connector. The code behind the IDX design system.",
+    type: "Source",
+    status: "Live",
+    links: [
+      {
+        label: "Repository",
+        url: "https://github.com/salcommits/drupal-design-system",
+      },
+    ],
+  },
+  // Built rather than live: it runs, but it was never published, so there is
+  // no store listing to point at and the repository is the whole of the way in.
+  {
+    title: "RepShuffle",
+    description:
+      "A gym app that puts a session together from a few answers, rather than from a plan you have to write first. React Native and Expo, so it runs on the phone rather than in a browser.",
+    type: "Application",
+    status: "Built",
+    links: [
+      {
+        label: "Repository",
+        url: "https://github.com/salcommits/react_native_app_repshuffle",
+      },
+    ],
+  },
+  // Repository only, though it is deployed: the functions answer on their own
+  // routes and the host answers nothing at its root, so a link to it would
+  // land anyone who followed it on a 404. This one runs to a schedule rather
+  // than to a page.
+  {
+    title: "Running Club Bot",
+    description:
+      "A Slack bot for a running club. It polls Strava hourly for every member, files each activity into Airtable, and posts the new runs, a Monday leaderboard and a mid-week nudge back into the channel.",
+    type: "Application",
+    status: "Live",
+    links: [
+      {
+        label: "Repository",
+        url: "https://github.com/salcommits/check-new-runs",
+      },
+    ],
+  },
+  // The oldest thing here by years — forty-eight hours of pair programming on
+  // the General Assembly course in the certificates section — and still up,
+  // which is most of why it earns a line. The game leads the links, since
+  // playing it is the point and the code behind it is coursework.
+  {
+    title: "Trump vs Kanye",
+    description:
+      "A quiz that shows a quote and asks who said it. Two public quote APIs behind one React front end, built to a two-day hackathon brief.",
+    type: "Application",
+    status: "Live",
+    links: [
+      { label: "Live game", url: "https://trump-vs-kanye.netlify.app/" },
+      {
+        label: "Repository",
+        url: "https://github.com/salcommits/react_app_dictatorship",
       },
     ],
   },
